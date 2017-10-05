@@ -21,16 +21,16 @@ export default {
   },
   computed: {
     hCurveStart() {
-      return (window.innerHeight / 2) - 75;
+      return (window.innerHeight / 2) - 50;
     },
     hLineRightEnd() {
-      return (window.innerHeight / 2) - 75;
+      return (window.innerHeight / 2) - 50;
     },
     hLineLeftEnd() {
-      return (window.innerHeight / 2) - 75;
+      return (window.innerHeight / 2) + 100;
     },
     hLineRightStart() {
-      return window.innerHeight;
+      return window.innerHeight - 25;
     },
   },
 };
@@ -57,14 +57,18 @@ export default {
       transform-origin: 50% 50%;
       &.h-curve {
         animation: h-curve 0.75s forwards ease;
-        animation-delay: 0.25s;
+        animation-delay: 0.60s;
         transform: rotate(180deg) scaleX(-1);
         stroke-dasharray: 0, 600;
         opacity: 0;
       }
       &.h-right {
-        animation: h-right 0.75s forwards ease;
-        transform: scaleY(-1);
+        animation: h-right 0.7s forwards ease;
+        transform: scaleY(-1) translateY(-500px);
+      }
+      &.h-left {
+        animation: h-left 1s forwards ease-out;
+        transform: scaleY(-1) translateY(500px);
       }
     }
   }
@@ -86,6 +90,17 @@ export default {
   }
   100% {
     stroke-dasharray: 150, 1000;
+    transform: scaleY(-1) translateY(0);
+  }
+}
+
+@keyframes h-left {
+  0% {
+    stroke-dasharray: 1000, 0;
+  }
+  100% {
+    stroke-dasharray: 450, 1000;
+    transform: scaleY(-1) translateY(0);
   }
 }
 </style>
