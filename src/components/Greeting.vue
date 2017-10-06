@@ -1,11 +1,17 @@
 <template>
   <div class="canvas">
-      <svg class="hi-container">
+      <svg class="h-container">
         <circle cx="100" :cy="hCurveStart" r="90" class="line h-curve">
         </circle>
         <line x1="190" :y1="hLineRightStart" x2="190" :y2="hLineRightEnd" class="line h-right">
         </line>
         <line x1="10" y1="0" x2="10" :y2="hLineLeftEnd" class="line h-left">
+        </line>
+      </svg>
+      <svg class="h-container">
+        <circle cx="100" :cy="hCurveStart" r="90" class="line h-curve">
+        </circle>
+        <line x1="10" y1="0" x2="10" :y2="iLineEnd" class="line i-left">
         </line>
       </svg>
   </div>
@@ -32,6 +38,9 @@ export default {
     hLineRightStart() {
       return window.innerHeight - 25;
     },
+    iLineEnd() {
+      return window.innerHeight - 150;
+    },
   },
 };
 </script>
@@ -44,8 +53,8 @@ export default {
   top: 0;
   left: 0;
   background: #F7F9FF;
-  .hi-container {
-    width: 500px;
+  .h-container {
+    width: 250px;
     height: 100%;
     margin: auto;
     .line {
@@ -68,6 +77,10 @@ export default {
       }
       &.h-left {
         animation: h-left 1s forwards ease-out;
+        transform: scaleY(-1) translateY(500px);
+      }
+      &.i-left {
+        animation: i-left 1s forwards ease-out;
         transform: scaleY(-1) translateY(500px);
       }
     }
@@ -95,6 +108,16 @@ export default {
 }
 
 @keyframes h-left {
+  0% {
+    stroke-dasharray: 1000, 0;
+  }
+  100% {
+    stroke-dasharray: 450, 1000;
+    transform: scaleY(-1) translateY(0);
+  }
+}
+
+@keyframes i-left {
   0% {
     stroke-dasharray: 1000, 0;
   }
