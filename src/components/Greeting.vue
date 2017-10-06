@@ -172,8 +172,11 @@ export default {
               if (this.curRipples.length < 3) {
                 this.curRipples.push(this.curRipples.length);
               }
-            }, 2500);
+            }, 1500);
           }, 150);
+          setTimeout(() => {
+            this.$router.push('/home/');
+          }, 6000);
         }
       }
     },
@@ -212,7 +215,7 @@ export default {
     height: 100vh;
     left: 0;
     top: 0;
-    animation: light 7.5s forwards ease;
+    animation: light 6s forwards ease;
     animation-delay: 1s;
     background: rgba(247, 249, 255, 0);
     opacity: 1;
