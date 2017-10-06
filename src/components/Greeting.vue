@@ -17,7 +17,7 @@
       <svg class="apostrophe-container">
         <line x1="60" :y1="aposLineStart + 15" :x2="aposDotX.value" :y2="aposDotY.value" class="line apostrophe-rope">
         </line>
-        <circle :cx="aposDotX.value" :cy="aposDotY.value" r="25" class="fill apos-dot" :class="{ blinking, on: willReleaseTurnOn }" @mousedown="switchOn">
+        <circle :cx="aposDotX.value" :cy="aposDotY.value" r="25" class="fill apos-dot" :class="{ blinking: draggable, on: willReleaseTurnOn }" @mousedown="switchOn">
         </circle>
         <line x1="60" :y1="aposLineStart" x2="80" y2="0" class="line apostrophe">
         </line>
@@ -46,6 +46,7 @@ export default {
       },
       blinking: false,
       dragging: false,
+      draggable: false,
       lightCentre: {
         isOn: false,
         x: 0, // Unset
@@ -96,7 +97,7 @@ export default {
         value: 60,
       }, {
         type: dynamics.spring,
-        duration: 5000,
+        duration: 3500,
         frequency: 350,
         friction: 50,
       });
@@ -104,24 +105,26 @@ export default {
         value: (window.innerHeight / 2) + 150,
       }, {
         type: dynamics.spring,
-        duration: 5000,
+        duration: 3500,
         frequency: 600,
         friction: 300,
       });
     }, 1750);
     setTimeout(() => {
-      this.blinking = true;
+      this.draggable = true;
     }, 4000);
   },
   methods: {
     switchOn(e) {
-      this.aposDotY.value = this.aposDotY.value + 20;
-      this.dragging = true;
-      const evt = e.changedTouches ? e.changedTouches[0] : e;
-      this.start.x = evt.pageX;
-      this.start.y = evt.pageY;
-      window.addEventListener('mousemove', this.onDrag);
-      window.addEventListener('mouseup', this.release);
+      if (this.draggable) {
+        this.aposDotY.value = this.aposDotY.value + 20;
+        this.dragging = true;
+        const evt = e.changedTouches ? e.changedTouches[0] : e;
+        this.start.x = evt.pageX;
+        this.start.y = evt.pageY;
+        window.addEventListener('mousemove', this.onDrag);
+        window.addEventListener('mouseup', this.release);
+      }
     },
     onDrag(e) {
       const evt = e.changedTouches ? e.changedTouches[0] : e;
@@ -156,9 +159,9 @@ export default {
           value: startX,
         }, {
           type: dynamics.spring,
-          duration: 5000,
-          frequency: 350,
-          friction: 50,
+          duration: 2000,
+          frequency: 140,
+          friction: 70,
         });
         this.dragging = false;
         if (this.willReleaseTurnOn) {
