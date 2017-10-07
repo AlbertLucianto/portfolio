@@ -41,6 +41,7 @@
           {{ willReleaseTurnOn ? "Release." : "Pull to start the tour." }}
         </div>
       </div>
+      <div class="diagonal-bg"/>
   </div>
 </template>
 
@@ -105,7 +106,7 @@ export default {
     },
     guideStylePosition() {
       const offset = {
-        x: this.aposDotX.value ? this.aposDotX.value : 0,
+        x: this.aposDotX.value ? this.aposDotX.value - 45 : 0,
         y: this.aposDotY.value ? this.aposDotY.value - (window.innerHeight / 2) : 0,
       };
       return {
@@ -253,7 +254,7 @@ export default {
     margin: auto;
   }
   .apostrophe-container {
-    width: 140px;
+    width: 250px;
     height: 100%;
     margin: auto;
   }
@@ -290,6 +291,7 @@ export default {
       opacity: 0;
       width: 0;
       .title {
+        animation: author-title-text 8s alternate infinite ease-in-out;
         white-space: nowrap;
         margin-bottom: 0;
       }
@@ -300,6 +302,8 @@ export default {
       opacity: 0;
       width: 0;
       .author {
+        animation: author-title-text 8s alternate infinite ease-in-out;
+        animation-delay: 1s;
         white-space: nowrap;
         text-align: right;
       }
@@ -384,6 +388,21 @@ export default {
         }
       }
     }
+  }
+  .diagonal-bg {
+    background: $aqua;
+    position: fixed;
+    z-index: -1;
+    bottom: 0;
+    right: -22.5%;
+    width: 50%;
+    height: 50%;
+    transform: rotate(-45deg) translateX(25px);
+    opacity: 0;
+    animation: diagonal-bg 1s forwards ease;
+    animation-delay: 2.5s;
+    border: 1px solid rgba(247, 249, 255, 0.5);
+    box-shadow: -10px 5px 30px rgba(0,0,0,0.2);
   }
 }
 
@@ -506,7 +525,7 @@ export default {
 }
 
 @keyframes author {
-  50% {
+  55% {
     opacity: 0;
   }
   100% {
@@ -528,6 +547,19 @@ export default {
   100% {
     width: 100%;
     opacity: 1;
+  }
+}
+
+@keyframes diagonal-bg {
+  100% {
+    opacity: 1;
+    transform: rotate(-45deg) translateX(-50px);
+  }
+}
+
+@keyframes author-title-text {
+  100% {
+    transform: translateX(-15px);
   }
 }
 </style>
