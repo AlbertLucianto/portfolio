@@ -17,7 +17,9 @@
       <svg class="apostrophe-container">
         <line x1="60" :y1="aposLineStart + 15" :x2="aposDotX.value" :y2="aposDotY.value" class="line apostrophe-rope">
         </line>
-        <circle :cx="aposDotX.value" :cy="aposDotY.value" r="25" class="fill apos-dot" :class="{ blinking: draggable, on: willReleaseTurnOn }" @mousedown="switchOn">
+        <circle :cx="aposDotX.value" :cy="aposDotY.value" r="25" class="fill apos-dot"
+          :class="{ blinking: draggable, on: willReleaseTurnOn }"
+          @mousedown="switchOn">
         </circle>
         <line x1="60" :y1="aposLineStart" x2="80" y2="0" class="line apostrophe">
         </line>
@@ -26,6 +28,19 @@
         <circle v-for="num in curRipples" :cx="lightCentre.x" :cy="lightCentre.y" r="10" :key="num" class="ripple">
         </circle>
       </svg>
+      <div class="description">
+        <div class="title-wrapper">
+          <h1 class="title">A Tour of My Story</h1>
+        </div>
+        <div class="author-wrapper">
+          <h3 class="author">Created by Albert Lucianto</h3>
+        </div>
+      </div>
+      <div class="guide" :style="guideStylePosition" :class="{ disappear: lightCentre.isOn }">
+        <div class="instruction">
+          {{ willReleaseTurnOn ? "Release." : "Pull to start the tour." }}
+        </div>
+      </div>
   </div>
 </template>
 
@@ -59,6 +74,10 @@ export default {
       curRipples: [],
       start: { x: 0, y: 0 },
       willReleaseTurnOn: false,
+      guideBasePosition: {
+        x: (window.innerWidth / 2) - 275,
+        y: (window.innerHeight / 2),
+      },
     };
   },
   computed: {
@@ -85,6 +104,16 @@ export default {
     },
     iDotY() {
       return (window.innerHeight / 2) - 175;
+    },
+    guideStylePosition() {
+      const offset = {
+        x: this.aposDotX.value ? this.aposDotX.value : 0,
+        y: this.aposDotY.value ? this.aposDotY.value - (window.innerHeight / 2) : 0,
+      };
+      return {
+        left: `${this.guideBasePosition.x + offset.x}px`,
+        top: `${this.guideBasePosition.y + offset.y}px`,
+      };
     },
   },
   mounted() {
@@ -116,7 +145,7 @@ export default {
     }, 1750);
     setTimeout(() => {
       this.draggable = true;
-    }, 4000);
+    }, 4500);
   },
   methods: {
     switchOn(e) {
@@ -136,7 +165,7 @@ export default {
         const startX = this.aposStadyPos.x;
         const startY = this.aposStadyPos.y;
         const dy = evt.pageY - startY;
-        const dampY = dy > 0 ? 2 : 1;
+        const dampY = dy > 0 ? 3 : 1.5;
         const dampX = 2;
         this.aposDotX.value = Math.min(
           Math.max(startX + ((evt.pageX - this.start.x) / dampX), 25),
@@ -246,6 +275,58 @@ export default {
     fill: $white;
     opacity: 1;
     transform-origin: 50% 50%;
+  }
+  .description {
+    position: fixed;
+    display: inline-block;
+    user-select: none;
+    right: 50px;
+    top: calc(50vh + 150px);
+    margin: 50px;
+    color: $white;
+    width: 450px;
+    overflow: hidden;
+    .title-wrapper {
+      animation: title 3.5s forwards ease-in-out;
+      animation-delay: 1s;
+      opacity: 0;
+      width: 0;
+      .title {
+        white-space: nowrap;
+        margin-bottom: 0;
+      }
+    }
+    .author-wrapper {
+      animation: author 3.5s forwards ease-in-out;
+      animation-delay: 1.1s;
+      opacity: 0;
+      width: 0;
+      .author {
+        white-space: nowrap;
+        text-align: right;
+      }
+    }
+  }
+  .guide {
+    position: fixed;
+    width: 0;
+    border-top: 1px solid $yellow;
+    padding-top: 5px;
+    text-align: left;
+    color: $yellow;
+    animation: guide 0.5s forwards ease;
+    animation-delay: 5s;
+    transition: 500ms opacity ease;
+    .instruction {
+      width: 0;
+      overflow: hidden;
+      white-space: nowrap;
+      animation: instruction 0.75s forwards ease;
+      animation-delay: 5.5s;
+    }
+    &.disappear {
+      opacity: 0;
+    }
   }
   .line {
     stroke-miterlimit: 50;
@@ -413,6 +494,42 @@ export default {
   100% {
     opacity: 0;
     transform: scale(100, 100);
+  }
+}
+
+@keyframes title {
+  50% {
+    opacity: 0;
+  }
+  100% {
+    width: 100%;
+    opacity: 1;
+  }
+}
+
+@keyframes author {
+  50% {
+    opacity: 0;
+  }
+  100% {
+    width: 100%;
+    opacity: 1;
+  }
+}
+
+@keyframes guide {
+  100% {
+    width: 300px;
+  }
+}
+
+@keyframes instruction {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    width: 100%;
+    opacity: 1;
   }
 }
 </style>
