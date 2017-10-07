@@ -38,6 +38,10 @@ export default {
       frame: 0,
       totalFrame: 200,
       iDotRadius: 50,
+      aposStadyPos: {
+        x: 60,
+        y: (window.innerHeight / 2) + 150,
+      },
       aposDotX: {
         value: 25,
       },
@@ -94,7 +98,7 @@ export default {
     }, 750);
     setTimeout(() => {
       dynamics.animate(this.aposDotX, {
-        value: 60,
+        value: this.aposStadyPos.x,
       }, {
         type: dynamics.spring,
         duration: 3500,
@@ -102,7 +106,7 @@ export default {
         friction: 50,
       });
       dynamics.animate(this.aposDotY, {
-        value: (window.innerHeight / 2) + 150,
+        value: this.aposStadyPos.y,
       }, {
         type: dynamics.spring,
         duration: 3500,
@@ -129,12 +133,17 @@ export default {
     onDrag(e) {
       const evt = e.changedTouches ? e.changedTouches[0] : e;
       if (this.dragging) {
-        const startX = 60;
-        const startY = (window.innerHeight / 2) + 150;
-        this.aposDotX.value = Math.min(Math.max(startX + (evt.pageX - this.start.x), 25), 115);
-        this.aposDotY.value = startY + (evt.pageY - this.start.y);
+        const startX = this.aposStadyPos.x;
+        const startY = this.aposStadyPos.y;
+        const dy = evt.pageY - startY;
+        const dampY = dy > 0 ? 2 : 1;
+        const dampX = 2;
+        this.aposDotX.value = Math.min(
+          Math.max(startX + ((evt.pageX - this.start.x) / dampX), 25),
+          115);
+        this.aposDotY.value = startY + (dy / dampY);
         if (this.aposDotY.value - startY > 0
-        && ((this.aposDotX.value - startX) ** 2) + ((this.aposDotY.value - startY) ** 2) > 6400) {
+        && ((this.aposDotX.value - startX) ** 2) + ((this.aposDotY.value - startY) ** 2) > 3600) {
           this.willReleaseTurnOn = true;
         } else {
           this.willReleaseTurnOn = false;
@@ -170,16 +179,22 @@ export default {
           this.lightCentre.x = e.pageX;
           this.lightCentre.y = e.pageY;
           setTimeout(() => {
+            const numOfRipple = 3;
             this.curRipples.push(this.curRipples.length);
-            setInterval(() => {
-              if (this.curRipples.length < 3) {
+            const itv = setInterval(() => {
+              if (this.curRipples.length < numOfRipple - 1) {
                 this.curRipples.push(this.curRipples.length);
+              } else if (this.curRipples.length === numOfRipple - 1) {
+                clearInterval(itv);
+                setTimeout(() => {
+                  this.curRipples.push(this.curRipples.length);
+                }, 500);
               }
-            }, 1500);
+            }, 1250);
           }, 150);
           setTimeout(() => {
             this.$router.push('/home/');
-          }, 6000);
+          }, 6500);
         }
       }
     },
@@ -197,6 +212,9 @@ export default {
   top: 0;
   left: 0;
   background: $purple;
+  svg {
+    user-select: none;
+  }
   .h-container {
     width: 200px;
     height: 100%;
