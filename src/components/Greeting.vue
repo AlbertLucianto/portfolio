@@ -30,7 +30,7 @@
       </svg>
       <div class="description">
         <div class="title-wrapper">
-          <h1 class="title">A Tour of My Story</h1>
+          <h1 class="title">A Life Tour of Mine</h1>
         </div>
         <div class="author-wrapper">
           <h3 class="author">Created by Albert Lucianto</h3>
@@ -50,18 +50,16 @@ import dynamics from 'dynamics.js';
 export default {
   data() {
     return {
-      frame: 0,
-      totalFrame: 200,
       iDotRadius: 50,
-      aposStadyPos: {
+      aposSteadyPos: {
         x: 60,
-        y: (window.innerHeight / 2) + 150,
+        y: (window.innerHeight / 2) + 175,
       },
       aposDotX: {
         value: 25,
       },
       aposDotY: {
-        value: (window.innerHeight / 2) + 25,
+        value: (window.innerHeight / 2) + 50,
       },
       blinking: false,
       dragging: false,
@@ -82,28 +80,28 @@ export default {
   },
   computed: {
     hCurveStart() {
-      return (window.innerHeight / 2) - 50;
+      return (window.innerHeight / 2) - 25;
     },
     hLineRightStart() {
-      return (window.innerHeight / 2) - 50;
+      return (window.innerHeight / 2) - 25;
     },
     hLineRightEnd() {
       return window.innerHeight;
     },
     hLineLeftStart() {
-      return (window.innerHeight / 2) + 100;
+      return (window.innerHeight / 2) + 125;
     },
     iLineStart() {
-      return (window.innerHeight / 2) - 125;
+      return (window.innerHeight / 2) - 100;
     },
     iLineEnd() {
       return window.innerHeight;
     },
     aposLineStart() {
-      return (window.innerHeight / 2) + 50;
+      return (window.innerHeight / 2) + 75;
     },
     iDotY() {
-      return (window.innerHeight / 2) - 175;
+      return (window.innerHeight / 2) - 150;
     },
     guideStylePosition() {
       const offset = {
@@ -127,7 +125,7 @@ export default {
     }, 750);
     setTimeout(() => {
       dynamics.animate(this.aposDotX, {
-        value: this.aposStadyPos.x,
+        value: this.aposSteadyPos.x,
       }, {
         type: dynamics.spring,
         duration: 3500,
@@ -135,7 +133,7 @@ export default {
         friction: 50,
       });
       dynamics.animate(this.aposDotY, {
-        value: this.aposStadyPos.y,
+        value: this.aposSteadyPos.y,
       }, {
         type: dynamics.spring,
         duration: 3500,
@@ -162,8 +160,8 @@ export default {
     onDrag(e) {
       const evt = e.changedTouches ? e.changedTouches[0] : e;
       if (this.dragging) {
-        const startX = this.aposStadyPos.x;
-        const startY = this.aposStadyPos.y;
+        const startX = this.aposSteadyPos.x;
+        const startY = this.aposSteadyPos.y;
         const dy = evt.pageY - startY;
         const dampY = dy > 0 ? 3 : 1.5;
         const dampX = 2;
@@ -183,8 +181,8 @@ export default {
       window.addEventListener('mousemove', this.onDrag);
       window.addEventListener('mouseup', this.release);
       if (this.dragging) {
-        const startX = 60;
-        const startY = (window.innerHeight / 2) + 150;
+        const startX = this.aposSteadyPos.x;
+        const startY = this.aposSteadyPos.y;
         dynamics.animate(this.aposDotY, {
           value: startY,
         }, {
