@@ -3,8 +3,9 @@
     <svg class="container">
       <path :d="curvePath" class="elastic-wrapper"></path>
     </svg>
-    <svg class="hamburger-button" :style="hamburgerPos" @mousedown="startDrag">
-    </svg>
+    <div class="hamburger-button" :style="hamburgerPos" @mousedown="startDrag">
+      <hamburger-icon :open="open" :dragging="dragging"></hamburger-icon>
+    </div>
     <transition name="fade">
       <div class="overlay" :style="overlayBgStyle" v-if="open"/>
     </transition>
@@ -13,6 +14,7 @@
 
 <script>
 import dynamics from 'dynamics.js';
+import HamburgerIcon from './HamburgerIcon';
 
 const startCurvePos = {
   x: 0,
@@ -26,14 +28,17 @@ const dampX = 1;
 const curveDampX = 1.5;
 
 export default {
+  components: {
+    HamburgerIcon,
+  },
   data() {
     return {
-      show: true,
       curvePos: { ...startCurvePos },
       curveSpanWidth: curveInitWidth,
       startDragPos: { x: 0, y: 0 }, // unset
       lastDragPos: { ...startCurvePos },
       dragging: false,
+      click: false,
       open: false,
       width: 0,
       curveHeight: 0,
@@ -77,7 +82,7 @@ export default {
         curveHeight: val ? 0 : this.curvePos.x / curveDampX,
       }, {
         type: dynamics.spring,
-        duration: 1000,
+        duration: 750,
         frequency: 650,
         friction: 350,
       });
@@ -86,7 +91,7 @@ export default {
   methods: {
     startDrag(e) {
       const evt = e.changedTouches ? e.changedTouches[0] : e;
-      this.dragging = true;
+      this.click = true;
       this.startDragPos.x = evt.pageX;
       this.startDragPos.y = evt.pageY;
       window.addEventListener('mousemove', this.onDrag);
@@ -94,7 +99,11 @@ export default {
     },
     onDrag(e) {
       const evt = e.changedTouches ? e.changedTouches[0] : e;
-      if (this.dragging) {
+      if (this.click || this.dragging) {
+        dynamics.stop(this.curvePos);
+        dynamics.stop(this.curveHeight);
+        this.click = false;
+        this.dragging = true;
         this.curvePos.y = Math.min(
           Math.max(
             this.lastDragPos.y + (evt.pageY - this.startDragPos.y),
@@ -117,27 +126,53 @@ export default {
     stopDrag() {
       window.removeEventListener('mousemove', this.onDrag);
       window.removeEventListener('mouseup', this.stopDrag);
+      this.click = false;
       if (this.dragging) {
         this.dragging = false;
-        this.lastDragPos.x = this.curvePos.x;
         this.lastDragPos.y = this.curvePos.y;
-      }
-      if (!this.open) {
-        this.lastDragPos.x = startCurvePos.x;
-        dynamics.animate(this.curvePos, {
-          x: startCurvePos.x,
-        }, {
-          type: dynamics.spring,
-          duration: 1000,
-          frequency: 850,
-          friction: 350,
-        });
         dynamics.animate(this, {
           curveHeight: 0,
         }, {
           type: dynamics.spring,
-          duration: 1000,
-          frequency: 850,
+          duration: 750,
+          frequency: 600,
+          friction: 350,
+        });
+        if (!this.open) {
+          this.lastDragPos.x = startCurvePos.x;
+          dynamics.animate(this.curvePos, {
+            x: startCurvePos.x,
+          }, {
+            type: dynamics.spring,
+            duration: 750,
+            frequency: 600,
+            friction: 350,
+          });
+        } else {
+          this.lastDragPos.x = openTresholdDistance;
+          dynamics.animate(this.curvePos, {
+            x: openTresholdDistance,
+          }, {
+            type: dynamics.spring,
+            duration: 750,
+            frequency: 600,
+            friction: 350,
+          });
+        }
+      } else if (this.open) {
+        this.open = false;
+        this.lastDragPos.x = startCurvePos.x;
+        dynamics.stop(this.curvePos);
+        this.curvePos.x = 0;
+      } else {
+        this.open = true;
+        this.lastDragPos.x = openTresholdDistance;
+        dynamics.animate(this.curvePos, {
+          x: openTresholdDistance,
+        }, {
+          type: dynamics.spring,
+          duration: 750,
+          frequency: 600,
           friction: 350,
         });
       }
@@ -158,7 +193,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import './styles/colors.scss';
+@import '../styles/colors.scss';
 
 .navbar {
   position: fixed;
@@ -176,8 +211,12 @@ export default {
     width: 80px;
     height: 80px;
     background: $aqua;
-    box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+    transition: .3s background-color ease-out;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.05);
     cursor: pointer;
+    &:hover {
+      background: $orange;
+    }
   }
   .overlay {
     position: fixed;
