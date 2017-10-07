@@ -9,12 +9,15 @@
 </template>
 
 <script>
+import dynamics from 'dynamics.js';
+
 const startCurvePos = {
   x: 0,
   y: 30,
 };
 const curveInitWidth = 100;
 const screenHeight = window.innerHeight;
+const openTresholdDistance = 200;
 
 export default {
   data() {
@@ -24,27 +27,44 @@ export default {
       startDragPos: { x: 0, y: 0 }, // unset
       lastDragPos: { ...startCurvePos },
       dragging: false,
+      open: false,
+      width: 0,
     };
   },
   computed: {
     curvePath() {
+      const curveDampX = 1.5;
+      const spreadConstantY = 0.25;
       return `
-      M 150, -200
-      S 150, ${this.curvePos.y - 175}
-      150, ${this.curvePos.y - 125}
-      S 150, ${this.curvePos.y - 75}
-      180, ${this.curvePos.y}
-      S 150, ${this.curvePos.y + 100}
-      150, ${this.curvePos.y + 175}
+      M ${this.width}, -200
+      S ${this.width}, ${this.curvePos.y - 200 - (spreadConstantY * this.curvePos.x)}
+      ${this.width}, ${this.curvePos.y - 150 - (spreadConstantY * this.curvePos.x)}
+      S ${this.width}, ${this.curvePos.y - 75}
+      ${this.width + (this.curvePos.x / curveDampX)}, ${this.curvePos.y}
+      S ${this.width}, ${this.curvePos.y + 75 + (spreadConstantY * this.curvePos.x)}
+      ${this.width}, ${this.curvePos.y + 250 + (spreadConstantY * this.curvePos.x)}
       V ${screenHeight}
-      H 0
+      H -1
       V 0
       Z`;
     },
     hamburgerPos() {
       return {
         top: `${this.curvePos.y}px`,
+        left: `${this.curvePos.x + 30}px`,
       };
+    },
+  },
+  watch: {
+    open(val) {
+      dynamics.animate(this, {
+        width: val ? 200 : 0,
+      }, {
+        type: dynamics.spring,
+        duration: 1000,
+        frequency: 850,
+        friction: 350,
+      });
     },
   },
   methods: {
@@ -58,19 +78,39 @@ export default {
     },
     onDrag(e) {
       const evt = e.changedTouches ? e.changedTouches[0] : e;
+      const dampX = 2;
       if (this.dragging) {
-        this.curvePos.x = this.lastDragPos.x + (evt.pageX - this.startDragPos.x);
-        this.curvePos.y = this.lastDragPos.y + (evt.pageY - this.startDragPos.y);
+        const newCurvePosX = this.lastDragPos.x + ((evt.pageX - this.startDragPos.x) / dampX);
+        if (newCurvePosX > openTresholdDistance) {
+          this.open = true;
+        }
+        this.curvePos.x = Math.min(newCurvePosX, openTresholdDistance);
+        this.curvePos.y = Math.min(
+          Math.max(
+            this.lastDragPos.y + (evt.pageY - this.startDragPos.y),
+            startCurvePos.y),
+            screenHeight - startCurvePos.y - 80);
       }
     },
     stopDrag() {
+      window.removeEventListener('mousemove', this.onDrag);
+      window.removeEventListener('mouseup', this.stopDrag);
       if (this.dragging) {
         this.dragging = false;
         this.lastDragPos.x = this.curvePos.x;
         this.lastDragPos.y = this.curvePos.y;
       }
-      window.removeEventListener('mousemove', this.onDrag);
-      window.removeEventListener('mouseup', this.stopDrag);
+      if (!this.open) {
+        this.lastDragPos.x = startCurvePos.x;
+        dynamics.animate(this.curvePos, {
+          x: startCurvePos.x,
+        }, {
+          type: dynamics.spring,
+          duration: 1000,
+          frequency: 850,
+          friction: 350,
+        });
+      }
     },
   },
 };
@@ -92,11 +132,9 @@ export default {
   }
   .hamburger-button {
     position: fixed;
-    top: 0;
-    left: 200px;
     width: 80px;
     height: 80px;
-    background: $warmRed;
+    background: $white;
   }
 }
 </style>
