@@ -30,7 +30,7 @@
       </svg>
       <div class="description">
         <div class="title-wrapper">
-          <h1 class="title">A Life Tour of Mine</h1>
+          <h1 class="title">A Little Tour of Mine</h1>
         </div>
         <div class="author-wrapper">
           <h3 class="author">Created by Albert Lucianto</h3>
