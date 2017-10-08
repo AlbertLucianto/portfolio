@@ -24,7 +24,7 @@ const animateSpring = (line, newPos) => {
     y: newPos.start.y,
   }, {
     type: dynamics.easeInOut,
-    duration: 500,
+    duration: 400,
     friction: 50,
   });
   dynamics.animate(line.end, {
@@ -32,7 +32,7 @@ const animateSpring = (line, newPos) => {
     y: newPos.end.y,
   }, {
     type: dynamics.easeInOut,
-    duration: 500,
+    duration: 400,
     friction: 50,
   });
 };

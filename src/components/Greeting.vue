@@ -161,6 +161,8 @@ export default {
     onDrag(e) {
       const evt = e.changedTouches ? e.changedTouches[0] : e;
       if (this.dragging) {
+        dynamics.stop(this.aposDotX);
+        dynamics.stop(this.aposDotY);
         const startX = this.aposSteadyPos.x;
         const startY = this.aposSteadyPos.y;
         const dy = evt.pageY - startY;
@@ -240,9 +242,6 @@ export default {
   top: 0;
   left: 0;
   background: $purple;
-  svg {
-    user-select: none;
-  }
   .h-container {
     width: 200px;
     height: 100%;

@@ -3,6 +3,7 @@
     <svg class="container">
       <path :d="curvePath" class="elastic-wrapper"></path>
     </svg>
+    <nav-item-list :open="open" :curvePos="curvePos" :curveHeight="curveHeight.value"></nav-item-list>
     <div class="hamburger-button" :style="hamburgerPos" @mousedown="startDrag">
       <hamburger-icon :open="open" :dragging="dragging"></hamburger-icon>
     </div>
@@ -15,6 +16,7 @@
 <script>
 import dynamics from 'dynamics.js';
 import HamburgerIcon from './HamburgerIcon';
+import NavItemList from './NavItemList';
 
 const startCurvePos = {
   x: 0,
@@ -26,10 +28,12 @@ const openTresholdDistance = 200;
 const closeTresholdDistance = 100;
 const dampX = 1;
 const curveDampX = 1.5;
+const curveDampOpened = 1.25;
 
 export default {
   components: {
     HamburgerIcon,
+    NavItemList,
   },
   data() {
     return {
@@ -40,21 +44,21 @@ export default {
       dragging: false,
       click: false,
       open: false,
-      width: 0,
-      curveHeight: 0,
+      width: { value: 0 },
+      curveHeight: { value: 0 },
     };
   },
   computed: {
     curvePath() {
       const spreadConstantY = 0.25;
       return `
-      M ${this.width}, -200
-      S ${this.width}, ${this.curvePos.y - 200 - (spreadConstantY * this.curvePos.x)}
-      ${this.width}, ${this.curvePos.y - 150 - (spreadConstantY * this.curvePos.x)}
-      S ${this.width}, ${this.curvePos.y - 75}
-      ${this.width + this.curveHeight}, ${this.curvePos.y}
-      S ${this.width}, ${this.curvePos.y + 75 + (spreadConstantY * this.curvePos.x)}
-      ${this.width}, ${this.curvePos.y + 250 + (spreadConstantY * this.curvePos.x)}
+      M ${this.width.value}, -200
+      S ${this.width.value}, ${this.curvePos.y - 200 - (spreadConstantY * this.curvePos.x)}
+      ${this.width.value}, ${this.curvePos.y - 150 - (spreadConstantY * this.curvePos.x)}
+      S ${this.width.value}, ${this.curvePos.y - 75}
+      ${this.width.value + this.curveHeight.value}, ${this.curvePos.y}
+      S ${this.width.value}, ${this.curvePos.y + 75 + (spreadConstantY * this.curvePos.x)}
+      ${this.width.value}, ${this.curvePos.y + 250 + (spreadConstantY * this.curvePos.x)}
       V ${screenHeight}
       H -100
       V 0
@@ -77,9 +81,16 @@ export default {
   },
   watch: {
     open(val) {
-      dynamics.animate(this, {
-        width: val ? 200 : -5,
-        curveHeight: val ? 0 : this.curvePos.x / curveDampX,
+      dynamics.animate(this.width, {
+        value: val ? 200 : -5,
+      }, {
+        type: dynamics.spring,
+        duration: 750,
+        frequency: 650,
+        friction: 350,
+      });
+      dynamics.animate(this.curveHeight, {
+        value: val ? 0 : this.curvePos.x / curveDampX,
       }, {
         type: dynamics.spring,
         duration: 750,
@@ -111,7 +122,7 @@ export default {
             screenHeight - startCurvePos.y - 80);
         const newCurvePosX = this.lastDragPos.x + ((evt.pageX - this.startDragPos.x) / dampX);
         this.curvePos.x = Math.max(Math.min(newCurvePosX, openTresholdDistance), 0);
-        this.curveHeight = this.curvePos.x / curveDampX;
+        this.curveHeight.value = this.curvePos.x / curveDampX;
         if (!this.open) {
           if (newCurvePosX > openTresholdDistance) {
             this.open = true;
@@ -119,7 +130,7 @@ export default {
         } else if (this.curvePos.x < closeTresholdDistance) {
           this.open = false;
         } else {
-          this.curveHeight = this.curvePos.x - openTresholdDistance;
+          this.curveHeight.value = (this.curvePos.x - openTresholdDistance) / curveDampOpened;
         }
       }
     },
@@ -130,8 +141,8 @@ export default {
       if (this.dragging) {
         this.dragging = false;
         this.lastDragPos.y = this.curvePos.y;
-        dynamics.animate(this, {
-          curveHeight: 0,
+        dynamics.animate(this.curveHeight, {
+          value: 0,
         }, {
           type: dynamics.spring,
           duration: 750,
@@ -181,11 +192,11 @@ export default {
   mounted() {
     setInterval(() => {
       if (!this.open) {
-        if (this.width > 0) {
-          this.width -= 2; // Adjusting width where sometimes altered during spring animation
+        if (this.width.value > 0) {
+          this.width.value -= 2; // Adjusting width where sometimes altered during spring animation
         }
       } else {
-        this.width = openTresholdDistance;
+        this.width.value = openTresholdDistance;
       }
     }, 500);
   },
