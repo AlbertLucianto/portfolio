@@ -20,7 +20,7 @@ import NavItemList from './NavItemList';
 
 const startCurvePos = {
   x: 0,
-  y: 30,
+  y: 50,
 };
 const curveInitWidth = 100;
 const screenHeight = window.innerHeight;

@@ -48,6 +48,11 @@
 <script>
 import dynamics from 'dynamics.js';
 
+const guideBasePosition = {
+  x: (window.innerWidth / 2) - 275,
+  y: (window.innerHeight / 2),
+};
+
 export default {
   data() {
     return {
@@ -73,10 +78,6 @@ export default {
       curRipples: [],
       start: { x: 0, y: 0 },
       willReleaseTurnOn: false,
-      guideBasePosition: {
-        x: (window.innerWidth / 2) - 275,
-        y: (window.innerHeight / 2),
-      },
     };
   },
   computed: {
@@ -110,8 +111,8 @@ export default {
         y: this.aposDotY.value ? this.aposDotY.value - (window.innerHeight / 2) : 0,
       };
       return {
-        left: `${this.guideBasePosition.x + offset.x}px`,
-        top: `${this.guideBasePosition.y + offset.y}px`,
+        left: `${guideBasePosition.x + offset.x}px`,
+        top: `${guideBasePosition.y + offset.y}px`,
       };
     },
   },
@@ -129,16 +130,16 @@ export default {
         value: this.aposSteadyPos.x,
       }, {
         type: dynamics.spring,
-        duration: 3500,
-        frequency: 350,
+        duration: 5000,
+        frequency: 400,
         friction: 50,
       });
       dynamics.animate(this.aposDotY, {
         value: this.aposSteadyPos.y,
       }, {
         type: dynamics.spring,
-        duration: 3500,
-        frequency: 600,
+        duration: 5000,
+        frequency: 650,
         friction: 300,
       });
     }, 1750);
