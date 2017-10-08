@@ -387,6 +387,9 @@ export default {
           fill: $white;
         }
       }
+      &:active {
+        cursor: grabbing;
+      }
     }
   }
   .diagonal-bg {

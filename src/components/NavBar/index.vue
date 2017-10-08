@@ -10,6 +10,9 @@
     <transition name="fade">
       <div class="overlay" :style="overlayBgStyle" v-if="open"/>
     </transition>
+    <!-- to be removed -->
+    <div style="position: fixed; top: 50px; left: 500px;"><profile></profile></div>
+    <!-- remove -->
   </div>
 </template>
 
@@ -17,6 +20,7 @@
 import dynamics from 'dynamics.js';
 import HamburgerIcon from './HamburgerIcon';
 import NavItemList from './NavItemList';
+import Profile from './NavItems/Profile'; // To be removed
 
 const startCurvePos = {
   x: 0,
@@ -34,6 +38,7 @@ export default {
   components: {
     HamburgerIcon,
     NavItemList,
+    Profile, // To be removed
   },
   data() {
     return {
@@ -227,6 +232,9 @@ export default {
     cursor: pointer;
     &:hover {
       background: $orange;
+    }
+    &:active {
+      cursor: grabbing;
     }
   }
   .overlay {
