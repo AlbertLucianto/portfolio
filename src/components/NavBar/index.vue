@@ -8,10 +8,10 @@
       <hamburger-icon :open="open" :dragging="dragging"></hamburger-icon>
     </div>
     <transition name="fade">
-      <div class="overlay" :style="overlayBgStyle" v-if="open"/>
+      <div class="overlay" :style="overlayBgStyle" v-if="open" @mousedown="stopDrag"/>
     </transition>
     <!-- to be removed -->
-    <div style="position: fixed; top: 50px; left: 500px;"><profile></profile></div>
+    <!-- <div style="position: fixed; top: 50px; left: 500px;"><profile></profile></div> -->
     <!-- remove -->
   </div>
 </template>
