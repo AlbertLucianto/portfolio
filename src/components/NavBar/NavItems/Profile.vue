@@ -1,27 +1,41 @@
 <template>
   <div ref="profile">
-    <svg class="profile" @mousemove="moveHead" @mouseout="endMoveHead">
-      <circle cx="50" cy="50" r="50" class="head" @mousemove="moveFace" @mouseout="endMoveFace"></circle>
-      <g :style="faceStyle">
-        <circle cx="-20" cy="-10" r="5" class="eye"></circle>
-        <circle cx="20" cy="-10" r="5" class="eye"></circle>
-        <path :d="mouthPath" class="mouth"></path>
-      </g>
-    </svg>
+    <router-link to="/" class="link">
+      <svg class="profile">
+        <circle :cx="headPos.x" :cy="headPos.y" r="45" class="head"></circle>
+        <g :style="faceStyle">
+          <circle cx="-20" cy="-5" r="5" class="eye"></circle>
+          <circle cx="-22.5" cy="-7.5" r="2.5" class="pupil"></circle>
+          <circle cx="20" cy="-5" r="5" class="eye"></circle>
+          <circle cx="17.5" cy="-7.5" r="2.5" class="pupil"></circle>
+          <path :d="mouthPath" class="mouth"></path>
+        </g>
+        <g :style="glassStyle">
+          <rect x="-35" y="-15" width="30" height="20" rx="5" ry="5" class="glass"/>
+          <rect x="5" y="-15" width="30" height="20" rx="5" ry="5" class="glass"/>
+          <line x1="-5" y1="-12.5" x2="5" y2="-12.5" class="glass"/>
+        </g>
+        <circle :cx="headPos.x" :cy="headPos.y" r="50" class="head-helper" @mousemove="moveFace" @mouseout="endMoveFace"></circle>
+      </svg>
+      <div class="text">About Me</div>
+    </router-link>
   </div>
 </template>
 
 <script>
 import dynamics from 'dynamics.js';
 
-const startFacePos = { x: 50, y: 50 };
-const dampMove = { x: 7.5, y: 7.5 };
+const startPos = { x: 55, y: 55 };
+const dampMove = { x: 10, y: 10 };
 
 export default {
   data() {
     return {
       over: false,
-      facePos: { ...startFacePos },
+      facePos: { ...startPos },
+      glassPos: { ...startPos },
+      headPos: { ...startPos },
+      firstEnter: true,
     };
   },
   computed: {
@@ -30,41 +44,106 @@ export default {
         transform: `translate3d(${this.facePos.x}px, ${this.facePos.y}px, 0)`,
       };
     },
+    glassStyle() {
+      return {
+        transform: `translate3d(${this.glassPos.x}px, ${this.glassPos.y}px, 0)`,
+      };
+    },
     mouthPath() {
       return `
-      M -10, 15
-      A 10 7.5 0 1 0 10 15
-      ${this.over ? '' : 'A 10 3 0 0 1 -10 15'}
+      M -10, 20
+      A 10 ${this.over ? 10 : 7.5} 0 1 0 10 20
+      ${this.over ? '' : 'A 12.5 5 0 0 1 -10 20'}
       Z
       `;
     },
   },
   methods: {
-    moveHead(e) {
+    moveFace(e) {
       const evt = e.changedTouches ? e.changedTouches[0] : e;
       const rect = this.$refs.profile.getBoundingClientRect();
       const center = {
         x: (rect.left + rect.right) / 2,
         y: (rect.top + rect.bottom) / 2,
       };
-      this.over = true;
-      dynamics.stop(this.facePos);
-      this.facePos.x = startFacePos.x + ((evt.pageX - center.x) / dampMove.x);
-      this.facePos.y = startFacePos.y + ((evt.pageY - center.y) / dampMove.y);
+      const newHeadPosX = startPos.x + ((evt.pageX - center.x) / dampMove.x);
+      const newHeadPosY = startPos.y + ((evt.pageY - center.y) / dampMove.y);
+      const newFacePosX = startPos.x + ((evt.pageX - center.x) / (dampMove.x / 3));
+      const newFacePosY = startPos.y + ((evt.pageY - center.y) / (dampMove.y / 3));
+      const newGlassPosX = startPos.x + ((evt.pageX - center.x) / (dampMove.x / 3.25));
+      const newGlassPosY = startPos.y + ((evt.pageY - center.y) / (dampMove.y / 3.25));
+      if (this.firstEnter) {
+        setTimeout(() => {
+          this.firstEnter = false;
+        }, 75);
+        if (!this.over) {
+          dynamics.animate(this.facePos, {
+            x: newFacePosX,
+            y: newFacePosY,
+          }, {
+            type: dynamics.easeOut,
+            duration: 75,
+            friction: 50,
+          });
+          dynamics.animate(this.glassPos, {
+            x: newGlassPosX,
+            y: newGlassPosY,
+          }, {
+            type: dynamics.easeOut,
+            duration: 75,
+            friction: 50,
+          });
+          dynamics.animate(this.headPos, {
+            x: newHeadPosX,
+            y: newHeadPosY,
+          }, {
+            type: dynamics.easeOut,
+            duration: 75,
+            friction: 50,
+          });
+        }
+        this.over = true;
+      } else {
+        dynamics.stop(this.facePos);
+        dynamics.stop(this.headPos);
+        dynamics.stop(this.glassPos);
+        this.over = true;
+        this.headPos.x = newHeadPosX;
+        this.headPos.y = newHeadPosY;
+        this.facePos.x = newFacePosX;
+        this.facePos.y = newFacePosY;
+        this.glassPos.x = newGlassPosX;
+        this.glassPos.y = newGlassPosY;
+      }
     },
-    endMoveHead() {
+    endMoveFace() {
       this.over = false;
+      this.firstEnter = true;
       dynamics.animate(this.facePos, {
-        x: startFacePos.x,
-        y: startFacePos.y,
+        x: startPos.x,
+        y: startPos.y,
+      }, {
+        type: dynamics.easeOut,
+        duration: 500,
+        friction: 50,
+      });
+      dynamics.animate(this.glassPos, {
+        x: startPos.x,
+        y: startPos.y,
+      }, {
+        type: dynamics.easeOut,
+        duration: 500,
+        friction: 50,
+      });
+      dynamics.animate(this.headPos, {
+        x: startPos.x,
+        y: startPos.y,
       }, {
         type: dynamics.easeOut,
         duration: 500,
         friction: 50,
       });
     },
-    moveFace() {},
-    endMoveFace() {},
   },
 };
 </script>
@@ -73,21 +152,50 @@ export default {
 @import '../../styles/colors.scss';
 
 .profile {
-  width: 100px;
-  height: 100px;
-  margin: 20px 20px;
+  width: 110px;
+  height: 110px;
+  margin: 20px;
+  margin-bottom: 0;
+  text-align: center;
+  cursor: pointer;
   .head {
-    fill: $orange;
+    fill: $yellow;
   }
   .eye {
-    fill: $purple;
+    fill: $black;
+  }
+  .pupil {
+    fill: $white;
   }
   .mouth {
-    stroke: $purple;
+    stroke: $black;
     stroke-width: 2px;
-    fill: $purple;
+    fill: $black;
     stroke-linecap: round;
     stroke-linejoin: round;
+  }
+  .head-helper {
+    fill: $white;
+    opacity: 0;
+    stroke-width: 0;
+  }
+  .glass {
+    fill: none;
+    stroke-width: 2.5px;
+    stroke: $purple;
+  }
+}
+.link {
+  &:link, &:visited, &:active {
+    text-decoration: none;
+    .text {
+      color: $black;
+      font-weight: 700;
+      transition: 250ms color ease;
+    }
+  }
+  &:hover .text {
+    color: $warmRed;
   }
 }
 </style>

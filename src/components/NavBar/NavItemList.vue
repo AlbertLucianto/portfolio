@@ -8,14 +8,16 @@
 
 <script>
 import Profile from './NavItems/Profile';
+import Tools from './NavItems/Tools';
 
-const items = ['Profile', 'Profile', 'Profile', 'Profile', 'Profile'];
+const items = ['Profile', 'Profile', 'Profile', 'Tools'];
 const navWidth = 200;
 const offsetConstant = -50;
 
 export default {
   components: {
     Profile,
+    Tools,
   },
   props: {
     open: Boolean,
