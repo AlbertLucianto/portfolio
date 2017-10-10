@@ -24,7 +24,7 @@
         <line :x1="lines.slash.start.x" :y1="lines.slash.start.y"
           :x2="lines.slash.end.x" :y2="lines.slash.end.y"
           class="code-line" :class="{ over }"></line>
-        <g class="control-group">
+        <g class="control-group" :class="{ over }">
           <circle cx="0" cy="0" :r="rAbs.red" class="red"></circle>
           <circle cx="12.5" cy="0" :r="rAbs.yellow" class="yellow"></circle>
           <circle cx="25" cy="0" :r="rAbs.green" class="green"></circle>
@@ -258,7 +258,13 @@ export default {
     transform: scale(1.2);
   }
   .control-group {
+    opacity: 0;
+    transition: 150ms opacity ease 500ms;
     transform: translate3d(20px, 35px, 0);
+    &.over {
+      opacity: 1;
+      transition: 150ms opacity ease;
+    }
     .red {
       fill: $warmRed;
     }
