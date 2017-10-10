@@ -28,7 +28,7 @@ const startCurvePos = {
 };
 const curveInitWidth = 100;
 const screenHeight = window.innerHeight;
-const openTresholdDistance = 200;
+const openTresholdDistance = 250;
 const closeTresholdDistance = 100;
 const dampX = 1;
 const curveDampX = 1.5;
@@ -87,7 +87,7 @@ export default {
   watch: {
     open(val) {
       dynamics.animate(this.width, {
-        value: val ? 200 : -5,
+        value: val ? openTresholdDistance : -5,
       }, {
         type: dynamics.spring,
         duration: 750,

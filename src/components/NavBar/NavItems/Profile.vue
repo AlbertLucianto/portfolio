@@ -2,7 +2,11 @@
   <div ref="profile">
     <router-link to="/" class="link">
       <svg class="profile">
-        <circle :cx="headPos.x" :cy="headPos.y" r="45" class="head"></circle>
+        <g :style="headStyle" class="head-container">
+          <path class="hair" d="M69.16,6.89C82.68,15.65,82.68,40.19,74,67.16,66.67,89.64,22.5,98.78,12.41,77.4-.31,50.43-2.76,30.69,2.83,23.57,1.23-1,49.23-6,69.16,6.89Z"/>
+          <path class="head" d="M40.76,99.5A27.3,27.3,0,0,1,21,91l-3.41-3.62A44.64,44.64,0,0,1,5.32,56.64V30.69A27,27,0,0,1,32.41,3.84H49.11A27,27,0,0,1,76.2,30.69V56.64A44.64,44.64,0,0,1,64,87.36L60.55,91A27.3,27.3,0,0,1,40.76,99.5Z"/>
+          <path class="hair" d="M49.11,3.34H32.41A27.47,27.47,0,0,0,4.82,30.69l.4,23.75,6.39-29.29L73.1,36.23,76.3,56.82l.4-26.13A27.47,27.47,0,0,0,49.11,3.34Z"/>
+        </g>
         <g :style="faceStyle">
           <circle cx="-20" cy="-5" r="5" class="eye"></circle>
           <circle cx="-22.5" cy="-7.5" r="2.5" class="pupil"></circle>
@@ -25,8 +29,9 @@
 <script>
 import dynamics from 'dynamics.js';
 
-const startPos = { x: 55, y: 55 };
+const startPos = { x: 55, y: 62.5 };
 const dampMove = { x: 10, y: 10 };
+const headPosAdjust = { x: -41, y: -57.5 };
 
 export default {
   data() {
@@ -41,19 +46,24 @@ export default {
   computed: {
     faceStyle() {
       return {
-        transform: `translate3d(${this.facePos.x}px, ${this.facePos.y}px, 0)`,
+        transform: `translate3d(${this.facePos.x}px, ${this.facePos.y}px, 0) scale(0.9)`,
       };
     },
     glassStyle() {
       return {
-        transform: `translate3d(${this.glassPos.x}px, ${this.glassPos.y}px, 0)`,
+        transform: `translate3d(${this.glassPos.x}px, ${this.glassPos.y}px, 0) scale(0.9)`,
+      };
+    },
+    headStyle() {
+      return {
+        transform: `translate3d(${this.headPos.x + headPosAdjust.x}px, ${this.headPos.y + headPosAdjust.y}px, 0)`,
       };
     },
     mouthPath() {
       return `
       M -10, 20
-      A 10 ${this.over ? 10 : 7.5} 0 1 0 10 20
-      ${this.over ? '' : 'A 12.5 5 0 0 1 -10 20'}
+      A 12.5 ${this.over ? 10 : 7.5} 0 0 0 10 20
+      ${this.over ? '' : 'A 15 7.5 0 0 1 -10 20'}
       Z
       `;
     },
@@ -68,10 +78,10 @@ export default {
       };
       const newHeadPosX = startPos.x + ((evt.pageX - center.x) / dampMove.x);
       const newHeadPosY = startPos.y + ((evt.pageY - center.y) / dampMove.y);
-      const newFacePosX = startPos.x + ((evt.pageX - center.x) / (dampMove.x / 3));
-      const newFacePosY = startPos.y + ((evt.pageY - center.y) / (dampMove.y / 3));
-      const newGlassPosX = startPos.x + ((evt.pageX - center.x) / (dampMove.x / 3.25));
-      const newGlassPosY = startPos.y + ((evt.pageY - center.y) / (dampMove.y / 3.25));
+      const newFacePosX = startPos.x + ((evt.pageX - center.x) / (dampMove.x / 2));
+      const newFacePosY = startPos.y + ((evt.pageY - center.y) / (dampMove.y / 2));
+      const newGlassPosX = startPos.x + ((evt.pageX - center.x) / (dampMove.x / 2.25));
+      const newGlassPosY = startPos.y + ((evt.pageY - center.y) / (dampMove.y / 2.25));
       if (this.firstEnter) {
         setTimeout(() => {
           this.firstEnter = false;
@@ -158,8 +168,14 @@ export default {
   margin-bottom: 0;
   text-align: center;
   cursor: pointer;
-  .head {
-    fill: $yellow;
+  .head-container {
+    position: absolute;
+    .head {
+      fill: $yellow;
+    }
+    .hair {
+      fill: $black;
+    }
   }
   .eye {
     fill: $black;

@@ -10,8 +10,8 @@
 import Profile from './NavItems/Profile';
 import Tools from './NavItems/Tools';
 
-const items = ['Profile', 'Profile', 'Profile', 'Tools'];
-const navWidth = 200;
+const items = ['Profile', 'Tools'];
+const navWidth = 250;
 const offsetConstant = -50;
 
 export default {
@@ -63,7 +63,7 @@ export default {
   z-index: 11;
   top: 0;
   transition: 100ms left ease;
-  width: 200px;
+  width: 250px;
   height: calc(100vh - 100px);
   margin-top: 0;
   padding: 0;

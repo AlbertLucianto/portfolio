@@ -25,7 +25,7 @@ const rightTop = { x: 60, y: 20 };
 const rightMid = { x: 60, y: 40 };
 const rightBottom = { x: 60, y: 60 };
 
-const animateSpring = (line, newPos) => {
+const animateEase = (line, newPos) => {
   dynamics.animate(line.start, {
     x: newPos.start.x,
     y: newPos.start.y,
@@ -71,21 +71,21 @@ export default {
     animateIn() {
       if (this.open) {
         this.showThird = false;
-        animateSpring(this.line1, {
+        animateEase(this.line1, {
           start: { ...leftMid },
           end: { ...rightTop },
         });
-        animateSpring(this.line2, {
+        animateEase(this.line2, {
           start: { ...leftMid },
           end: { ...rightBottom },
         });
       } else {
         this.showThird = false;
-        animateSpring(this.line1, {
+        animateEase(this.line1, {
           start: { ...rightMid },
           end: { ...leftTop },
         });
-        animateSpring(this.line2, {
+        animateEase(this.line2, {
           start: { ...rightMid },
           end: { ...leftBottom },
         });
@@ -95,21 +95,21 @@ export default {
       this.firstHover = false;
       if (this.open) {
         this.showThird = false;
-        animateSpring(this.line1, {
+        animateEase(this.line1, {
           start: { ...leftTop },
           end: { ...rightBottom },
         });
-        animateSpring(this.line2, {
+        animateEase(this.line2, {
           start: { ...leftBottom },
           end: { ...rightTop },
         });
       } else {
         this.showThird = true;
-        animateSpring(this.line1, {
+        animateEase(this.line1, {
           start: { ...leftTop },
           end: { ...rightTop },
         });
-        animateSpring(this.line2, {
+        animateEase(this.line2, {
           start: { ...leftMid },
           end: { ...rightMid },
         });
