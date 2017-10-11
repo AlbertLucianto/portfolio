@@ -71,7 +71,8 @@ export default {
   width: 110px;
   height: 110px;
   margin: 20px;
-  margin-bottom: 0;
+  margin-top: 15px;
+  margin-bottom: 5px;
   .rocket {
     transition: 300ms all ease;
     transform: translate(20px, 7.5px) scale(1.05);
@@ -91,15 +92,15 @@ export default {
       stroke-width: 2px;
     }
     &.over {
-      animation: rocket-over 1s forwards linear;
+      animation: rocket-over .75s forwards ease;
     }
   }
   .planet {
     fill: $grey;
-    transition: 200ms transform ease;
+    transition: 300ms transform ease;
     transform: translateY(30px);
     &.over {
-      transition: 1.25s transform ease 100ms;
+      transition: 1s transform ease 100ms;
       transform: translateY(0);
     }
   }
@@ -110,7 +111,7 @@ export default {
     opacity: 0;
   }
   .stars-front {
-    transition: 1s transform ease 100ms, 500ms opacity ease .75s;
+    transition: .75s transform ease 100ms, .25s opacity ease .25s;
     opacity: 0;
     &.over {
       transition: 1s transform ease 100ms, 500ms opacity ease;
@@ -119,7 +120,7 @@ export default {
     }
   }
   .stars-back {
-    transition: 1s transform ease 100ms, 500ms opacity ease .75s;
+    transition: .75s transform ease 100ms, .25s opacity ease .25s;
     opacity: 0;
     &.over {
       transition: 1s transform ease 100ms, 500ms opacity ease;
@@ -145,9 +146,6 @@ export default {
 @keyframes rocket-over {
   25% {
     transform: translate(20px) scale(0.9);
-  }
-  50% {
-    transform: translate(20px, 7.5px) scale(0.9);
   }
   100% {
     transform: translate(20px, 8.5px) scale(0.9);

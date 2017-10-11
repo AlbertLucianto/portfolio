@@ -233,7 +233,8 @@ export default {
   width: 110px;
   height: 110px;
   margin: 20px;
-  margin-bottom: 0;
+  margin-top: 25px;
+  margin-bottom: -5px;
   text-align: center;
   transition: 150ms all ease;
   cursor: pointer;
@@ -282,7 +283,7 @@ export default {
   fill: white;
   width: 107.5px;
   height: 72.5px;
-  top: 38.5px;
+  top: 43.5px;
   left: 21.5px;
   opacity: 0;
   transition: 200ms all ease 100ms;
