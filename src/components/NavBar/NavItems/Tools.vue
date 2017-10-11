@@ -294,8 +294,8 @@ export default {
   }
   .inner-app {
     width: 100%;
-    margin-top: 23px;
-    height: calc(100% - 23px);
+    margin-top: 24px;
+    height: calc(100% - 24px);
     background: $purple;
   }
 }

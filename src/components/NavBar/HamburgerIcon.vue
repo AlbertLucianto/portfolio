@@ -67,53 +67,72 @@ export default {
     open: Boolean,
     dragging: Boolean,
   },
+  watch: {
+    open(val) {
+      if (!val) {
+        this.toHamburger();
+      }
+    },
+  },
   methods: {
     animateIn() {
       if (this.open) {
-        this.showThird = false;
-        animateEase(this.line1, {
-          start: { ...leftMid },
-          end: { ...rightTop },
-        });
-        animateEase(this.line2, {
-          start: { ...leftMid },
-          end: { ...rightBottom },
-        });
+        this.toArrowLeft();
       } else {
-        this.showThird = false;
-        animateEase(this.line1, {
-          start: { ...rightMid },
-          end: { ...leftTop },
-        });
-        animateEase(this.line2, {
-          start: { ...rightMid },
-          end: { ...leftBottom },
-        });
+        this.toArrowRight();
       }
     },
     animateOut() {
       this.firstHover = false;
       if (this.open) {
-        this.showThird = false;
-        animateEase(this.line1, {
-          start: { ...leftTop },
-          end: { ...rightBottom },
-        });
-        animateEase(this.line2, {
-          start: { ...leftBottom },
-          end: { ...rightTop },
-        });
+        this.toClose();
       } else {
-        this.showThird = true;
-        animateEase(this.line1, {
-          start: { ...leftTop },
-          end: { ...rightTop },
-        });
-        animateEase(this.line2, {
-          start: { ...leftMid },
-          end: { ...rightMid },
-        });
+        this.toHamburger();
       }
+    },
+    toArrowLeft() {
+      this.showThird = false;
+      animateEase(this.line1, {
+        start: { ...leftMid },
+        end: { ...rightTop },
+      });
+      animateEase(this.line2, {
+        start: { ...leftMid },
+        end: { ...rightBottom },
+      });
+    },
+    toArrowRight() {
+      this.showThird = false;
+      animateEase(this.line1, {
+        start: { ...rightMid },
+        end: { ...leftTop },
+      });
+      animateEase(this.line2, {
+        start: { ...rightMid },
+        end: { ...leftBottom },
+      });
+    },
+    toClose() {
+      this.showThird = false;
+      animateEase(this.line1, {
+        start: { ...leftTop },
+        end: { ...rightBottom },
+      });
+      animateEase(this.line2, {
+        start: { ...leftBottom },
+        end: { ...rightTop },
+      });
+    },
+    toHamburger() {
+      this.showThird = true;
+      animateEase(this.line1, {
+        start: { ...leftTop },
+        end: { ...rightTop },
+      });
+      animateEase(this.line2, {
+        start: { ...leftMid },
+        end: { ...rightMid },
+      });
     },
   },
 };
