@@ -184,9 +184,9 @@ export default {
       animation-delay: 1.5s;
     }
     &.first-hover {
-      animation-delay: .25s;
+      animation-delay: 0s;
       .instruction {
-        animation-delay: .5s;
+        animation-delay: .25s;
       }
     }
   }

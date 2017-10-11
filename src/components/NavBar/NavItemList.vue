@@ -9,16 +9,16 @@
 <script>
 import Landing from './NavItems/Landing';
 import Profile from './NavItems/Profile';
-import Tools from './NavItems/Tools';
+import TechStack from './NavItems/TechStack';
 
-const items = ['Landing', 'Profile', 'Tools'];
+const items = ['Landing', 'Profile', 'TechStack'];
 const navWidth = 250;
 const offsetConstant = -50;
 
 export default {
   components: {
     Profile,
-    Tools,
+    TechStack,
     Landing,
   },
   props: {
