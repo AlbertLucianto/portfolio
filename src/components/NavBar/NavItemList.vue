@@ -7,10 +7,11 @@
 </template>
 
 <script>
+import Landing from './NavItems/Landing';
 import Profile from './NavItems/Profile';
 import Tools from './NavItems/Tools';
 
-const items = ['Profile', 'Tools'];
+const items = ['Landing', 'Profile', 'Tools'];
 const navWidth = 250;
 const offsetConstant = -50;
 
@@ -18,6 +19,7 @@ export default {
   components: {
     Profile,
     Tools,
+    Landing,
   },
   props: {
     open: Boolean,

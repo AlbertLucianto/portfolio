@@ -31,7 +31,7 @@ import dynamics from 'dynamics.js';
 
 const startPos = { x: 55, y: 62.5 };
 const dampMove = { x: 10, y: 10 };
-const headPosAdjust = { x: -41, y: -57.5 };
+const headPosAdjust = { x: -38, y: -57 };
 
 export default {
   data() {
@@ -56,7 +56,7 @@ export default {
     },
     headStyle() {
       return {
-        transform: `translate3d(${this.headPos.x + headPosAdjust.x}px, ${this.headPos.y + headPosAdjust.y}px, 0)`,
+        transform: `translate3d(${this.headPos.x + headPosAdjust.x}px, ${this.headPos.y + headPosAdjust.y}px, 0) scale(0.925)`,
       };
     },
     mouthPath() {
