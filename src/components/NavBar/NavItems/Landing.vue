@@ -12,11 +12,12 @@
         </g>
         <circle cx="55" cy="170" r="80" class="planet" :class="{ over }"></circle>
         <g class="rocket" :class="{ over }">
+          <ellipse class="fin rear" :class="{ over }" cx="35.03" cy="80.43" rx="3.23" ry="16.13"/>
+          <path class="fin left" :class="{ over }" d="M13,66.62A18.89,18.89,0,0,0,2.53,94a18.89,18.89,0,0,1,16.3-9.45A61.58,61.58,0,0,1,13,66.62Z"/>
           <path class="body" d="M35,0C74.67,42.47,51.16,84.61,51.16,84.68c-7.72,3.23-26.53,2.54-32.27,0C18.81,84.64-4.61,42.47,35,0Z"/>
-          <path class="fin" d="M13,66.62A18.89,18.89,0,0,0,2.53,94a18.89,18.89,0,0,1,16.3-9.45A61.58,61.58,0,0,1,13,66.62Z"/>
-          <path class="fin" d="M57,66.62A18.89,18.89,0,0,1,67.47,94a18.89,18.89,0,0,0-16.3-9.45A61.58,61.58,0,0,0,57,66.62Z"/>
-          <ellipse class="fin" cx="35.03" cy="80.43" rx="3.23" ry="16.13"/>
-          <circle class="window" cx="35" cy="40" r="10"></circle>
+          <path class="fin right" :class="{ over }" d="M57,66.62A18.89,18.89,0,0,1,67.47,94a18.89,18.89,0,0,0-16.3-9.45A61.58,61.58,0,0,0,57,66.62Z"/>
+          <ellipse class="fin mid" :class="{ over }" cx="35.03" cy="80.43" rx="3.23" ry="16.13"/>
+          <circle class="window" :class="{ over }" cx="35" cy="40" r="10"></circle>
           <path class="head" d="M35,0A90.88,90.88,0,0,0,19,23.28H51.09A90.74,90.74,0,0,0,35,0Z"/>
         </g>
         <rect width="110" height="110" class="landing-helper" @mouseover="animateIn" @mouseout="animateOut"></rect>
@@ -29,8 +30,8 @@
 <script>
 const numFrontStars = 5;
 const numBackStars = 5;
-const rFront = 2.75;
-const rBack = 1.75;
+const rFront = 3;
+const rBack = 2;
 const getRandomArbitrary = (min, max) => (Math.random() * (max - min)) + min;
 
 export default {
@@ -82,17 +83,41 @@ export default {
     }
     .fin {
       fill: $purple;
+      transition: .2s transform ease;
+      &.over {
+        &.left {
+          transform: scaleX(0.8) translateX(5px);
+          transform-origin: 50% 50%;
+        }
+        &.right {
+          transform: scaleX(0.8) translateX(-2.5px);
+          transform-origin: 50% 50%;
+        }
+        &.mid {
+          transform: translateX(-7.5px);
+          transform-origin: 50% 50%;
+        }
+        &.rear {
+          transform: translate(5px, -10px);
+          transform-origin: 50% 50%;
+        }
+      }
     }
     .head {
-      fill: $aqua;
+      fill: $orange;
     }
     .window {
       fill: $white;
       stroke: $aqua;
-      stroke-width: 2px;
+      stroke-width: 3px;
+      transition: .2s transform ease;
+      &.over {
+        transform: scaleX(0.8) translateX(-5px);
+        transform-origin: 50% 50%;
+      }
     }
     &.over {
-      animation: rocket-over .75s forwards ease;
+      animation: rocket-over .6s forwards ease;
     }
   }
   .planet {
@@ -100,7 +125,7 @@ export default {
     transition: 300ms transform ease;
     transform: translateY(30px);
     &.over {
-      transition: 1s transform ease 100ms;
+      transition: .75s transform ease 100ms;
       transform: translateY(0);
     }
   }

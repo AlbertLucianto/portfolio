@@ -1,6 +1,6 @@
 <template>
   <div class="navbar">
-    <svg class="container">
+    <svg class="container" :class="{ open }">
       <path :d="curvePath" class="elastic-wrapper"></path>
     </svg>
     <nav-item-list :open="open" :curvePos="curvePos" :curveHeight="curveHeight.value"></nav-item-list>
@@ -218,8 +218,12 @@ export default {
   left: 0;
   .container {
     height: 100vh;
+    margin-left: -300px;
     .elastic-wrapper {
       fill: $white;
+    }
+    &.open {
+      margin-left: 0;
     }
   }
   .hamburger-button {

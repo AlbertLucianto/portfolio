@@ -1,6 +1,6 @@
 <template>
   <div ref="profile">
-    <router-link to="/" class="link">
+    <router-link to="/me" class="link">
       <svg class="profile">
         <g :style="headStyle" class="head-container">
           <path class="hair" d="M69.16,6.89C82.68,15.65,82.68,40.19,74,67.16,66.67,89.64,22.5,98.78,12.41,77.4-.31,50.43-2.76,30.69,2.83,23.57,1.23-1,49.23-6,69.16,6.89Z"/>
