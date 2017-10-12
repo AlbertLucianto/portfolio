@@ -216,15 +216,17 @@ export default {
   z-index: 10;
   top: 0;
   left: 0;
-  pointer-events: none;
+  width: 0;
   .container {
     height: 100vh;
+    pointer-events: none;
     .elastic-wrapper {
       fill: $white;
     }
   }
   .hamburger-button {
     position: fixed;
+    z-index: 11;
     width: 80px;
     height: 80px;
     background: $aqua;
