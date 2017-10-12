@@ -17,7 +17,6 @@ import dynamics from 'dynamics.js';
 
 const rotateDamp = 4;
 const adjustDuration = 400;
-// const lagTreshold = { x: 2.5, y: 2.5 };
 
 export default {
   data() {
