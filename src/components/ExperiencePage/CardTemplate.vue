@@ -1,13 +1,9 @@
 <template>
   <div class="container" :class="{ over }">
-    <div :style="titleStyle" class="card-title">
-      <slot name="title">
-        <h1>Title</h1>
-      </slot>
-    </div>
+    <slot :getTransform="getTransform" :over="over"
+      :mouseOffset="mouseOffset" :dimension="dimension"></slot>
     <div class="card" :style="cardStyle" ref="card"
       @mouseover="animateIn" @mousemove="animateMove" @mouseout="animateOut">
-      <slot></slot>
     </div>
   </div>
 </template>
@@ -17,6 +13,8 @@ import dynamics from 'dynamics.js';
 
 const rotateDamp = 4;
 const adjustDuration = 400;
+const purple = '#7D4896';
+const warmRed = '#FFBA9C';
 
 export default {
   data() {
@@ -28,7 +26,15 @@ export default {
       lag: false,
       over: false,
       dimension: { x: 0, y: 0 },
+      bg: {
+        out: '',
+        in: '',
+      },
     };
+  },
+  props: {
+    colorOut: String,
+    colorIn: String,
   },
   computed: {
     cardStyle() {
@@ -42,19 +48,20 @@ export default {
       const blur = (30 * (1 - disp)) + (this.over ? 20 : 0);
       const spread = this.over ? -5 : -10;
       return {
+        background: `radial-gradient(at ${offRatio.x * 100}% ${offRatio.y * 100}%, ${this.bg.in}, ${this.bg.out})`,
         'box-shadow': `${shadowX}px ${shadowY}px ${blur}px ${spread}px rgba(0,0,0,0.15)`,
-        transform: `rotate3d(${offRatio.y},${-offRatio.x},0,${(90 * disp) / rotateDamp}deg)`,
+        ...this.getTransform(),
       };
     },
-    titleStyle() {
+    getTransform() {
       const offRatio = {
         x: this.mouseOffset.x / this.dimension.width,
         y: this.mouseOffset.y / this.dimension.height,
       };
       const disp = Math.sqrt(((offRatio.x ** 2) + (offRatio.y ** 2)) / 2);
-      return {
-        transform: `rotate3d(${offRatio.y},${-offRatio.x},0,${(90 * disp) / rotateDamp}deg) translate3d(0, 0, 100px)`,
-      };
+      return (translate = '') => ({
+        transform: `rotate3d(${offRatio.y},${-offRatio.x},0,${(90 * disp) / rotateDamp}deg) ${translate}`,
+      });
     },
   },
   methods: {
@@ -117,6 +124,8 @@ export default {
         width: rect.left - rect.right,
         height: rect.top - rect.bottom,
       };
+      this.bg.out = this.colorOut ? this.colorOut : purple;
+      this.bg.in = this.colorIn ? this.colorIn : warmRed;
     });
   },
 };
@@ -126,6 +135,7 @@ export default {
 @import '../styles/colors.scss';
 
 .container {
+  position: relative;
   width: 100%;
   height: 100%;
   perspective: 800px;
@@ -135,16 +145,13 @@ export default {
     transform: scale(1.1);
   }
   .card {
+    position: absolute;
+    z-index: -1;
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
-    background: $white;
     border-radius: 7.5px;
-  }
-  .card-title {
-    position: absolute;
-    left: 60px;
-    top: 0;
-    z-index: 2;
   }
 }
 </style>

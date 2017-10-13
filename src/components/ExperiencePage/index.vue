@@ -3,25 +3,29 @@
     <div class="xp-container">
       <div class="overlay" :class="{ over }"></div>
       <div class="internships" @mouseover="overlayUp" @mouseout="overlayDown">
-        <card>
-          <h1 slot="title" class="title">Internships</h1>
-        </card>
+        <card-template>
+          <template scope="props">
+            <h1 class="title" :style="props.getTransform('translateZ(100px)')">Internships</h1>
+          </template>
+        </card-template>
       </div>
       <div class="projects" @mouseover="overlayUp" @mouseout="overlayDown">
-        <card>
-          <h1 slot="title" class="title">Projects</h1>
-        </card>
+        <card-template colorIn="#27CED6">
+          <template scope="props">
+            <h1 class="title" :style="props.getTransform('translateZ(100px)')">Projects</h1>
+          </template>
+        </card-template>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import Card from './Card';
+import CardTemplate from './CardTemplate';
 
 export default {
   components: {
-    Card,
+    CardTemplate,
   },
   data() {
     return {
@@ -65,20 +69,24 @@ export default {
     height: 100vh;
     .internships, .projects {
       margin: 20px;
-      width: 600px;
-      height: 400px;
+      width: 400px;
+      height: 600px;
       cursor: pointer;
       &:hover {
         z-index: 3;
+        h1 {
+          color: $white;
+        }
       }
     }
     .title {
+      position: absolute;
       font-size: 42px;
-      transform: translateY(-5px);
+      left: 10px;
+      top: 5px;
       margin: 0;
       text-align: left;
       color: $purple;
-      border-bottom: 3px solid $purple;
     }
   }
   .overlay {
@@ -89,12 +97,12 @@ export default {
     width: 100vw;
     height: 100vh;
     z-index: 2;
-    background: $black;
+    background: linear-gradient(to left bottom, $black 50%, $warmRed 180%);
     transition: .4s opacity ease .2s;
     opacity: 0;
     &.over {
       transition: .25s opacity ease;
-      opacity: .3;
+      opacity: .4;
     }
   }
 }
