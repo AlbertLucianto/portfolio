@@ -40,9 +40,9 @@ export default {
       const shadowX = 10 * offRatio.x;
       const shadowY = (20 * offRatio.y) + 10;
       const blur = (30 * (1 - disp)) + (this.over ? 20 : 0);
-      const spread = this.over ? -10 : -5;
+      const spread = this.over ? -5 : -10;
       return {
-        'box-shadow': `${shadowX}px ${shadowY}px ${blur}px ${spread}px rgba(0,0,0,0.1)`,
+        'box-shadow': `${shadowX}px ${shadowY}px ${blur}px ${spread}px rgba(0,0,0,0.15)`,
         transform: `rotate3d(${offRatio.y},${-offRatio.x},0,${(90 * disp) / rotateDamp}deg)`,
       };
     },
@@ -131,6 +131,9 @@ export default {
   perspective: 800px;
   perspective-origin: 50% 50%;
   transition: .2s transform ease;
+  &.over {
+    transform: scale(1.1);
+  }
   .card {
     width: 100%;
     height: 100%;
@@ -142,9 +145,6 @@ export default {
     left: 60px;
     top: 0;
     z-index: 2;
-  }
-  &.over {
-    transform: scale(1.05);
   }
 }
 </style>

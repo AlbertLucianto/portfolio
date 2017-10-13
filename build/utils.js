@@ -16,7 +16,8 @@ exports.cssLoaders = function (options) {
     loader: 'css-loader',
     options: {
       minimize: process.env.NODE_ENV === 'production',
-      sourceMap: options.sourceMap
+      sourceMap: options.sourceMap,
+      importLoaders: 1
     }
   }
 
@@ -31,6 +32,12 @@ exports.cssLoaders = function (options) {
         })
       })
     }
+    loaders.push({
+      loader: 'postcss-loader',
+      options: {
+        sourceMap: true
+      }
+    })
 
     // Extract CSS when that option is specified
     // (which is the case during production build)

@@ -11,22 +11,22 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'LandingPage',
+      name: 'Landing',
       component: LandingPage,
     },
     {
       path: '/me',
-      name: 'AboutMe',
+      name: 'Profile',
       component: AboutMe,
     },
     {
       path: '/experience',
-      name: 'ExperiencePage',
+      name: 'TechStack',
       component: ExperiencePage,
     },
     {
       path: '/tools',
-      name: 'ToolsPage',
+      name: 'TechStackssss',
       component: ToolsPage,
     },
   ],

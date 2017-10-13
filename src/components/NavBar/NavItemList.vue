@@ -1,6 +1,9 @@
 <template>
   <ul class="nav-item-list" :style="listStyle">
     <li class="nav-item" v-for="(item, index) in navItems" :key="index" :style="itemStyle(index)">
+      <transition name="current">
+        <div v-if="isActive(index)" class="current"></div>
+      </transition>
       <component :is="item" v-show="open"></component>
     </li>
   </ul>
@@ -55,11 +58,16 @@ export default {
         };
       };
     },
+    isActive() {
+      return num => this.$route.name === items[num];
+    },
   },
 };
 </script>
 
 <style lang="scss" scoped>
+@import '../styles/colors.scss';
+
 .nav-item-list {
   position: absolute;
   z-index: 11;
@@ -77,6 +85,25 @@ export default {
   .nav-item {
     display: inline-block;
     transition: 1s opacity ease, 0.5s transform ease;
+  }
+  .current {
+    position: fixed;
+    left: -50px;
+    height: 100%;
+    width: 10px;
+    background: $warmRed;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    box-shadow: 0 5px 10px rgba(0,0,0,.1);
+  }
+  .current-enter-active {
+    transition: all .1s ease .1s;
+  }
+  .current-leave-active {
+    transition: all .1s ease-in;
+  }
+  .current-enter, .current-leave-to {
+    margin-left: -10px;
   }
 }
 </style>
