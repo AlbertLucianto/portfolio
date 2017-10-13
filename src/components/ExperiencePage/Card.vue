@@ -135,6 +135,7 @@ export default {
     width: 100%;
     height: 100%;
     background: $white;
+    border-radius: 7.5px;
   }
   .card-title {
     position: absolute;

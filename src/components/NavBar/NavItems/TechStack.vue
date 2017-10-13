@@ -1,6 +1,6 @@
 <template>
   <div>
-    <router-link to="/tools" class="link">
+    <router-link to="/experience" class="link">
       <div class="app" :class="{ over }">
         <div class="inner-app"></div>
       </div>

@@ -224,7 +224,7 @@ export default {
             }, 1250);
           }, 150);
           setTimeout(() => {
-            this.$router.push('/me');
+            this.$router.push('/experience');
           }, 6500);
         }
       }
