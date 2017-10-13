@@ -21,12 +21,12 @@ export default new Router({
     },
     {
       path: '/experience',
-      name: 'TechStack',
+      name: 'Experience',
       component: ExperiencePage,
     },
     {
       path: '/tools',
-      name: 'TechStackssss',
+      name: 'TechStack',
       component: ToolsPage,
     },
   ],

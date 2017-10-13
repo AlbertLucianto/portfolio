@@ -1,40 +1,38 @@
 <template>
-  <div>
-    <router-link to="/experience" class="link">
-      <div class="app" :class="{ over }">
-        <div class="inner-app"></div>
-      </div>
-      <svg class="tools" :class="{ over }">
-        <line
-          :x1="lines.topLeft.start.x" :y1="lines.topLeft.start.y"
-          :x2="lines.topLeft.end.x" :y2="lines.topLeft.end.y"
-          class="code-line" :class="{ over, disappear: over }"></line>
-        <line
-          :x1="lines.bottomLeft.start.x" :y1="lines.bottomLeft.start.y"
-          :x2="lines.bottomLeft.end.x" :y2="lines.bottomLeft.end.y"
-          class="code-line" :class="{ over, disappear: over }"></line>
-        <line
-          :x1="lines.topRight.start.x" :y1="lines.topRight.start.y"
-          :x2="lines.topRight.end.x" :y2="lines.topRight.end.y"
-          class="code-line" :class="{ over, disappear: over }"></line>
-        <line
-          :x1="lines.bottomRight.start.x" :y1="lines.bottomRight.start.y"
-          :x2="lines.bottomRight.end.x" :y2="lines.bottomRight.end.y"
-          class="code-line" :class="{ over, disappear: over }"></line>
-        <line :x1="lines.slash.start.x" :y1="lines.slash.start.y"
-          :x2="lines.slash.end.x" :y2="lines.slash.end.y"
-          class="code-line" :class="{ over }"></line>
-        <g class="control-group" :class="{ over }">
-          <circle cx="0" cy="0" :r="rAbs.red" class="red"></circle>
-          <circle cx="12.5" cy="0" :r="rAbs.yellow" class="yellow"></circle>
-          <circle cx="25" cy="0" :r="rAbs.green" class="green"></circle>
-        </g>
-        <rect class="tools-helper" width="110" height="110"
-        @mouseover="animateIn" @mouseout="animateOut"></rect>
-      </svg>
-      <div class="text">Tech Stack</div>
-    </router-link>
-  </div>
+  <router-link to="/tools" class="link">
+    <div class="app" :class="{ over }">
+      <div class="inner-app"></div>
+    </div>
+    <svg class="tools" :class="{ over }">
+      <line
+        :x1="lines.topLeft.start.x" :y1="lines.topLeft.start.y"
+        :x2="lines.topLeft.end.x" :y2="lines.topLeft.end.y"
+        class="code-line" :class="{ over, disappear: over }"></line>
+      <line
+        :x1="lines.bottomLeft.start.x" :y1="lines.bottomLeft.start.y"
+        :x2="lines.bottomLeft.end.x" :y2="lines.bottomLeft.end.y"
+        class="code-line" :class="{ over, disappear: over }"></line>
+      <line
+        :x1="lines.topRight.start.x" :y1="lines.topRight.start.y"
+        :x2="lines.topRight.end.x" :y2="lines.topRight.end.y"
+        class="code-line" :class="{ over, disappear: over }"></line>
+      <line
+        :x1="lines.bottomRight.start.x" :y1="lines.bottomRight.start.y"
+        :x2="lines.bottomRight.end.x" :y2="lines.bottomRight.end.y"
+        class="code-line" :class="{ over, disappear: over }"></line>
+      <line :x1="lines.slash.start.x" :y1="lines.slash.start.y"
+        :x2="lines.slash.end.x" :y2="lines.slash.end.y"
+        class="code-line" :class="{ over }"></line>
+      <g class="control-group" :class="{ over }">
+        <circle cx="0" cy="0" :r="rAbs.red" class="red"></circle>
+        <circle cx="12.5" cy="0" :r="rAbs.yellow" class="yellow"></circle>
+        <circle cx="25" cy="0" :r="rAbs.green" class="green"></circle>
+      </g>
+      <rect class="tools-helper" width="110" height="110"
+      @mouseover="animateIn" @mouseout="animateOut"></rect>
+    </svg>
+    <div class="text">Tech Stack</div>
+  </router-link>
 </template>
 
 <script>

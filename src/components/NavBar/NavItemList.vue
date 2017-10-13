@@ -13,8 +13,9 @@
 import Landing from './NavItems/Landing';
 import Profile from './NavItems/Profile';
 import TechStack from './NavItems/TechStack';
+import Experience from './NavItems/Experience';
 
-const items = ['Landing', 'TechStack', 'Profile', 'Landing'];
+const items = ['Landing', 'TechStack', 'Profile', 'Experience'];
 const navWidth = 250;
 const offsetConstant = -50;
 
@@ -23,6 +24,7 @@ export default {
     Profile,
     TechStack,
     Landing,
+    Experience,
   },
   props: {
     open: Boolean,

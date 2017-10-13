@@ -6,6 +6,7 @@
         <card-template>
           <template scope="props">
             <h1 class="title" :style="props.getTransform('translateZ(100px)')">Internships</h1>
+            <div class="content" :style="props.getTransform('translateZ(50px)')"></div>
           </template>
         </card-template>
       </div>
@@ -13,6 +14,7 @@
         <card-template colorIn="#27CED6">
           <template scope="props">
             <h1 class="title" :style="props.getTransform('translateZ(100px)')">Projects</h1>
+            <div class="content" :style="props.getTransform('translateZ(50px)')"></div>
           </template>
         </card-template>
       </div>
@@ -72,21 +74,37 @@ export default {
       width: 400px;
       height: 600px;
       cursor: pointer;
+      .title {
+        position: absolute;
+        font-size: 42px;
+        top: 50px;
+        left: 50px;
+        margin: 0;
+        text-align: left;
+        color: $white;
+        // transition: .1s all ease;
+        pointer-events: none;
+      }
+      .content {
+        position: absolute;
+        background: $white;
+        width: 300px;
+        height: 400px;
+        top: 120px;
+        border-radius: 5px;
+        pointer-events: none;
+        box-shadow: -5px 5px 15px rgba(0,0,0,0.1);
+      }
       &:hover {
         z-index: 3;
-        h1 {
-          color: $white;
+        .title-not-set-for-now {
+          font-size: 64px;
+          top: unset;
+          left: unset;
+          bottom: 50px;
+          left: 0;
         }
       }
-    }
-    .title {
-      position: absolute;
-      font-size: 42px;
-      left: 10px;
-      top: 5px;
-      margin: 0;
-      text-align: left;
-      color: $purple;
     }
   }
   .overlay {
