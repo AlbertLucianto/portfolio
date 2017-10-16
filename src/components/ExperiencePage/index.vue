@@ -82,7 +82,6 @@ export default {
         margin: 0;
         text-align: left;
         color: $white;
-        // transition: .1s all ease;
         pointer-events: none;
       }
       .content {
@@ -115,12 +114,12 @@ export default {
     width: 100vw;
     height: 100vh;
     z-index: 2;
-    background: linear-gradient(to left bottom, $black 50%, $warmRed 180%);
+    background: linear-gradient(to left bottom, $black 50%, $warmRed 160%);
     transition: .4s opacity ease .2s;
     opacity: 0;
     &.over {
       transition: .25s opacity ease;
-      opacity: .4;
+      opacity: .25;
     }
   }
 }

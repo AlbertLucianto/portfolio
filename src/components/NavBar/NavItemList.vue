@@ -15,7 +15,7 @@ import Profile from './NavItems/Profile';
 import TechStack from './NavItems/TechStack';
 import Experience from './NavItems/Experience';
 
-const items = ['Landing', 'TechStack', 'Profile', 'Experience'];
+const items = ['Landing', 'Profile', 'TechStack', 'Experience'];
 const navWidth = 250;
 const offsetConstant = -50;
 

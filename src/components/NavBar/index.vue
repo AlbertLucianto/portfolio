@@ -4,11 +4,11 @@
       <path :d="curvePath" class="elastic-wrapper"></path>
     </svg>
     <nav-item-list :open="open" :curvePos="curvePos" :curveHeight="curveHeight.value"></nav-item-list>
-    <div class="hamburger-button" :style="hamburgerPos" @mousedown="startDrag">
+    <div class="hamburger-button" :style="hamburgerPos" @mousedown="startDrag" @touchstart="startDrag">
       <hamburger-icon :open="open" :dragging="dragging"></hamburger-icon>
     </div>
     <transition name="fade">
-      <div class="overlay" :style="overlayBgStyle" v-if="open" @mousedown="stopDrag"/>
+      <div class="overlay" :style="overlayBgStyle" v-if="open" @mousedown="stopDrag" @touchstart="stopDrag"/>
     </transition>
   </div>
 </template>
@@ -107,6 +107,8 @@ export default {
       this.startDragPos.y = evt.pageY;
       window.addEventListener('mousemove', this.onDrag);
       window.addEventListener('mouseup', this.stopDrag);
+      window.addEventListener('touchmove', this.onDrag);
+      window.addEventListener('touchend', this.stopDrag);
     },
     onDrag(e) {
       const evt = e.changedTouches ? e.changedTouches[0] : e;
@@ -137,6 +139,8 @@ export default {
     stopDrag() {
       window.removeEventListener('mousemove', this.onDrag);
       window.removeEventListener('mouseup', this.stopDrag);
+      window.removeEventListener('touchmove', this.onDrag);
+      window.removeEventListener('touchend', this.stopDrag);
       this.click = false;
       if (this.dragging) {
         this.dragging = false;
