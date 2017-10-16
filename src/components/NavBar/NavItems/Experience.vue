@@ -4,7 +4,7 @@
       <svg class="experience" v-for="layer in layers" :key="layer" :style="bodyStyle(layer)">
         <g class="suitcase">
           <rect x="-15" y="-35" width="30" height="30" rx="5" ry="5" class="handle" v-if="layer === Math.floor(layers.length / 2)"></rect>
-          <rect x="-48" y="-25" width="96" height="72" rx="10" ry="10"class="suitcase-body"></rect>
+          <rect x="-48" y="-25" width="96" height="72" rx="10" ry="10" class="suitcase-body" :class="{ over }"></rect>
         </g>
       </svg>
       <svg class="buildings">
@@ -143,7 +143,11 @@ export default {
       position: absolute;
       transform: translate(55px, 55px);
       .suitcase-body {
-        fill: $purple;
+        transition: .5s fill ease;
+        fill: $grey;
+        &.over {
+          fill: $purple;
+        }
       }
       .handle {
         fill: none;
