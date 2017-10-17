@@ -1,29 +1,31 @@
 <template>
   <div class="experience-page">
     <div class="xp-container">
-      <div class="overlay" :class="{ over }"></div>
-      <div class="internships" @mouseover="overlayUp" @mouseout="overlayDown">
-        <card-template>
-          <template scope="props">
-            <h1 class="title" :style="props.getTransform('translateZ(100px)')">Internships</h1>
-            <div class="content" :style="props.getTransform('translateZ(50px)')"></div>
-          </template>
-        </card-template>
-      </div>
-      <div class="projects" @mouseover="overlayUp" @mouseout="overlayDown">
-        <card-template colorIn="#27CED6">
-          <template scope="props">
-            <h1 class="title" :style="props.getTransform('translateZ(100px)')">Projects</h1>
-            <div class="content" :style="props.getTransform('translateZ(50px)')"></div>
-          </template>
-        </card-template>
+      <div class="xp-wrapper">
+        <div class="overlay" :class="{ over }"></div>
+        <div class="internships" @mouseover="overlayUp" @mouseout="overlayDown">
+          <card-template>
+            <template scope="props">
+              <h1 class="title" :style="props.getTransform('translateZ(100px)')">Internships</h1>
+              <div class="content" :style="props.getTransform('translateZ(50px)')"></div>
+            </template>
+          </card-template>
+        </div>
+        <div class="projects" @mouseover="overlayUp" @mouseout="overlayDown">
+          <card-template colorIn="#27CED6">
+            <template scope="props">
+              <h1 class="title" :style="props.getTransform('translateZ(100px)')">Projects</h1>
+              <div class="content" :style="props.getTransform('translateZ(50px)')"></div>
+            </template>
+          </card-template>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import CardTemplate from './CardTemplate';
+import CardTemplate from '../reusable/CardTemplate';
 
 export default {
   components: {
@@ -55,20 +57,25 @@ export default {
 
 .experience-page {
   position: fixed;
+  display: table;
   top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
   background: $offWhite;
-  perspective-origin: 50% 50%;
   .xp-container {
+    margin: 20px;
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+  }
+  .xp-wrapper {
     display: flex;
     justify-content: space-around;
     align-items: center;
     margin: auto;
     width: 1200px;
     max-width: calc(100% - 80px);
-    height: 100vh;
     .internships, .projects {
       margin: 20px;
       width: 400px;

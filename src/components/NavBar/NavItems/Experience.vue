@@ -7,7 +7,7 @@
           <rect x="-48" y="-25" width="96" height="72" rx="10" ry="10" class="suitcase-body" :class="{ over }"></rect>
         </g>
       </svg>
-      <svg class="buildings">
+      <svg class="buildings" :class="{ over }">
         <path :d="building0" class="building-0" :class="{ hidden: !over }"></path>
         <path :d="building1" class="building-1" :class="{ hidden: !over }"></path>
         <path :d="building2" class="building-2" :class="{ hidden: !over }"></path>
@@ -84,7 +84,7 @@ export default {
       this.over = true;
       this.timer = setTimeout(() => {
         this.squish = true;
-      }, 400);
+      }, 500);
       this.buildingHeight.forEach((height, idx) => {
         dynamics.setTimeout(() => {
           dynamics.animate(height, {
@@ -137,7 +137,7 @@ export default {
     width: 110px;
     height: 110px;
     text-align: center;
-    transition: .4s all ease-in-out;
+    transition: .5s all ease-in-out;
     perspective-origin: 50% 50%;
     .suitcase {
       position: absolute;
@@ -163,6 +163,12 @@ export default {
     width: 100%;
     height: 100%;
     pointer-events: none;
+    transform: translateY(-2.5px);
+    transition: .25s transform ease;
+    &.over {
+      transform: translateY(5px);
+      transition: .25s transform ease .65s;
+    }
     .building-0 {
       transition: 1.25s opacity ease;
       fill: $aqua;
