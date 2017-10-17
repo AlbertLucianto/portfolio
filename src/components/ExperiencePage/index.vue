@@ -3,7 +3,8 @@
     <div class="xp-container" @mousedown="closeModal">
       <div class="xp-wrapper" :class="{ blur: opened >= 0 }">
         <div class="overlay" :class="{ over: over || opened >= 0 }"></div>
-        <div class="internships" @mouseover="overlayUp" @mouseout="overlayDown" @mousedown="expandIntern">
+        <div class="internships" :class="{ front: opening === 0 && opened < 0 }"
+          @mouseover="overlayUp" @mouseout="overlayDown" @mousedown="expandIntern">
           <card-template>
             <template scope="props">
               <h1 class="title" :style="props.getTransform(titleTransform)">Internships</h1>
@@ -27,9 +28,10 @@
         </div>
       </div>
     </div>
-    <div class="modal-container" v-if="opened === 0">
+    <div class="modal-container" v-if="opening === 0">
       <div class="modal-wrapper">
-        <div class="modal-card" @mouseover="overlayUp" @mouseout="overlayDown" v-for="(intern, idx) in interns" :key="idx">
+        <div class="modal-card" v-for="(intern, idx) in interns" :key="idx"
+          :style="modalStyle(0, idx)" @mouseover="overlayUp" @mouseout="overlayDown">
           <card-template colorIn="#F7F9FF" colorOut="#DBDBDB">
             <template scope="props">
               <div :style="Object.assign(props.getTransform(titleTransform), {
@@ -76,11 +78,26 @@ export default {
           year: 2016,
           period: 'Summer',
         },
+        {
+          name: 'SAP',
+          title: 'Software Engineer Intern',
+          src: 'https://vignette.wikia.nocookie.net/logopedia/images/1/13/SAP-Logo.png/revision/latest/scale-to-width-down/640?cb=20141014003217',
+          year: 2017,
+          period: 'Autumn',
+        },
+        {
+          name: 'Sea',
+          title: 'Full-Stack Engineer Intern',
+          src: 'https://albertlucianto.github.io/images/sea-logo.png',
+          year: 2017,
+          period: 'Summer',
+        },
       ],
       projects: [],
       over: false,
       opened: -1,
       opening: -1,
+      startRect: { left: 0, right: 0, top: 0, bottom: 0 },
     };
   },
   computed: {
@@ -91,9 +108,17 @@ export default {
       return 'translateZ(50px)';
     },
     contentStyle() {
+      const targetX = (window.innerWidth / 15) + 475;
+      const startX = (this.startRect.left + this.startRect.right) / 2;
       return num => ({
-        transform: `${this.opening === num ? 'translate3d(120px, 0, 150px) scaleY(1.2) rotateY(180deg)' : ''}`,
+        transform: `${this.opening === num ? `translateX(${targetX - startX}px) scale3d(1.3, 1.6, 1) rotateY(180deg)` : ''}`,
         opacity: this.opened === num ? 0 : 1,
+      });
+    },
+    modalStyle() {
+      return (num, idx) => ({
+        transform: this.opened === num ? '' : `translateX(${-400 * idx}px)`,
+        opacity: this.opened === num ? 1 : 0,
       });
     },
   },
@@ -110,10 +135,12 @@ export default {
     },
     expandIntern(e) {
       e.stopPropagation();
+      const { left, right, top, bottom } = e.target.getBoundingClientRect();
+      this.startRect = { left, right, top, bottom };
       this.opening = 0;
       setTimeout(() => {
         this.opened = 0;
-      }, 500);
+      }, 400);
     },
   },
 };
@@ -146,10 +173,11 @@ export default {
         pointer-events: none;
         .internships, .projects {
           filter: blur(40px);
+          transition: 1.5s filter ease;
         }
       }
       .internships, .projects {
-        transition: 1s filter ease;
+        transition: .5s filter ease;
         margin: 20px;
         width: 400px;
         height: 600px;
@@ -176,10 +204,10 @@ export default {
             border-radius: 5px;
             width: 300px;
             height: 400px;
-            transition: transform .5s ease, opacity .2s ease;
+            transition: transform .4s ease-in, opacity .3s ease;
           }
         }
-        &:hover {
+        &:hover, &.front {
           z-index: 3;
           .title-not-set-for-now {
             font-size: 64px;
@@ -208,6 +236,7 @@ export default {
         margin: 20px;
         width: 450px;
         height: 700px;
+        transition: .25s opacity ease, .5s transform ease;
         .logo {
           width: 120px;
           height: 120px;
@@ -255,15 +284,8 @@ export default {
     opacity: 0;
     &.over {
       transition: .25s opacity ease;
-      opacity: .45;
+      opacity: .75;
     }
   }
-}
-.slide-fade-enter-active {
-  transition: all .3s ease;
-}
-.slide-fade-enter, .slide-fade-leave-to {
-  transform: translateX(10px);
-  opacity: 0;
 }
 </style>
