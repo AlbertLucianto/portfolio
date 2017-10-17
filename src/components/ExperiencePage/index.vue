@@ -7,10 +7,8 @@
           <card-template>
             <template scope="props">
               <h1 class="title" :style="props.getTransform(titleTransform)">Internships</h1>
-              <div class="content" :style="props.getTransform(contentTransform)">
-                <div class="intern" v-for="(intern, idx) in interns" :key="idx">
-                  <!-- <div>{{ intern.name }}</div> -->
-                  <!-- <img :src="intern.src" width="100px" height="50px"></img> -->
+              <div class="content-wrapper" :style="props.getTransform(contentWrapTransform)">
+                <div class="content" :style="contentStyle(0)">
                 </div>
               </div>
             </template>
@@ -20,7 +18,10 @@
           <card-template colorIn="#27CED6">
             <template scope="props">
               <h1 class="title" :style="props.getTransform(titleTransform)">Projects</h1>
-              <div class="content" :style="props.getTransform(contentTransform)"></div>
+              <div class="content-wrapper" :style="props.getTransform(contentWrapTransform)">
+                <div class="content" :style="contentStyle(1)">
+                </div>
+              </div>
             </template>
           </card-template>
         </div>
@@ -31,7 +32,9 @@
         <div class="modal-card" @mouseover="overlayUp" @mouseout="overlayDown" v-for="(intern, idx) in interns" :key="idx">
           <card-template colorIn="#F7F9FF" colorOut="#DBDBDB">
             <template scope="props">
-              <div :style="Object.assign(props.getTransform(titleTransform), {'background-image': `url(${intern.src})`})" class="logo"></div>
+              <div :style="Object.assign(props.getTransform(titleTransform), {
+                  'background-image': `url(${intern.src})`
+                })" class="logo"></div>
               <h3 class="year" :style="props.getTransform(titleTransform)">{{ intern.year }}</h3>
               <h1 class="period" :style="props.getTransform(titleTransform)">{{ intern.period }}</h1>
             </template>
@@ -77,14 +80,21 @@ export default {
       projects: [],
       over: false,
       opened: -1,
+      opening: -1,
     };
   },
   computed: {
     titleTransform() {
       return 'translateZ(100px)';
     },
-    contentTransform() {
+    contentWrapTransform() {
       return 'translateZ(50px)';
+    },
+    contentStyle() {
+      return num => ({
+        transform: `${this.opening === num ? 'translate3d(120px, 0, 150px) scaleY(1.2) rotateY(180deg)' : ''}`,
+        opacity: this.opened === num ? 0 : 1,
+      });
     },
   },
   methods: {
@@ -95,13 +105,15 @@ export default {
       this.over = false;
     },
     closeModal() {
-      if (this.opened >= 0) {
-        this.opened = -1;
-      }
+      this.opening = -1;
+      this.opened = -1;
     },
     expandIntern(e) {
       e.stopPropagation();
-      this.opened = 0;
+      this.opening = 0;
+      setTimeout(() => {
+        this.opened = 0;
+      }, 500);
     },
   },
 };
@@ -152,15 +164,20 @@ export default {
           color: $white;
           pointer-events: none;
         }
-        .content {
+        .content-wrapper {
           position: absolute;
-          background: $white;
-          width: 300px;
-          height: 400px;
           top: 120px;
-          border-radius: 5px;
           pointer-events: none;
-          box-shadow: -5px 5px 15px rgba(0,0,0,0.1);
+          perspective: 800px;
+          transform-origin: 50% 50%;
+          .content {
+            box-shadow: -5px 5px 15px rgba(0,0,0,0.1);
+            background: $white;
+            border-radius: 5px;
+            width: 300px;
+            height: 400px;
+            transition: transform .5s ease, opacity .2s ease;
+          }
         }
         &:hover {
           z-index: 3;
@@ -241,5 +258,12 @@ export default {
       opacity: .45;
     }
   }
+}
+.slide-fade-enter-active {
+  transition: all .3s ease;
+}
+.slide-fade-enter, .slide-fade-leave-to {
+  transform: translateX(10px);
+  opacity: 0;
 }
 </style>
