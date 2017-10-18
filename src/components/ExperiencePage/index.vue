@@ -3,7 +3,7 @@
     <div class="xp-container" @mousedown="closeModal">
       <div class="xp-wrapper" :class="{ blur: opened >= 0 }">
         <div class="overlay" :class="{ over: over || opened >= 0 }"></div>
-        <div class="internships" :class="{ front: opening === 0 && opened < 0 }"
+        <div class="internships" :class="{ front: transitioning === 0 && opened < 0 }"
           @mouseover="overlayUp" @mouseout="overlayDown" @mousedown="expandIntern">
           <card-template>
             <template scope="props">
@@ -28,10 +28,10 @@
         </div>
       </div>
     </div>
-    <div class="modal-container" v-if="opening === 0">
-      <div class="modal-wrapper">
+    <div class="modal-container" v-if="transitioning >= 0 || opened >= 0">
+      <div class="modal-wrapper" :class="{ fade: transitioning < 0 || opened < 0 }">
         <div class="modal-card" v-for="(intern, idx) in interns" :key="idx"
-          :style="modalStyle(0, idx)" @mouseover="overlayUp" @mouseout="overlayDown">
+          :style="modalStyle(transitioning, idx)" @mouseover="overlayUp" @mouseout="overlayDown">
           <card-template colorIn="#F7F9FF" colorOut="#DBDBDB">
             <template scope="props">
               <div :style="Object.assign(props.getTransform(titleTransform), {
@@ -96,7 +96,7 @@ export default {
       projects: [],
       over: false,
       opened: -1,
-      opening: -1,
+      transitioning: -1,
       startRect: { left: 0, right: 0, top: 0, bottom: 0 },
     };
   },
@@ -111,14 +111,13 @@ export default {
       const targetX = (window.innerWidth / 15) + 475;
       const startX = (this.startRect.left + this.startRect.right) / 2;
       return num => ({
-        transform: `${this.opening === num ? `translateX(${targetX - startX}px) scale3d(1.3, 1.6, 1) rotateY(180deg)` : ''}`,
+        transform: `${this.transitioning === num ? `translateX(${targetX - startX}px) scale3d(1.3, 1.75, 1) rotateY(180deg)` : ''}`,
         opacity: this.opened === num ? 0 : 1,
       });
     },
     modalStyle() {
       return (num, idx) => ({
-        transform: this.opened === num ? '' : `translateX(${-400 * idx}px)`,
-        opacity: this.opened === num ? 1 : 0,
+        transform: this.opened === num ? '' : `translateX(${-275 * idx}px)`,
       });
     },
   },
@@ -130,17 +129,19 @@ export default {
       this.over = false;
     },
     closeModal() {
-      this.opening = -1;
-      this.opened = -1;
+      this.transitioning = -1;
+      setTimeout(() => {
+        this.opened = -1;
+      }, 200);
     },
     expandIntern(e) {
       e.stopPropagation();
       const { left, right, top, bottom } = e.target.getBoundingClientRect();
       this.startRect = { left, right, top, bottom };
-      this.opening = 0;
+      this.transitioning = 0;
       setTimeout(() => {
         this.opened = 0;
-      }, 400);
+      }, 450);
     },
   },
 };
@@ -177,7 +178,7 @@ export default {
         }
       }
       .internships, .projects {
-        transition: .5s filter ease;
+        transition: .3s filter ease;
         margin: 20px;
         width: 400px;
         height: 600px;
@@ -232,11 +233,15 @@ export default {
       display: flex;
       align-items: center;
       margin: auto;
+      transition: .25s opacity ease;
+      &.fade {
+        opacity: 0;
+      }
       .modal-card {
         margin: 20px;
         width: 450px;
         height: 700px;
-        transition: .25s opacity ease, .5s transform ease;
+        transition: .5s transform ease;
         .logo {
           width: 120px;
           height: 120px;

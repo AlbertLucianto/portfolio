@@ -8,7 +8,7 @@
       <hamburger-icon :open="open" :dragging="dragging"></hamburger-icon>
     </div>
     <transition name="fade">
-      <div class="overlay" :style="overlayBgStyle" v-if="open" @mousedown="stopDrag" @touchstart="stopDrag"/>
+      <div class="overlay" :style="overlayBgStyle" v-if="open" @mousedown="closeNavbar" @touchstart="closeNavbar"/>
     </transition>
   </div>
 </template>
@@ -175,10 +175,7 @@ export default {
           });
         }
       } else if (this.open) {
-        this.open = false;
-        this.lastDragPos.x = startCurvePos.x;
-        dynamics.stop(this.curvePos);
-        this.curvePos.x = 0;
+        this.closeNavbar();
       } else {
         this.open = true;
         this.lastDragPos.x = openTresholdDistance;
@@ -191,6 +188,12 @@ export default {
           friction: 350,
         });
       }
+    },
+    closeNavbar() {
+      this.open = false;
+      this.lastDragPos.x = startCurvePos.x;
+      dynamics.stop(this.curvePos);
+      this.curvePos.x = 0;
     },
   },
   mounted() {
