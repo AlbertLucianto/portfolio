@@ -2,7 +2,8 @@
   <div class="experience-page">
     <div class="xp-container" @mousedown="closeModal">
       <div class="xp-wrapper" :class="{ blur: opened >= 0 }">
-        <div class="overlay" :class="{ over: over || opened >= 0 }"></div>
+        <h3 class="xp-title" :class="{ inverted: this.over, blur: opened >= 0 }">Experience</h3>
+        <div class="overlay" :class="{ over: this.opened >= 0 || this.over }"></div>
         <div class="internships" :class="{ front: transitioning === 0 && opened < 0 }"
           @mouseover="overlayUp" @mouseout="overlayDown" @mousedown="expandIntern">
           <card-template>
@@ -15,7 +16,8 @@
             </template>
           </card-template>
         </div>
-        <div class="projects" @mouseover="overlayUp" @mouseout="overlayDown">
+        <div class="projects" :class="{ front: transitioning === 1 && opened < 0 }"
+          @mouseover="overlayUp" @mouseout="overlayDown" @mousedown="expandProject">
           <card-template colorIn="#27CED6">
             <template scope="props">
               <h1 class="title" :style="props.getTransform(titleTransform)">Projects</h1>
@@ -29,71 +31,23 @@
       </div>
     </div>
     <div class="modal-container" v-if="transitioning >= 0 || opened >= 0">
-      <div class="modal-wrapper" :class="{ fade: transitioning < 0 || opened < 0 }">
-        <div class="modal-card" v-for="(intern, idx) in interns" :key="idx"
-          :style="modalStyle(transitioning, idx)" @mouseover="overlayUp" @mouseout="overlayDown">
-          <card-template colorIn="#F7F9FF" colorOut="#DBDBDB">
-            <template scope="props">
-              <div :style="Object.assign(props.getTransform(titleTransform), {
-                  'background-image': `url(${intern.src})`
-                })" class="logo"></div>
-              <h3 class="year" :style="props.getTransform(titleTransform)">{{ intern.year }}</h3>
-              <h1 class="period" :style="props.getTransform(titleTransform)">{{ intern.period }}</h1>
-            </template>
-          </card-template>
-        </div>
-      </div>
+      <intern-list :transitioning="transitioning === 0" :opened="opened === 0"></intern-list>
     </div>
   </div>
 </template>
 
 <script>
 import CardTemplate from '../reusable/CardTemplate';
+import InternList from './InternList';
 
 export default {
   components: {
     CardTemplate,
+    InternList,
   },
   data() {
     return {
-      interns: [
-        {
-          name: 'SAP',
-          title: 'Software Engineer Intern',
-          src: 'https://vignette.wikia.nocookie.net/logopedia/images/1/13/SAP-Logo.png/revision/latest/scale-to-width-down/640?cb=20141014003217',
-          year: 2017,
-          period: 'Autumn',
-        },
-        {
-          name: 'Sea',
-          title: 'Full-Stack Engineer Intern',
-          src: 'https://albertlucianto.github.io/images/sea-logo.png',
-          year: 2017,
-          period: 'Summer',
-        },
-        {
-          name: 'Pinnacle Investment',
-          title: 'Web Developer Intern',
-          src: 'https://albertlucianto.github.io/images/pinnacle-logo.png',
-          year: 2016,
-          period: 'Summer',
-        },
-        {
-          name: 'SAP',
-          title: 'Software Engineer Intern',
-          src: 'https://vignette.wikia.nocookie.net/logopedia/images/1/13/SAP-Logo.png/revision/latest/scale-to-width-down/640?cb=20141014003217',
-          year: 2017,
-          period: 'Autumn',
-        },
-        {
-          name: 'Sea',
-          title: 'Full-Stack Engineer Intern',
-          src: 'https://albertlucianto.github.io/images/sea-logo.png',
-          year: 2017,
-          period: 'Summer',
-        },
-      ],
-      projects: [],
+      projects: ['hello', 'hello'],
       over: false,
       opened: -1,
       transitioning: -1,
@@ -141,6 +95,15 @@ export default {
       this.transitioning = 0;
       setTimeout(() => {
         this.opened = 0;
+      }, 450);
+    },
+    expandProject(e) {
+      e.stopPropagation();
+      const { left, right, top, bottom } = e.target.getBoundingClientRect();
+      this.startRect = { left, right, top, bottom };
+      this.transitioning = 1;
+      setTimeout(() => {
+        this.opened = 1;
       }, 450);
     },
   },
@@ -225,55 +188,23 @@ export default {
     position: fixed;
     z-index: 4;
     left: calc(5vw + 200px);
-    top: calc(50vh - 350px);
+    top: calc(50vh - 325px);
     display: table-cell;
     vertical-align: middle;
     text-align: left;
-    .modal-wrapper {
-      display: flex;
-      align-items: center;
-      margin: auto;
-      transition: .25s opacity ease;
-      &.fade {
-        opacity: 0;
-      }
-      .modal-card {
-        margin: 20px;
-        width: 450px;
-        height: 700px;
-        transition: .5s transform ease;
-        .logo {
-          width: 120px;
-          height: 120px;
-          margin: auto;
-          padding-top: 100px;
-          background-position: 50% 50%;
-          background-repeat: no-repeat;
-          background-size: contain;
-          pointer-events: none;
-        }
-        .year {
-          position: absolute;
-          font-size: 32px;
-          bottom: 175px;
-          left: 60px;
-          margin: 0;
-          margin-left: 2.5px;
-          text-align: left;
-          color: $orange;
-          pointer-events: none;
-        }
-        .period {
-          position: absolute;
-          font-size: 60px;
-          bottom: 100px;
-          left: 60px;
-          margin: 0;
-          text-align: left;
-          color: $grey;
-          pointer-events: none;
-        }
-      }
+  }
+  .xp-title {
+    position: fixed;
+    top: 50px;
+    font-size: 24px;
+    color: $purple;
+    transition: .4s color ease, 1s filter ease;
+    &.inverted {
+      z-index: 3;
+      color: $white;
+    }
+    &.blur {
+      filter: blur(10px);
     }
   }
   .overlay {
