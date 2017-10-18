@@ -8,6 +8,7 @@
             <div :style="Object.assign(props.getTransform(titleTransform), {
                 'background-image': `url(${intern.src})`
               })" class="logo"></div>
+            <div class="position" :style="props.getTransform(titleTransform)">{{ intern.position }}</div>
             <h3 class="year" :style="props.getTransform(titleTransform)">{{ intern.year }}</h3>
             <h1 class="period" :style="props.getTransform(titleTransform)">{{ intern.period }}</h1>
           </template>
@@ -45,37 +46,23 @@ export default {
       interns: [
         {
           name: 'SAP',
-          title: 'Software Engineer Intern',
+          position: 'Software Engineer Intern',
           src: 'https://vignette.wikia.nocookie.net/logopedia/images/1/13/SAP-Logo.png/revision/latest/scale-to-width-down/640?cb=20141014003217',
           year: 2017,
           period: 'Autumn',
         },
         {
           name: 'Sea',
-          title: 'Full-Stack Engineer Intern',
+          position: 'Full-Stack Engineer Intern',
           src: 'https://albertlucianto.github.io/images/sea-logo.png',
           year: 2017,
           period: 'Summer',
         },
         {
           name: 'Pinnacle Investment',
-          title: 'Web Developer Intern',
+          position: 'Web Developer Intern',
           src: 'https://albertlucianto.github.io/images/pinnacle-logo.png',
           year: 2016,
-          period: 'Summer',
-        },
-        {
-          name: 'SAP',
-          title: 'Software Engineer Intern',
-          src: 'https://vignette.wikia.nocookie.net/logopedia/images/1/13/SAP-Logo.png/revision/latest/scale-to-width-down/640?cb=20141014003217',
-          year: 2017,
-          period: 'Autumn',
-        },
-        {
-          name: 'Sea',
-          title: 'Full-Stack Engineer Intern',
-          src: 'https://albertlucianto.github.io/images/sea-logo.png',
-          year: 2017,
           period: 'Summer',
         },
       ],
@@ -165,19 +152,32 @@ export default {
     opacity: 0;
   }
   .modal-card {
-    margin: 20px;
+    margin: 30px;
     width: 450px;
     height: 700px;
     transition: .5s transform ease;
     .logo {
       width: 120px;
-      height: 120px;
+      height: 60px;
       margin: auto;
-      padding-top: 100px;
+      padding-top: 150px;
       background-position: 50% 50%;
       background-repeat: no-repeat;
       background-size: contain;
       pointer-events: none;
+    }
+    .position {
+      pointer-events: none;
+      width: 200px;
+      padding: 20px;
+      border: 1px solid $grey;
+      margin: auto;
+      margin-top: 40px;
+      font-size: 20px;
+      font-weight: 600;
+      text-align: center;
+      color: $black;
+      border-radius: 10px;
     }
     .year {
       position: absolute;

@@ -126,6 +126,7 @@ export default {
   background: $offWhite;
   .xp-container {
     margin: 20px;
+    padding-top: 50px;
     display: table-cell;
     vertical-align: middle;
     text-align: center;
@@ -198,12 +199,12 @@ export default {
   }
   .xp-title {
     position: fixed;
-    top: 50px;
+    top: 60px;
     font-size: 24px;
     color: $purple;
-    transition: .4s color ease, 1s filter ease;
+    transition: .4s color ease .2s, 1s filter ease;
+    z-index: 3;
     &.inverted {
-      z-index: 3;
       color: $white;
     }
     &.blur {
