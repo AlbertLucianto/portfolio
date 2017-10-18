@@ -2,8 +2,8 @@
   <div class="experience-page">
     <div class="xp-container" @mousedown="closeModal">
       <div class="xp-wrapper" :class="{ blur: opened >= 0 }">
-        <h3 class="xp-title" :class="{ inverted: this.over, blur: opened >= 0 }">Experience</h3>
-        <div class="overlay" :class="{ over: this.opened >= 0 || this.over }"></div>
+        <h3 class="xp-title" :class="{ inverted: overlayActive, blur: opened >= 0 }">Experience</h3>
+        <div class="overlay" :class="{ over: overlayActive }"></div>
         <div class="internships" :class="{ front: transitioning === 0 && opened < 0 }"
           @mouseover="overlayUp" @mouseout="overlayDown" @mousedown="expandIntern">
           <card-template>
@@ -55,6 +55,9 @@ export default {
     };
   },
   computed: {
+    overlayActive() {
+      return this.opened >= 0 || this.over || this.transitioning >= 0;
+    },
     titleTransform() {
       return 'translateZ(100px)';
     },

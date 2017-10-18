@@ -1,8 +1,8 @@
 <template>
   <div>
-    <h1 class="main-title">Internships</h1>
-    <div class="modal-wrapper" :class="{ fade: !transitioning || !opened }" ref="wrapper">
-      <div class="modal-card" v-for="(intern, idx) in interns" :key="idx" :style="modalStyle(idx)">
+    <h1 class="main-title" :style="slideStyle(0.5)" :class="{ fade: !transitioning || !opened }">Internships</h1>
+    <div class="modal-wrapper" :class="{ fade: !transitioning || !opened }" ref="wrapper" :style="wrapperStyle">
+      <div class="modal-card" v-for="(intern, idx) in interns" :key="idx" :style="slideStyle(idx)">
         <card-template colorIn="#F7F9FF" colorOut="#DBDBDB">
           <template scope="props">
             <div :style="Object.assign(props.getTransform(titleTransform), {
@@ -13,20 +13,25 @@
           </template>
         </card-template>
       </div>
-      <div class="right-arrow">
-        <svg>
-        </svg>
-      </div>
     </div>
+    <arrow-button direction="right" v-if="showRight"
+      :mouseOver="updateMoveLeft" :mouseOut="stopUpdate"></arrow-button>
+    <arrow-button direction="left" v-if="showLeft"
+      :mouseOver="updateMoveRight" :mouseOut="stopUpdate"></arrow-button>
   </div>
 </template>
 
 <script>
 import CardTemplate from '../reusable/CardTemplate';
+import ArrowButton from './ArrowButton';
+
+const moveConstant = 5;
+const panTreshold = -100;
 
 export default {
   components: {
     CardTemplate,
+    ArrowButton,
   },
   props: {
     transitioning: Boolean,
@@ -34,6 +39,9 @@ export default {
   },
   data() {
     return {
+      panX: 0,
+      pannable: 0,
+      currentInv: undefined,
       interns: [
         {
           name: 'SAP',
@@ -77,16 +85,58 @@ export default {
     titleTransform() {
       return 'translateZ(100px)';
     },
-    modalStyle() {
+    slideStyle() {
       return idx => ({
         transform: this.opened && this.transitioning ? '' : `translateX(${-150 * idx}px)`,
       });
     },
+    wrapperStyle() {
+      return {
+        transform: `translateX(${this.panX}px)`,
+      };
+    },
+    showRight() {
+      return -this.panX < this.pannable;
+    },
+    showLeft() {
+      return -this.panX > 0;
+    },
+  },
+  watch: {
+    showRight(val) {
+      if (!val) {
+        this.stopUpdate();
+      }
+    },
+    showLeft(val) {
+      if (!val) {
+        this.stopUpdate();
+      }
+    },
+  },
+  methods: {
+    updateMoveLeft() {
+      let inc = 0;
+      this.currentInv = setInterval(() => {
+        this.panX -= (moveConstant + inc);
+        inc += 0.05;
+      }, 5);
+    },
+    updateMoveRight() {
+      let inc = 0;
+      this.currentInv = setInterval(() => {
+        this.panX += (moveConstant + inc);
+        inc += 0.05;
+      }, 5);
+    },
+    stopUpdate() {
+      clearInterval(this.currentInv);
+    },
   },
   mounted() {
     this.$nextTick(() => {
-      console.log(window.innerWidth);
-      console.log(this.$refs.wrapper.getBoundingClientRect().right);
+      const wrapperRightPos = this.$refs.wrapper.getBoundingClientRect().right;
+      this.pannable = wrapperRightPos - window.innerWidth - panTreshold;
     });
   },
 };
@@ -101,6 +151,10 @@ export default {
   padding-left: 25px;
   color: $lightGrey;
   font-weight: 900;
+  transition: .5s all ease;
+  &.fade {
+    opacity: 0;
+  }
 }
 .modal-wrapper {
   display: flex;
@@ -147,15 +201,6 @@ export default {
       pointer-events: none;
     }
   }
-}
-.right-arrow {
-  position: fixed;
-  width: 60px;
-  height: 60px;
-  right: 10px;
-  top: calc(50vh - 30px);
-  background: rgba(0,0,0,0.2);
-  border-radius: 50%;
 }
 </style>
 
