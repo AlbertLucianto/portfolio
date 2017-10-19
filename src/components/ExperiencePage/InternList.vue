@@ -2,7 +2,7 @@
   <div>
     <h1 class="main-title" :style="slideStyle(0.5)" :class="{ fade: !transitioning || !opened }">Internships</h1>
     <div class="modal-wrapper" :class="{ fade: !transitioning || !opened }" ref="wrapper" :style="wrapperStyle">
-      <div class="modal-card" v-for="(intern, idx) in interns" :key="idx" :style="slideStyle(idx)">
+      <div class="modal-card" v-for="(intern, idx) in interns" :key="idx" :style="slideStyle(idx)" :class="{ 'no-event': transitioning && !opened }">
         <card-template colorIn="#F7F9FF" colorOut="#DBDBDB">
           <template scope="props">
             <div :style="Object.assign(props.getTransform(titleTransform), {
@@ -15,18 +15,17 @@
         </card-template>
       </div>
     </div>
-    <arrow-button direction="right" v-if="showRight"
-      :mouseOver="updateMoveLeft" :mouseOut="stopUpdate"></arrow-button>
-    <arrow-button direction="left" v-if="showLeft"
-      :mouseOver="updateMoveRight" :mouseOut="stopUpdate"></arrow-button>
+    <arrow-button direction="right" v-if="showRight" :startClick="updateMoveLeft"></arrow-button>
+    <arrow-button direction="left" v-if="showLeft" :startClick="updateMoveRight"></arrow-button>
   </div>
 </template>
 
 <script>
+import dynamics from 'dynamics.js';
 import CardTemplate from '../reusable/CardTemplate';
 import ArrowButton from './ArrowButton';
 
-const moveConstant = 5;
+const moveConstant = 450;
 const panTreshold = -100;
 
 export default {
@@ -40,7 +39,7 @@ export default {
   },
   data() {
     return {
-      panX: 0,
+      panX: { value: 0 },
       pannable: 0,
       currentInv: undefined,
       interns: [
@@ -74,50 +73,45 @@ export default {
     },
     slideStyle() {
       return idx => ({
-        transform: this.opened && this.transitioning ? '' : `translateX(${-150 * idx}px)`,
+        transform: this.opened && this.transitioning ? '' : `translateX(${(-125 * idx) - 50}px)`,
       });
     },
     wrapperStyle() {
       return {
-        transform: `translateX(${this.panX}px)`,
+        transform: `translateX(${this.panX.value}px)`,
       };
     },
     showRight() {
-      return -this.panX < this.pannable;
+      return -this.panX.value < this.pannable - 5;
     },
     showLeft() {
-      return -this.panX > 0;
-    },
-  },
-  watch: {
-    showRight(val) {
-      if (!val) {
-        this.stopUpdate();
-      }
-    },
-    showLeft(val) {
-      if (!val) {
-        this.stopUpdate();
-      }
+      return -this.panX.value > 5;
     },
   },
   methods: {
-    updateMoveLeft() {
-      let inc = 0;
-      this.currentInv = setInterval(() => {
-        this.panX -= (moveConstant + inc);
-        inc += 0.05;
-      }, 5);
+    updateMoveLeft(e) {
+      e.stopPropagation();
+      const newPos = Math.max(this.panX.value - moveConstant, -this.pannable);
+      dynamics.stop(this.panX);
+      dynamics.animate(this.panX, {
+        value: newPos,
+      }, {
+        type: dynamics.easeOut,
+        duration: 200,
+        friction: 50,
+      });
     },
-    updateMoveRight() {
-      let inc = 0;
-      this.currentInv = setInterval(() => {
-        this.panX += (moveConstant + inc);
-        inc += 0.05;
-      }, 5);
-    },
-    stopUpdate() {
-      clearInterval(this.currentInv);
+    updateMoveRight(e) {
+      e.stopPropagation();
+      const newPos = Math.min(this.panX.value + moveConstant, 0);
+      dynamics.stop(this.panX);
+      dynamics.animate(this.panX, {
+        value: newPos,
+      }, {
+        type: dynamics.easeOut,
+        duration: 200,
+        friction: 50,
+      });
     },
   },
   mounted() {
@@ -135,7 +129,7 @@ export default {
 .main-title {
   position: fixed;
   top: 40px;
-  padding-left: 25px;
+  padding-left: 40px;
   color: $lightGrey;
   font-weight: 900;
   transition: .5s all ease;
@@ -156,6 +150,9 @@ export default {
     width: 450px;
     height: 700px;
     transition: .5s transform ease;
+    &.no-event {
+      pointer-events: none;
+    }
     .logo {
       width: 120px;
       height: 60px;

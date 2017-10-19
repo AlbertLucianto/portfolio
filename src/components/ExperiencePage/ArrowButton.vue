@@ -1,13 +1,16 @@
 <template>
-  <svg class="right-arrow" @mouseover="mouseOver" @mouseout="mouseOut" :style="position">
+  <svg class="arrow-container" :style="position"
+    @touchstart="startClick" @mousedown="startClick">
+    <circle class="circle" r="30" cx="30" cy="30"></circle>
+    <path class="arrow-path" d="M 30 10 L 50 30 H 10 H 50 L 30 50"></path>
+    <path class="arrow-path animate" d="M 30 10 L 50 30 H 10 H 50 L 30 50"></path>
   </svg>
 </template>
 
 <script>
 export default {
   props: {
-    mouseOver: Function,
-    mouseOut: Function,
+    startClick: Function,
     direction: {
       type: String,
       required: true,
@@ -18,6 +21,7 @@ export default {
     position() {
       const style = {};
       style[this.direction] = '10px';
+      if (this.direction === 'left') style.transform = 'scaleX(-1)';
       return style;
     },
   },
@@ -27,12 +31,35 @@ export default {
 <style lang="scss" scoped>
 @import '../styles/colors.scss';
 
-.right-arrow {
+.arrow-container {
   position: fixed;
   width: 60px;
   height: 60px;
   top: calc(50vh - 30px);
-  background: rgba(0,0,0,0.2);
-  border-radius: 50%;
+  transition: .25s opacity ease;
+  opacity: .25;
+  cursor: pointer;
+  &:hover {
+    opacity: 1;
+  }
+  .circle {
+    fill: $black;
+  }
+  .arrow-path {
+    fill: none;
+    stroke: $grey;
+    stroke-width: 3px;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    &.animate {
+      transition: .4s all ease;
+      stroke: $white;
+      stroke-dasharray: 0 140;
+      stroke-dashoffset: 2;
+    }
+  }
+  &:hover .arrow-path.animate {
+    stroke-dasharray: 70 0;
+  }
 }
 </style>

@@ -191,7 +191,7 @@ export default {
   .modal-container {
     position: fixed;
     z-index: 4;
-    left: calc(5vw + 200px);
+    left: calc(5vw + 175px);
     top: calc(50vh - 325px);
     display: table-cell;
     vertical-align: middle;
