@@ -16,9 +16,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import './styles/colors.scss';
+@import '../styles/colors.scss';
 
-.test {
+.about-me {
   position: fixed;
   width: 100vw;
   height: 100vh;

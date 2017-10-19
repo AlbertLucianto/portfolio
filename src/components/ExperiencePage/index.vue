@@ -4,25 +4,14 @@
       <div class="xp-wrapper" :class="{ blur: opened >= 0 }">
         <h3 class="xp-title" :class="{ inverted: overlayActive, blur: opened >= 0 }">Experience</h3>
         <div class="overlay" :class="{ over: overlayActive }"></div>
-        <div class="internships" :class="{ front: transitioning === 0 && opened < 0 }"
-          @mouseover="overlayUp" @mouseout="overlayDown" @mousedown="expandIntern">
-          <card-template>
+        <div class="log-book" v-for="(logBook, idx) in logBooks" :key="idx"
+          :class="{ front: transitioning === idx && opened < 0 }"
+          @mouseover="overlayUp" @mouseout="overlayDown" @mousedown="expandBook($event, idx)">
+          <card-template :colorIn="logBook.colorIn">
             <template scope="props">
-              <h1 class="title" :style="props.getTransform(titleTransform)">Internships</h1>
+              <h1 class="title" :style="props.getTransform(titleTransform)">{{ logBook.name }}</h1>
               <div class="content-wrapper" :style="props.getTransform(contentWrapTransform)">
-                <div class="content" :style="contentStyle(0)">
-                </div>
-              </div>
-            </template>
-          </card-template>
-        </div>
-        <div class="projects" :class="{ front: transitioning === 1 && opened < 0 }"
-          @mouseover="overlayUp" @mouseout="overlayDown" @mousedown="expandProject">
-          <card-template colorIn="#27CED6">
-            <template scope="props">
-              <h1 class="title" :style="props.getTransform(titleTransform)">Projects</h1>
-              <div class="content-wrapper" :style="props.getTransform(contentWrapTransform)">
-                <div class="content" :style="contentStyle(1)">
+                <div class="content" :style="contentStyle(idx)">
                 </div>
               </div>
             </template>
@@ -47,7 +36,20 @@ export default {
   },
   data() {
     return {
-      projects: ['hello', 'hello'],
+      logBooks: [
+        {
+          name: 'Internships',
+          colorIn: '#EF548F',
+        },
+        {
+          name: 'Projects',
+          colorIn: '#27CED6',
+        },
+        {
+          name: 'Organisations',
+          colorIn: '#FFC127',
+        },
+      ],
       over: false,
       opened: -1,
       transitioning: -1,
@@ -91,22 +93,13 @@ export default {
         this.opened = -1;
       }, 200);
     },
-    expandIntern(e) {
+    expandBook(e, idx) {
       e.stopPropagation();
       const { left, right, top, bottom } = e.target.getBoundingClientRect();
       this.startRect = { left, right, top, bottom };
-      this.transitioning = 0;
+      this.transitioning = idx;
       setTimeout(() => {
-        this.opened = 0;
-      }, 450);
-    },
-    expandProject(e) {
-      e.stopPropagation();
-      const { left, right, top, bottom } = e.target.getBoundingClientRect();
-      this.startRect = { left, right, top, bottom };
-      this.transitioning = 1;
-      setTimeout(() => {
-        this.opened = 1;
+        this.opened = idx;
       }, 450);
     },
   },
@@ -139,15 +132,15 @@ export default {
       max-width: calc(100% - 80px);
       &.blur {
         pointer-events: none;
-        .internships, .projects {
+        .log-book {
           filter: blur(40px);
           transition: 1.5s filter ease;
         }
       }
-      .internships, .projects {
+      .log-book {
         transition: .3s filter ease;
-        margin: 20px;
-        width: 400px;
+        margin: 30px;
+        min-width: 400px;
         height: 600px;
         cursor: pointer;
         .title {
