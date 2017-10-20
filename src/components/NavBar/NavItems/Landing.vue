@@ -21,7 +21,7 @@
       </g>
       <rect width="110" height="110" class="landing-helper" @mouseover="animateIn" @mouseout="animateOut"></rect>
     </svg>
-    <div class="text">Welcome</div>
+    <div class="text">Greeting</div>
   </router-link>
 </template>
 

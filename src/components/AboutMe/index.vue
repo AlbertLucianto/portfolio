@@ -1,12 +1,16 @@
 <template>
   <div class="about-me">
-    <div>
-    </div>
+    <pass-code></pass-code>
   </div>
 </template>
 
 <script>
+import PassCode from './PassCode';
+
 export default {
+  components: {
+    PassCode,
+  },
   data() {
     return {
       test: 'test',

@@ -19,7 +19,7 @@
     <svg class="light" v-if="lightCentre.isOn">
       <circle v-for="num in curRipples" :cx="lightCentre.x" :cy="lightCentre.y" r="10" :key="num" class="ripple"></circle>
     </svg>
-    <div class="description">
+    <div class="description" :class="{ disappearing: lightCentre.isOn }">
       <div class="title-wrapper">
         <h1 class="title">A Little Tour of Mine</h1>
       </div>
@@ -220,7 +220,7 @@ export default {
           }, 150);
           setTimeout(() => {
             this.$router.push('/me');
-          }, 5500);
+          }, 6000);
         }
       }
     },
@@ -275,7 +275,7 @@ export default {
   }
   .ripple {
     animation: ripple 3.5s forwards ease-out;
-    fill: $white;
+    fill: $black;
     opacity: 1;
     transform-origin: 50% 50%;
   }
@@ -289,6 +289,10 @@ export default {
     color: $white;
     width: 450px;
     overflow: hidden;
+    &.disappearing {
+      opacity: 0;
+      transition: opacity .5s ease-in-out 5s;
+    }
     .title-wrapper {
       animation: title 3.5s forwards ease-in-out;
       animation-delay: 1s;
@@ -501,10 +505,10 @@ export default {
 
 @keyframes light {
   0% {
-    background: rgba(247, 249, 255, 0);
+    background: rgba(34, 33, 33, 0);
   }
   100% {
-    background: rgba(247, 249, 255, 1);
+    background: rgba(34, 33, 33, 1);
   }
 }
 
