@@ -1,20 +1,51 @@
 <template>
-  <div class="about-me">
-    <pass-code></pass-code>
+  <div class="about-me" :style="parentStyle">
+    <ripple></ripple>
   </div>
 </template>
 
 <script>
-import PassCode from './PassCode';
+import Ripple from './Ripple';
+
+const dampPerspectiveX = 4;
+const dampPerspectiveY = 8;
 
 export default {
   components: {
-    PassCode,
+    Ripple,
   },
   data() {
     return {
-      test: 'test',
+      perspectiveOrigin: { x: window.innerWidth / 2, y: window.innerHeight / 2 },
     };
+  },
+  computed: {
+    parentStyle() {
+      const center = {
+        x: window.innerWidth / 2,
+        y: window.innerHeight / 2,
+      };
+      return {
+        'perspective-origin': `
+        ${((this.perspectiveOrigin.x - center.x) / dampPerspectiveX) + center.x}px
+        ${((this.perspectiveOrigin.y - center.y) / dampPerspectiveY) + center.y}px`,
+      };
+    },
+  },
+  methods: {
+    changePrespective(e) {
+      const evt = e.changedTouches ? e.changedTouches[0] : e;
+      this.perspectiveOrigin = {
+        x: evt.pageX,
+        y: evt.pageY,
+      };
+    },
+  },
+  mounted() {
+    window.addEventListener('mousemove', this.changePrespective);
+  },
+  beforeDestroy() {
+    window.removeEventListener('mousemove', this.changePrespective);
   },
 };
 </script>
@@ -29,5 +60,7 @@ export default {
   top: 0;
   left: 0;
   background: $white;
+  transition: all .1s linear;
+  perspective: 1200px;
 }
 </style>
