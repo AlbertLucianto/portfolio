@@ -32,15 +32,19 @@
       <path class="mouth" d="M171.44,147.17c0,4.42-4.93,8-11,8s-11-3.58-11-8"/>
     </svg>
     <svg viewBox="0 0 300 300" class="glasses">
-      <rect class="glass" x="89.44" y="91.17" width="61" height="43" rx="9.16" ry="9.16"/>
-      <rect class="glass" x="172.44" y="91.17" width="61" height="43" rx="9.16" ry="9.16"/>
+      <rect class="glass" x="89.44" y="91.17" width="61" height="43" rx="10" ry="10"/>
+      <rect class="glass" x="172.44" y="91.17" width="61" height="43" rx="10" ry="10"/>
       <line class="glass" x1="150.44" y1="102.84" x2="172.44" y2="102.84"/>
     </svg>
   </div>
 </template>
 
 <script>
-export default {};
+export default {
+  props: {
+    active: Boolean,
+  },
+};
 </script>
 
 <style lang="scss" scoped>
@@ -50,7 +54,7 @@ export default {};
   position: relative;
   width: 200px;
   height: 200px;
-  animation: rotate 4s alternate infinite ease;
+  animation: rotate 5s alternate infinite ease;
   transform-style: preserve-3d;
 }
 .whiskers, .back-limbs, .front-limbs, .head-group, .face-group, .glasses, .face-skin, .ears {
@@ -63,7 +67,7 @@ export default {};
   transform: translateZ(-5px);
 }
 .glasses {
-  transform: translate3d(0, -5px, 25px);
+  transform: translateZ(25px);
 }
 .face-group {
   transform: translate3d(0, -1.5px, 15px);
@@ -85,43 +89,44 @@ export default {};
 Some styling of body parts
 */
 .whisker, .limb, .mouth, .glass {
-  fill:none;
-  stroke-linecap:round;
-  stroke-miterlimit:10;
+  fill: none;
+  stroke-linecap: round;
+  stroke-miterlimit: 10;
 }
 .whisker, .limb, .glass {
-  stroke:$black;
+  stroke: $black;
 }
 .whisker, .mouth {
-  stroke-width:3px;
+  stroke-width: 3px;
 }
 .limb {
-  stroke-width:20px;
-  transform: translateZ(-10px);
+  stroke-width: 20px;
+  transform:  translateZ(-10px);
 }
 .head {
-  fill:$black;
+  fill: $black;
 }
 .ear {
-  fill:$black;
+  fill: $black;
 }
 .face {
-  fill:$lightRed;
+  fill: $lightRed;
 }
 .eye {
-  fill:#fff;
+  fill:  $white;
 }
 .pupil {
-  fill:#915131;
+  fill: $purple;
 }
 .nose {
-  fill:#915131;
+  fill: $warmRed;
 }
 .mouth {
-  stroke:#915131;
+  stroke: $warmRed;
 }
 .glass {
-  stroke-width:7.5px;
+  stroke-width: 5px;
+  stroke: $black;
 }
 
 @keyframes rotate {
@@ -129,7 +134,7 @@ Some styling of body parts
     transform: rotate3d(1, 1, 0, 0deg);
   }
   100% {
-      transform: rotate3d(1, 1, 0, 10deg);
+      transform: rotate3d(1, 1, 0, 20deg);
   }
 }
 

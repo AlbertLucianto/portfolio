@@ -1,8 +1,8 @@
 <template>
   <div class="about-me" :style="parentStyle">
-    <div>
-      <div v-for="idx in [0,1,2,3]" :key="idx" class="icon" :style="iconStyle(idx)">
-        <github></github>
+    <div class="icons-spinner" :style="spinnerStyle">
+      <div v-for="(icon, idx) in icons" :key="idx" class="icon" :style="iconStyle(idx + active)">
+        <component :is="icon" :active="active === idx"></component>
       </div>
     </div>
   </div>
@@ -10,16 +10,21 @@
 
 <script>
 import Github from './icons/Github';
+import Portfolio from './icons/Portfolio';
 
-const dampPerspectiveX = 2.5;
+const dampPerspectiveX = 5;
 const dampPerspectiveY = 5;
+const spinRadiusFunc = width => (width / 5) + 100;
 
 export default {
   components: {
     Github,
+    Portfolio,
   },
   data() {
     return {
+      icons: ['Portfolio', 'Github', 'Github', 'Github', 'Github'],
+      active: 0,
       cursor: { x: window.innerWidth / 2, y: window.innerHeight / 2 },
     };
   },
@@ -32,12 +37,20 @@ export default {
       return {
         'perspective-origin': `
         ${((center.x - this.cursor.x) / dampPerspectiveX) + center.x}px
-        ${((center.y - this.cursor.y) / dampPerspectiveY) + (center.y - 500)}px`,
+        ${((center.y - this.cursor.y) / dampPerspectiveY) + (center.y - 250)}px`,
+      };
+    },
+    spinnerStyle() {
+      return {
+        transform: `translateZ(${-spinRadiusFunc(window.innerWidth) / 1.25}px)`,
       };
     },
     iconStyle() {
+      const { length } = this.icons;
+      const rotateMul = 360 / length;
       return idx => ({
-        transform: `rotateY(${90 * idx}deg) translateZ(200px) rotateY(${-90 * idx}deg)`,
+        transform: `rotateY(${rotateMul * idx}deg) translateZ(${spinRadiusFunc(window.innerWidth)}px) rotateY(${-rotateMul * idx}deg)`,
+        opacity: `${Math.abs(((idx % length) - (length / 2)) / length) * 2}`,
       });
     },
   },
@@ -49,9 +62,13 @@ export default {
         y: evt.pageY,
       };
     },
+    changeActive() {
+      this.active += 1;
+    },
   },
   mounted() {
     window.addEventListener('mousemove', this.changePrespective);
+    window.addEventListener('mousedown', this.changeActive);
   },
   beforeDestroy() {
     window.removeEventListener('mousemove', this.changePrespective);
@@ -74,9 +91,15 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  .icon {
-    position: absolute;
+  .icons-spinner {
     transform-style: preserve-3d;
+    width: 150px;
+    height: 250px;
+    .icon {
+      position: absolute;
+      transform-style: preserve-3d;
+      transition: all .5s ease;
+    }
   }
 }
 </style>
