@@ -20,7 +20,7 @@ export default {
   computed: {
     position() {
       const style = {};
-      style[this.direction] = '10px';
+      // style[this.direction] = '20px';
       if (this.direction === 'left') style.transform = 'scaleX(-1)';
       return style;
     },
@@ -32,7 +32,7 @@ export default {
 @import '../styles/colors.scss';
 
 .arrow-container {
-  position: fixed;
+  // position: fixed;
   width: 60px;
   height: 60px;
   top: calc(50vh - 30px);

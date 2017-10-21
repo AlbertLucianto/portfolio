@@ -15,15 +15,19 @@
         </card-template>
       </div>
     </div>
-    <arrow-button direction="right" v-if="showRight" :startClick="updateMoveLeft"></arrow-button>
-    <arrow-button direction="left" v-if="showLeft" :startClick="updateMoveRight"></arrow-button>
+    <div class="navigation-right">
+      <arrow-button direction="right" v-if="showRight" :startClick="updateMoveLeft"></arrow-button>
+    </div>
+    <div class="navigation-left">
+      <arrow-button direction="left" v-if="showLeft" :startClick="updateMoveRight"></arrow-button>
+    </div>
   </div>
 </template>
 
 <script>
 import dynamics from 'dynamics.js';
 import CardTemplate from '../reusable/CardTemplate';
-import ArrowButton from './ArrowButton';
+import ArrowButton from '../reusable/ArrowButton';
 
 const moveConstant = 450;
 const panTreshold = -100;
@@ -198,6 +202,16 @@ export default {
       pointer-events: none;
     }
   }
+}
+.navigation-right {
+  position: fixed;
+  right: 20px;
+  top: 50vh;
+}
+.navigation-left {
+  position: fixed;
+  left: 20px;
+  top: 50vh;
 }
 </style>
 

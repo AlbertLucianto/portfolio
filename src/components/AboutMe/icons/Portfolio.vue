@@ -42,7 +42,11 @@
 </template>
 
 <script>
-export default {};
+export default {
+  props: {
+    active: Boolean,
+  },
+};
 </script>
 
 <style lang="scss" scoped>
@@ -52,6 +56,7 @@ export default {};
   position: relative;
   width: 200px;
   height: 200px;
+  margin-left: 25px;
   animation: rotate 5s alternate infinite ease;
   transform-style: preserve-3d;
   svg {
@@ -109,10 +114,10 @@ export default {};
 
 @keyframes rotate {
   0% {
-    transform: rotate3d(1, 1, 0, 0deg);
+    transform: rotate3d(.5, 1, 0, 0deg);
   }
   100% {
-    transform: rotate3d(1, 1, 0, 20deg);
+    transform: rotate3d(.5, 1, 0, 20deg);
   }
 }
 
