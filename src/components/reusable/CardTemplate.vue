@@ -17,6 +17,22 @@ const purple = '#7D4896';
 const warmRed = '#FFBA9C';
 
 export default {
+  props: {
+    colorOut: {
+      type: String,
+      validator(val) {
+        const re = /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/;
+        return re.test(val);
+      },
+    },
+    colorIn: {
+      type: String,
+      validator(val) {
+        const re = /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/;
+        return re.test(val);
+      },
+    },
+  },
   data() {
     return {
       mouseOffset: {
@@ -31,10 +47,6 @@ export default {
         in: '',
       },
     };
-  },
-  props: {
-    colorOut: String,
-    colorIn: String,
   },
   computed: {
     cardStyle() {

@@ -1,22 +1,26 @@
 <template>
   <div class="about-me" :style="parentStyle">
-    <ripple></ripple>
+    <div>
+      <div v-for="idx in [0,1,2,3]" :key="idx" class="icon" :style="iconStyle(idx)">
+        <github></github>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
-import Ripple from './Ripple';
+import Github from './icons/Github';
 
-const dampPerspectiveX = 4;
-const dampPerspectiveY = 8;
+const dampPerspectiveX = 2.5;
+const dampPerspectiveY = 5;
 
 export default {
   components: {
-    Ripple,
+    Github,
   },
   data() {
     return {
-      perspectiveOrigin: { x: window.innerWidth / 2, y: window.innerHeight / 2 },
+      cursor: { x: window.innerWidth / 2, y: window.innerHeight / 2 },
     };
   },
   computed: {
@@ -27,15 +31,20 @@ export default {
       };
       return {
         'perspective-origin': `
-        ${((this.perspectiveOrigin.x - center.x) / dampPerspectiveX) + center.x}px
-        ${((this.perspectiveOrigin.y - center.y) / dampPerspectiveY) + center.y}px`,
+        ${((center.x - this.cursor.x) / dampPerspectiveX) + center.x}px
+        ${((center.y - this.cursor.y) / dampPerspectiveY) + (center.y - 500)}px`,
       };
+    },
+    iconStyle() {
+      return idx => ({
+        transform: `rotateY(${90 * idx}deg) translateZ(200px) rotateY(${-90 * idx}deg)`,
+      });
     },
   },
   methods: {
     changePrespective(e) {
       const evt = e.changedTouches ? e.changedTouches[0] : e;
-      this.perspectiveOrigin = {
+      this.cursor = {
         x: evt.pageX,
         y: evt.pageY,
       };
@@ -61,6 +70,13 @@ export default {
   left: 0;
   background: $white;
   transition: all .1s linear;
-  perspective: 1200px;
+  perspective: 1000px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  .icon {
+    position: absolute;
+    transform-style: preserve-3d;
+  }
 }
 </style>

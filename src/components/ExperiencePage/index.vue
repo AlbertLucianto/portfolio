@@ -201,7 +201,7 @@ export default {
       color: $white;
     }
     &.blur {
-      filter: blur(10px);
+      filter: blur(30px);
     }
   }
   .overlay {
