@@ -4,6 +4,7 @@
       <arrow-button direction="left" :startClick="prevActive"></arrow-button>
     </div>
     <div class="icons-spinner" :style="spinnerStyle">
+      <div class="ring"></div>
       <div v-for="(icon, idx) in icons" :key="idx" class="icon" :style="iconStyle(idx + active)">
         <component :is="icon" :active="((active % icons.length) + icons.length) % icons.length === idx"></component>
       </div>
@@ -17,21 +18,25 @@
 <script>
 import Github from './icons/Github';
 import Portfolio from './icons/Portfolio';
+import Achievement from './icons/Achievement';
+import Me from './icons/Me';
 import ArrowButton from '../reusable/ArrowButton';
 
-const dampPerspectiveX = 5;
-const dampPerspectiveY = 5;
-const spinRadiusFunc = width => (width / 5) + 100;
+const dampPerspectiveX = 4;
+const dampPerspectiveY = 4;
+const spinRadiusFunc = width => (width / 5) + 200;
 
 export default {
   components: {
     Github,
     Portfolio,
+    Achievement,
+    Me,
     ArrowButton,
   },
   data() {
     return {
-      icons: ['Portfolio', 'Github', 'Github', 'Github', 'Github'],
+      icons: ['Portfolio', 'Github', 'Achievement', 'Me', 'Github'],
       active: 0,
       cursor: { x: window.innerWidth / 2, y: window.innerHeight / 2 },
     };
@@ -58,7 +63,7 @@ export default {
       const rotateMul = 360 / length;
       return idx => ({
         transform: `rotateY(${rotateMul * idx}deg) translateZ(${spinRadiusFunc(window.innerWidth)}px) rotateY(${-rotateMul * idx}deg)`,
-        opacity: `${Math.abs(((((idx % length) + length) % length) - (length / 2)) / length) * 2}`,
+        opacity: `${(Math.abs(((((idx % length) + length) % length) - (length / 2)) / length) * 2) + 0.1}`,
       });
     },
   },
@@ -95,7 +100,8 @@ export default {
   height: 100vh;
   top: 0;
   left: 0;
-  background: radial-gradient(at 50% 200%, $aqua, $purple);
+  // background: radial-gradient(at 50% 300%, $white, $offWhite);
+  background: $offWhite;
   transition: all .1s linear;
   perspective: 1000px;
   display: flex;
@@ -109,6 +115,15 @@ export default {
       position: absolute;
       transform-style: preserve-3d;
       transition: all .5s ease;
+    }
+    .ring {
+      position: absolute;
+      box-shadow: 0 25px 50px -20px $grey;
+      opacity: .5;
+      width: 1000px;
+      height: 1000px;
+      transform: translate(-400px, -400px) rotateX(90deg);
+      border-radius: 50%;
     }
   }
   .arrow-container {

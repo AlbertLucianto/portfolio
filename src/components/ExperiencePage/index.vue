@@ -217,7 +217,7 @@ export default {
     opacity: 0;
     &.over {
       transition: .25s opacity ease;
-      opacity: .75;
+      opacity: .9;
     }
   }
 }

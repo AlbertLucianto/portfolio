@@ -15,6 +15,7 @@ export default {
       type: String,
       required: true,
       default: 'right',
+      validator: val => val === 'right' || val === 'left',
     },
   },
   computed: {
@@ -37,13 +38,15 @@ export default {
   height: 60px;
   top: calc(50vh - 30px);
   transition: .25s opacity ease;
-  opacity: .25;
+  border-radius: 50%;
+  box-shadow: 0 5px 15px rgba(0,0,0,.2);
+  opacity: .8;
   cursor: pointer;
   &:hover {
     opacity: 1;
   }
   .circle {
-    fill: $black;
+    fill: $purple;
   }
   .arrow-path {
     fill: none;

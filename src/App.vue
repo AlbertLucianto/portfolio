@@ -22,7 +22,7 @@ export default {
 @import './components/styles/colors.scss';
 
 body {
-  background: $purple;
+  background: $offWhite;
 }
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
