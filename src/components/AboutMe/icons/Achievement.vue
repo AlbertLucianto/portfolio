@@ -72,7 +72,7 @@ export default {};
   }
 }
 .paper {
-  fill: $white;
+  fill: $grey;
   transform: translateZ(-40px);
 }
 .paper-content {
@@ -81,7 +81,7 @@ export default {};
     fill: $lightGrey;
   }
   .paper-text {
-    fill: $grey;
+    fill: $white;
   }
 }
 .trophy-bowl-out {
@@ -101,7 +101,7 @@ export default {};
 .trophy-foundation {
   transform: translateZ(5px);
   .trophy-neck {
-    fill: $black;
+    fill: $purple;
   }
   .trophy-bottom {
     fill: $black;

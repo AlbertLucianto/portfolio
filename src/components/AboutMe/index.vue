@@ -36,7 +36,7 @@ export default {
   },
   data() {
     return {
-      icons: ['Portfolio', 'Github', 'Achievement', 'Me', 'Github'],
+      icons: ['Me', 'Achievement', 'Github', 'Portfolio', 'Github'],
       active: 0,
       cursor: { x: window.innerWidth / 2, y: window.innerHeight / 2 },
     };

@@ -101,7 +101,7 @@ export default {};
   }
 }
 .cover-back {
-  fill: #2b3a42;
+  fill: $purple;
   &.left {
     transform: translateZ(-40px) rotateX(30deg) rotateY(30deg);
   }
@@ -113,7 +113,7 @@ export default {};
   }
 }
 .cover {
-  fill: #29d9c2;
+  fill: $aqua;
   &.left {
     transform: translate3d(0, -5px, -35px) rotateX(30deg) rotateY(30deg);
   }
@@ -126,7 +126,7 @@ export default {};
   }
 }
 .page-side {
-  fill: $purple;
+  fill: $yellow;
   &.left {
     transform: rotateX(30deg) rotateY(90deg) translate3d(61px, -24px, -71px);
   }
@@ -135,7 +135,7 @@ export default {};
   }
 }
 .page {
-  fill: #f1f7e6;
+  fill: $offWhite;
   &.left {
     transform: translate3d(0, -15px, -25px) rotateX(30deg) rotateY(30deg);  
   }
@@ -144,7 +144,7 @@ export default {};
   }
 }
 .page-bottom {
-  fill: $warmRed;
+  fill: $orange;
   &.left {
     transform: translate3d(0, -7.5px, -35px) rotateX(30deg) rotateY(30deg);  
   }
@@ -156,7 +156,7 @@ export default {};
   }
 }
 .bookmark {
-  fill: #cd2c24;
+  fill: $warmRed;
   &.bottom {
     transform: translate3d(0, -30px, -2px) rotateX(60deg) rotateY(-30deg);
   }
@@ -165,7 +165,7 @@ export default {};
   }
 }
 .content {
-  stroke: #2f2933;
+  stroke: $black;
   stroke-width: 3px;
   &.left {
     transform: translate3d(0, -20px, -15px) rotateX(30deg) rotateY(30deg);  
@@ -179,18 +179,18 @@ export default {};
   transform: translate3d(-20px, -30px, 45px);
 }
 .bottle {
-  fill: #ffd393;
+  fill: $grey;
 }
 .bottle-neck {
-  fill: #9c9b7a;
+  fill: $black;
   transform: scaleY(1.1) translateZ(-5px);
 }
 .ink {
-  fill: #405952;
+  fill: $purple;
   transform: translateZ(5px);
 }
 .shine {
-  stroke: #efefef;
+  stroke: $white;
   stroke-width: 3px;
   transform: translateZ(5px);
 }
@@ -199,14 +199,14 @@ export default {};
   stroke-linecap: round;
   stroke-miterlimit: 10;
 }
-.content,.pen-line {
-  stroke: #2f2933;
+.pen-line {
+  stroke: $black;
 }
 .feather {
-  fill: #f2836b;
+  fill: $warmRed;
 }
 .bottle-lip {
-  fill: #ffd393;
+  fill: $grey;
 }
 
 @keyframes rotate {
