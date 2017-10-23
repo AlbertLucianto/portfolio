@@ -4,7 +4,7 @@
       <arrow-button direction="left" :startClick="prevActive"></arrow-button>
     </div>
     <div class="icons-spinner" :style="spinnerStyle">
-      <div class="ring"></div>
+      <div class="ring" :style="ringStyle"></div>
       <div v-for="(icon, idx) in icons" :key="idx" class="icon" :style="iconStyle(idx + active)">
         <component :is="icon" :active="((active % icons.length) + icons.length) % icons.length === idx"></component>
       </div>
@@ -12,6 +12,7 @@
     <div class="arrow-container">
       <arrow-button direction="right" :startClick="nextActive"></arrow-button>
     </div>
+    <div class="guide-line"></div>
   </div>
 </template>
 
@@ -20,6 +21,7 @@ import Github from './icons/Github';
 import Portfolio from './icons/Portfolio';
 import Achievement from './icons/Achievement';
 import Me from './icons/Me';
+import Contact from './icons/Contact';
 import ArrowButton from '../reusable/ArrowButton';
 
 const dampPerspectiveX = 4;
@@ -32,11 +34,12 @@ export default {
     Portfolio,
     Achievement,
     Me,
+    Contact,
     ArrowButton,
   },
   data() {
     return {
-      icons: ['Me', 'Achievement', 'Github', 'Portfolio', 'Github'],
+      icons: ['Me', 'Achievement', 'Portfolio', 'Github', 'Contact'],
       active: 0,
       cursor: { x: window.innerWidth / 2, y: window.innerHeight / 2 },
     };
@@ -65,6 +68,14 @@ export default {
         transform: `rotateY(${rotateMul * idx}deg) translateZ(${spinRadiusFunc(window.innerWidth)}px) rotateY(${-rotateMul * idx}deg)`,
         opacity: `${(Math.abs(((((idx % length) + length) % length) - (length / 2)) / length) * 2) + 0.1}`,
       });
+    },
+    ringStyle() {
+      const diameter = (spinRadiusFunc(window.innerWidth) * 2) - 200;
+      return {
+        width: `${diameter}px`,
+        height: `${diameter}px`,
+        transform: `translate(${-(diameter / 2) + 100}px, ${-(diameter / 2) + 100}px) rotateX(90deg)`,
+      };
     },
   },
   methods: {
@@ -120,15 +131,21 @@ export default {
       position: absolute;
       box-shadow: 0 25px 50px -20px $grey;
       opacity: .5;
-      width: 1000px;
-      height: 1000px;
-      transform: translate(-400px, -400px) rotateX(90deg);
       border-radius: 50%;
     }
   }
   .arrow-container {
     margin: 0 50px;
     z-index: 2;
+    transform: translateZ(5px);
+  }
+  .guide-line {
+    position: absolute;
+    transform: translateZ(75px);
+    height: calc(37.5vh - 200px);
+    width: 3px;
+    background: $orange;
+    top: 57.5vh;
   }
 }
 </style>

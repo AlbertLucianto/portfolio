@@ -54,7 +54,7 @@ export default {
   position: relative;
   width: 200px;
   height: 200px;
-  animation: rotate 5s alternate infinite ease;
+  animation: rotate 5s alternate infinite ease-in-out;
   transform-style: preserve-3d;
 }
 .whiskers, .back-limbs, .front-limbs, .head-group, .face-group, .glasses, .face-skin, .ears {
@@ -67,22 +67,22 @@ export default {
   transform: translateZ(-5px);
 }
 .glasses {
-  transform: translateZ(25px);
+  transform: translateZ(40px);
 }
 .face-group {
-  transform: translate3d(0, -1.5px, 15px);
+  transform: translate3d(0, -1.5px, 30px);
 }
 .face-skin {
-  transform: translateZ(5px);
+  transform: translateZ(15px);
 }
 .back-limbs {
-  transform: translateZ(-10px);
+  transform: translateZ(-20px);
 }
 .front-limbs {
-  transform: translate3d(2.5px, -5px, -2.5px);
+  transform: translate3d(2.5px, -5px, -5px);
 }
 .ears {
-  transform: translateZ(10px);
+  transform: translateZ(15px);
 }
 
 /*

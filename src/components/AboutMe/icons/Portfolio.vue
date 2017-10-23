@@ -57,7 +57,7 @@ export default {
   width: 200px;
   height: 200px;
   margin-left: 25px;
-  animation: rotate 5s alternate infinite ease;
+  animation: rotate 5s alternate infinite ease-in-out;
   transform-style: preserve-3d;
   svg {
     position: absolute;
