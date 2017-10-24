@@ -21,7 +21,7 @@
         </g>
         <circle :cx="headPos.x" :cy="headPos.y" r="50" class="head-helper" @mousemove="moveFace" @mouseout="endMoveFace"></circle>
       </svg>
-      <div class="text">About Me</div>
+      <div class="text">Profile</div>
     </router-link>
   </div>
 </template>

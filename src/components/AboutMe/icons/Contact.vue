@@ -53,7 +53,7 @@ export default {};
   position: relative;
   width: 200px;
   height: 200px;
-  margin-left: 30px;
+  margin-left: 35px;
   transition: all .5s ease;
   animation: rotate 5s alternate infinite ease-in-out;
   transform-style: preserve-3d;
@@ -131,10 +131,10 @@ export default {};
 
 @keyframes rotate {
   0% {
-    transform: rotate3d(1, 1, 0, 0deg);
+    transform: rotate3d(.5, 1, 0, -10deg);
   }
   100% {
-      transform: rotate3d(1, 1, 0, -20deg);
+      transform: rotate3d(.5, 1, 0, 10deg);
   }
 }
 </style>

@@ -5,8 +5,8 @@
     </svg>
     <svg viewBox="0 0 121.75 107.99" class="paper-content">
       <rect class="paper-title" x="23.5" y="27.99" width="45" height="21" rx="2.5" ry="2.5"/>
-      <rect class="paper-text" x="9.75" y="59.99" width="73" height="5"/>
-      <rect class="paper-text" x="9.75" y="71.99" width="73" height="5"/>
+      <rect class="paper-text" x="9.75" y="59.99" width="30" height="5"/>
+      <rect class="paper-text" x="9.75" y="71.99" width="40" height="5"/>
     </svg>
     <svg viewBox="0 0 121.75 107.99" class="ribbon-top-right">
       <path class="out-top-right" d="M89.75,10c0-8,34-10,14,35"/>

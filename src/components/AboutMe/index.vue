@@ -1,18 +1,23 @@
 <template>
   <div class="about-me" :style="parentStyle">
-    <div class="arrow-container">
+    <div class="arrows">
       <arrow-button direction="left" :startClick="prevActive"></arrow-button>
     </div>
     <div class="icons-spinner" :style="spinnerStyle">
       <div class="ring" :style="ringStyle"></div>
+      <div class="info"></div>
       <div v-for="(icon, idx) in icons" :key="idx" class="icon" :style="iconStyle(idx + active)">
-        <component :is="icon" :active="((active % icons.length) + icons.length) % icons.length === idx"></component>
+        <component :is="icon" :active="activeIdx === idx"></component>
+        <div class="shadow-container">
+          <div class="shadow" :class="{ hidden: activeIdx !== idx }"></div>
+        </div>
       </div>
     </div>
-    <div class="arrow-container">
+    <div class="arrows">
       <arrow-button direction="right" :startClick="nextActive"></arrow-button>
     </div>
-    <div class="guide-line"></div>
+    <!-- <div class="guide-line"></div> -->
+    <div class="current-title">{{ icons[activeIdx] }}</div>
   </div>
 </template>
 
@@ -45,6 +50,9 @@ export default {
     };
   },
   computed: {
+    activeIdx() {
+      return ((-this.active % this.icons.length) + this.icons.length) % this.icons.length;
+    },
     parentStyle() {
       const center = {
         x: window.innerWidth / 2,
@@ -53,12 +61,12 @@ export default {
       return {
         'perspective-origin': `
         ${((center.x - this.cursor.x) / dampPerspectiveX) + center.x}px
-        ${((center.y - this.cursor.y) / dampPerspectiveY) + (center.y - 250)}px`,
+        ${((center.y - this.cursor.y) / dampPerspectiveY) + (center.y - 150)}px`,
       };
     },
     spinnerStyle() {
       return {
-        transform: `translateZ(${-spinRadiusFunc(window.innerWidth) + 100}px)`,
+        transform: `translateZ(${-spinRadiusFunc(window.innerWidth) + 100}px) translateY(100px)`,
       };
     },
     iconStyle() {
@@ -111,13 +119,36 @@ export default {
   height: 100vh;
   top: 0;
   left: 0;
-  // background: radial-gradient(at 50% 300%, $white, $offWhite);
+  // background: radial-gradient(at 50% 150%, $yellow, $aqua);
   background: $offWhite;
   transition: all .1s linear;
   perspective: 1000px;
   display: flex;
   justify-content: center;
   align-items: center;
+  .current-title {
+    position: fixed;
+    width: 500px;
+    left: calc(50vw - 240px);
+    bottom: 15vh;
+    text-align: center;
+    font-size: 36px;
+    color: $black;
+    font-weight: 500;
+  }
+  .info {
+    position: fixed;
+    width: 500px;
+    height: 600px;
+    top: -50px;
+    left: calc(50vw - 250px);
+    background: $white;
+    opacity: .95;
+    transform: translate3d(calc(-50vw + 100px), -500px, 100px);
+    border-radius: 10px;
+    border: 2px solid $aqua;
+    transform-style: preserve-3d;
+  }
   .icons-spinner {
     transform-style: preserve-3d;
     width: 200px;
@@ -127,6 +158,23 @@ export default {
       transform-style: preserve-3d;
       transition: all .5s ease;
     }
+    .shadow-container {
+      left: 45px;
+      position: absolute;
+      transform: rotateX(90deg) translateZ(50px);
+      .shadow {
+        background: $black;
+        height: 120px;
+        width: 120px;
+        border-radius: 50%;
+        opacity: .2;
+        transition: opacity .4s ease .5s;
+        filter: blur(20px);
+        &.hidden {
+          opacity: 0;
+        }
+      }
+    }
     .ring {
       position: absolute;
       box-shadow: 0 25px 50px -20px $grey;
@@ -134,17 +182,17 @@ export default {
       border-radius: 50%;
     }
   }
-  .arrow-container {
-    margin: 0 50px;
+  .arrows {
+    margin: 0 80px;
     z-index: 2;
-    transform: translateZ(5px);
+    transform: translateZ(5px) translateY(80px);
   }
   .guide-line {
     position: absolute;
     transform: translateZ(75px);
     height: calc(37.5vh - 200px);
     width: 3px;
-    background: $orange;
+    background: $grey;
     top: 57.5vh;
   }
 }
