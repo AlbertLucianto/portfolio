@@ -33,13 +33,18 @@
       </div>
     </div>
     <div class="diagonal-bg"/>
+    <project-info></project-info>
   </div>
 </template>
 
 <script>
 import dynamics from 'dynamics.js';
+import ProjectInfo from './ProjectInfo';
 
 export default {
+  components: {
+    ProjectInfo,
+  },
   data() {
     return {
       window: {
@@ -238,7 +243,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import './styles/colors.scss';
+@import '../styles/colors.scss';
 
 .canvas {
   width: 100vw;

@@ -188,7 +188,7 @@ export default {
       margin: 0;
       margin-left: 2.5px;
       text-align: left;
-      color: $orange;
+      color: $black;
       pointer-events: none;
     }
     .period {
