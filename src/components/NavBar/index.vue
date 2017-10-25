@@ -234,7 +234,7 @@ export default {
     background: $aqua;
     transition: .3s background-color ease-out;
     box-shadow: 0 10px 20px rgba(0,0,0,0.05);
-    cursor: move;
+    cursor: grab;
     &:hover {
       background: $orange;
     }

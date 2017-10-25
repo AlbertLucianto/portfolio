@@ -5,7 +5,7 @@
     </div>
     <div class="icons-spinner" :style="spinnerStyle">
       <div class="ring" :style="ringStyle"></div>
-      <div class="info"></div>
+      <div class="info" :class="{ closed: changingIdx }"></div>
       <div v-for="(icon, idx) in icons" :key="idx" class="icon" :style="iconStyle(idx + active)">
         <component :is="icon" :active="activeIdx === idx"></component>
         <div class="shadow-container">
@@ -17,7 +17,7 @@
       <arrow-button direction="right" :startClick="nextActive"></arrow-button>
     </div>
     <!-- <div class="guide-line"></div> -->
-    <div class="current-title">{{ icons[activeIdx] }}</div>
+    <div class="current-title" :style="titleStyle">{{ infos[icons[activeIdx]].displayTitle }}</div>
   </div>
 </template>
 
@@ -29,8 +29,22 @@ import Me from './icons/Me';
 import Contact from './icons/Contact';
 import ArrowButton from '../reusable/ArrowButton';
 
-const dampPerspectiveX = 4;
-const dampPerspectiveY = 4;
+const colors = {
+  orange: '#F29D2C',
+  yellow: '#FFC127',
+  warmRed: '#EF548F',
+  purple: '#7D4896',
+  aqua: '#27CED6',
+  grey: '#A0A0A0',
+  lightGrey: '#DBDBDB',
+  white: '#F7F9FF',
+  offWhite: 'rgb(237, 240, 248)',
+  lightRed: '#FFBA9C',
+  black: '#232222',
+};
+
+const dampPerspectiveX = 5;
+const dampPerspectiveY = 20;
 const spinRadiusFunc = width => (width / 5) + 200;
 
 export default {
@@ -45,9 +59,57 @@ export default {
   data() {
     return {
       icons: ['Me', 'Achievement', 'Portfolio', 'Github', 'Contact'],
+      infos: {
+        Me: {
+          color: {
+            main: colors.offWhite,
+            sec: colors.black,
+          },
+          displayTitle: 'Me in Brief',
+        },
+        Achievement: {
+          color: {
+            main: colors.aqua,
+            sec: colors.white,
+          },
+          displayTitle: 'Achievements',
+        },
+        Portfolio: {
+          color: {
+            main: colors.orange,
+            sec: colors.white,
+          },
+          displayTitle: 'Portfolios',
+        },
+        Github: {
+          color: {
+            main: colors.yellow,
+            sec: colors.white,
+          },
+          displayTitle: 'Github Profile',
+        },
+        Contact: {
+          color: {
+            main: colors.purple,
+            sec: colors.white,
+          },
+          displayTitle: 'Contact Me',
+        },
+      },
       active: 0,
       cursor: { x: window.innerWidth / 2, y: window.innerHeight / 2 },
+      timeId: null,
+      changingIdx: false,
     };
+  },
+  watch: {
+    activeIdx() {
+      this.changingIdx = true;
+      clearTimeout(this.timeId);
+      this.timeId = setTimeout(() => {
+        this.changingIdx = false;
+      }, 700);
+    },
   },
   computed: {
     activeIdx() {
@@ -58,10 +120,21 @@ export default {
         x: window.innerWidth / 2,
         y: window.innerHeight / 2,
       };
+      const { color } = this.infos[this.icons[this.activeIdx]];
+      const { main } = color;
       return {
         'perspective-origin': `
-        ${((center.x - this.cursor.x) / dampPerspectiveX) + center.x}px
-        ${((center.y - this.cursor.y) / dampPerspectiveY) + (center.y - 150)}px`,
+          ${((center.x - this.cursor.x) / dampPerspectiveX) + center.x}px
+          ${((center.y - this.cursor.y) / dampPerspectiveY) + (center.y - 250)}px`,
+        // background: `radial-gradient(at 50% 150%, ${main}, ${sec})`,
+        background: main,
+      };
+    },
+    titleStyle() {
+      const { color } = this.infos[this.icons[this.activeIdx]];
+      const { sec } = color;
+      return {
+        color: sec,
       };
     },
     spinnerStyle() {
@@ -119,35 +192,41 @@ export default {
   height: 100vh;
   top: 0;
   left: 0;
-  // background: radial-gradient(at 50% 150%, $yellow, $aqua);
-  background: $offWhite;
-  transition: all .1s linear;
+  transition: all .1s linear, background-color .5s ease .4s;
   perspective: 1000px;
   display: flex;
   justify-content: center;
   align-items: center;
+  // transform-style: preserve-3d;
   .current-title {
     position: fixed;
     width: 500px;
     left: calc(50vw - 240px);
-    bottom: 15vh;
+    bottom: calc(25vh - 100px);
     text-align: center;
     font-size: 36px;
-    color: $black;
     font-weight: 500;
+    transition: color .5s ease .5s;
+    transform: translateZ(50px);
   }
   .info {
     position: fixed;
     width: 500px;
     height: 600px;
-    top: -50px;
+    max-height: 600px;
     left: calc(50vw - 250px);
-    background: $white;
-    opacity: .95;
+    opacity: .90;
     transform: translate3d(calc(-50vw + 100px), -500px, 100px);
     border-radius: 10px;
-    border: 2px solid $aqua;
+    background: $white;
+    // border: 2px solid $aqua;
     transform-style: preserve-3d;
+    transition: max-height .5s ease .15s, margin-top .6s ease, opacity .3s ease .2s;
+    &.closed {
+      max-height: 0;
+      margin-top: -50px;
+      opacity: 0.5;
+    }
   }
   .icons-spinner {
     transform-style: preserve-3d;
