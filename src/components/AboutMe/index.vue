@@ -5,7 +5,9 @@
     </div>
     <div class="icons-spinner" :style="spinnerStyle">
       <div class="ring" :style="ringStyle"></div>
-      <div class="info" :class="{ closed: changingIdx }"></div>
+      <div class="info" :class="{ closed: changingIdx }">
+        <detail-description></detail-description>
+      </div>
       <div v-for="(icon, idx) in icons" :key="idx" class="icon" :style="iconStyle(idx + active)">
         <component :is="icon" :active="activeIdx === idx"></component>
         <div class="shadow-container">
@@ -17,7 +19,7 @@
       <arrow-button direction="right" :startClick="nextActive"></arrow-button>
     </div>
     <!-- <div class="guide-line"></div> -->
-    <div class="current-title" :style="titleStyle">{{ infos[icons[activeIdx]].displayTitle }}</div>
+    <div class="current-title" :style="textStyle">{{ infos[icons[activeIdx]].displayTitle }}</div>
   </div>
 </template>
 
@@ -27,6 +29,7 @@ import Portfolio from './icons/Portfolio';
 import Achievement from './icons/Achievement';
 import Me from './icons/Me';
 import Contact from './icons/Contact';
+import DetailDescription from './DetailDescription';
 import ArrowButton from '../reusable/ArrowButton';
 
 const colors = {
@@ -41,6 +44,7 @@ const colors = {
   offWhite: 'rgb(237, 240, 248)',
   lightRed: '#FFBA9C',
   black: '#232222',
+  transparent: 'transparent',
 };
 
 const dampPerspectiveX = 5;
@@ -54,6 +58,7 @@ export default {
     Achievement,
     Me,
     Contact,
+    DetailDescription,
     ArrowButton,
   },
   data() {
@@ -76,14 +81,14 @@ export default {
         },
         Portfolio: {
           color: {
-            main: colors.orange,
+            main: colors.yellow,
             sec: colors.white,
           },
           displayTitle: 'Portfolios',
         },
         Github: {
           color: {
-            main: colors.yellow,
+            main: colors.orange,
             sec: colors.white,
           },
           displayTitle: 'Github Profile',
@@ -130,7 +135,7 @@ export default {
         background: main,
       };
     },
-    titleStyle() {
+    textStyle() {
       const { color } = this.infos[this.icons[this.activeIdx]];
       const { sec } = color;
       return {
@@ -211,15 +216,16 @@ export default {
   }
   .info {
     position: fixed;
-    width: 500px;
+    width: 600px;
     height: 600px;
     max-height: 600px;
-    left: calc(50vw - 250px);
-    opacity: .90;
-    transform: translate3d(calc(-50vw + 100px), -500px, 100px);
+    left: -200px;
+    transform: translate3d(0, -500px, 100px);
     border-radius: 10px;
-    background: $white;
-    // border: 2px solid $aqua;
+    // background: $offWhite;
+    background: rgba(237, 240, 248, .85); // == $offWhite transparent
+    // border: 3px solid $aqua;
+    overflow: hidden;
     transform-style: preserve-3d;
     transition: max-height .5s ease .15s, margin-top .6s ease, opacity .3s ease .2s;
     &.closed {
