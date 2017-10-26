@@ -54,8 +54,8 @@ export default {
     background: $white;
     top: 0;
     right: 50px;
-    border-radius: 5px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+    border-radius: 2px;
+    box-shadow: 0 15px 45px rgba(0,0,0,0.15);
     transition: all .3s ease;
     br {
       display: block;
@@ -63,9 +63,10 @@ export default {
       line-height:22px;
       content: " ";
     }
-    a:link {
+    a:link , a:visited {
       font-weight: 600;
       text-decoration: none;
+      color: $purple;
     }
   }
   .project-info-icon {

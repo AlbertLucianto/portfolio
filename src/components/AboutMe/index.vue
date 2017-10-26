@@ -231,7 +231,7 @@ export default {
     &.closed {
       max-height: 0;
       margin-top: -50px;
-      opacity: 0.5;
+      opacity: 0.2;
     }
   }
   .icons-spinner {
@@ -262,7 +262,7 @@ export default {
     }
     .ring {
       position: absolute;
-      box-shadow: 0 25px 50px -20px $grey;
+      box-shadow: 0 25px 60px -30px $black;
       opacity: .5;
       border-radius: 50%;
     }
