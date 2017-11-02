@@ -80,7 +80,11 @@
 </template>
 
 <script>
-export default {};
+export default {
+  props: {
+    active: Boolean,
+  },
+};
 </script>
 
 <style lang="scss" scoped>

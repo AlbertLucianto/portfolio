@@ -8,7 +8,7 @@
           <a href="https://vuejs.org/">VueJS</a>, <a href="https://router.vuejs.org/en/">Vue Router</a>, and <a href="http://dynamicsjs.com/">dynamics.js</a>.<br>
           In other words, all assets, animations, and interactions you see here are made by myself,
           including all reusable components you may encounter during the Tour.<br>
-          <i>Sadly, it's not very responsive, but I hope you enjoy it!</i>
+          <i>Sadly, it's not very responsive and best opened in Chrome, but I hope you enjoy it!</i>
         </div>
       </transition>
     </div>
@@ -34,7 +34,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '../styles/colors.scss';
+@import './components/styles/colors.scss';
 
 .project-info {
   position: fixed;
@@ -76,6 +76,9 @@ export default {
     font-weight: 900;
     color: $white;
     border-radius: 50%;
+    box-shadow: 0 3px 15px rgba(0,0,0,0.1);
+    // text-shadow: 0 3px 15px rgba(0,0,0,0.2);
+    background: $purple;
     border: 2px solid $white;
     transition: all .2s ease;
     &.over {

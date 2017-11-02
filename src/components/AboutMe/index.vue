@@ -6,7 +6,7 @@
     <div class="icons-spinner" :style="spinnerStyle">
       <div class="ring" :style="ringStyle"></div>
       <div class="info" :class="{ closed: changingIdx }">
-        <detail-description></detail-description>
+        <detail-description :active="icons[activeIdx]"></detail-description>
       </div>
       <div v-for="(icon, idx) in icons" :key="idx" class="icon" :style="iconStyle(idx + active)">
         <component :is="icon" :active="activeIdx === idx"></component>
@@ -18,7 +18,6 @@
     <div class="arrows">
       <arrow-button direction="right" :startClick="nextActive"></arrow-button>
     </div>
-    <!-- <div class="guide-line"></div> -->
     <div class="current-title" :style="textStyle">{{ infos[icons[activeIdx]].displayTitle }}</div>
   </div>
 </template>
@@ -31,21 +30,7 @@ import Me from './icons/Me';
 import Contact from './icons/Contact';
 import DetailDescription from './DetailDescription';
 import ArrowButton from '../reusable/ArrowButton';
-
-const colors = {
-  orange: '#F29D2C',
-  yellow: '#FFC127',
-  warmRed: '#EF548F',
-  purple: '#7D4896',
-  aqua: '#27CED6',
-  grey: '#A0A0A0',
-  lightGrey: '#DBDBDB',
-  white: '#F7F9FF',
-  offWhite: 'rgb(237, 240, 248)',
-  lightRed: '#FFBA9C',
-  black: '#232222',
-  transparent: 'transparent',
-};
+import colors from '../styles/colors';
 
 const dampPerspectiveX = 5;
 const dampPerspectiveY = 20;
@@ -63,7 +48,7 @@ export default {
   },
   data() {
     return {
-      icons: ['Me', 'Achievement', 'Portfolio', 'Github', 'Contact'],
+      icons: ['Me', 'Achievement', 'Portfolio', 'Contact', 'Github'],
       infos: {
         Me: {
           color: {
@@ -150,9 +135,15 @@ export default {
     iconStyle() {
       const { length } = this.icons;
       const rotateMul = 360 / length;
+      /*
+      Transform issue with opacity! -- Google Chrome 53 Bug / new rule
+      https://googlechrome.github.io/samples/css-opacity-force-flattening/
+      -----------------------------
+      opacity: `${(Math.abs(((((idx % length) + length) % length)
+       - (length / 2)) / length) * 2) + 0.1}`,
+      */
       return idx => ({
         transform: `rotateY(${rotateMul * idx}deg) translateZ(${spinRadiusFunc(window.innerWidth)}px) rotateY(${-rotateMul * idx}deg)`,
-        opacity: `${(Math.abs(((((idx % length) + length) % length) - (length / 2)) / length) * 2) + 0.1}`,
       });
     },
     ringStyle() {
@@ -202,7 +193,6 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  // transform-style: preserve-3d;
   .current-title {
     position: fixed;
     width: 500px;
@@ -217,19 +207,18 @@ export default {
   .info {
     position: fixed;
     width: 600px;
-    height: 600px;
+    height: calc(10vh + 450px);
     max-height: 600px;
     left: -200px;
+    // bottom: -350px;
+    top: calc(250px - 20vh);
     transform: translate3d(0, -500px, 100px);
-    border-radius: 10px;
     // background: $offWhite;
-    background: rgba(237, 240, 248, .85); // == $offWhite transparent
     // border: 3px solid $aqua;
-    overflow: hidden;
     transform-style: preserve-3d;
     transition: max-height .5s ease .15s, margin-top .6s ease, opacity .3s ease .2s;
     &.closed {
-      max-height: 0;
+      max-height: 10px;
       margin-top: -50px;
       opacity: 0.2;
     }

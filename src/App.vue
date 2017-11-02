@@ -4,16 +4,19 @@
     <transition name="slide-fade">
       <router-view></router-view>
     </transition>
+    <project-info></project-info>
   </div>
 </template>
 
 <script>
 import NavBar from '@/components/NavBar';
+import ProjectInfo from './ProjectInfo';
 
 export default {
   name: 'app',
   components: {
     NavBar,
+    ProjectInfo,
   },
 };
 </script>

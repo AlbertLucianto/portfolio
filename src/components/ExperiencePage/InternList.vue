@@ -178,7 +178,7 @@ export default {
       font-weight: 600;
       text-align: center;
       color: $black;
-      border-radius: 10px;
+      border-radius: 5px;
     }
     .year {
       position: absolute;
@@ -193,7 +193,7 @@ export default {
     }
     .period {
       position: absolute;
-      font-size: 60px;
+      font-size: 56px;
       bottom: 100px;
       left: 60px;
       margin: 0;

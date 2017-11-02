@@ -33,17 +33,17 @@
       </div>
     </div>
     <div class="diagonal-bg"/>
-    <project-info></project-info>
+
   </div>
 </template>
 
 <script>
 import dynamics from 'dynamics.js';
-import ProjectInfo from './ProjectInfo';
+
 
 export default {
   components: {
-    ProjectInfo,
+
   },
   data() {
     return {
