@@ -24,7 +24,7 @@
         <h1 class="title">A Little Tour of Mine</h1>
       </div>
       <div class="author-wrapper">
-        <h3 class="author">Created by Albert Lucianto</h3>
+        <h3 class="author">By Albert Lucianto</h3>
       </div>
     </div>
     <div class="guide" :style="guideStylePosition" :class="{ disappear: lightCentre.isOn }">

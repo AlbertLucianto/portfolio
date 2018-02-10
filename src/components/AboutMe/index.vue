@@ -227,6 +227,7 @@ export default {
     transform-style: preserve-3d;
     width: 200px;
     height: 250px;
+    margin-top: 50px;
     .icon {
       position: absolute;
       transform-style: preserve-3d;

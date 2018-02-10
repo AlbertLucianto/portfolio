@@ -25,7 +25,7 @@ export default new Router({
       component: ExperiencePage,
     },
     {
-      path: '/tools',
+      path: '/project',
       name: 'Project',
       component: ProjectPage,
     },

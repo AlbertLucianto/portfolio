@@ -38,11 +38,11 @@ export default {
 @import '../../styles/colors.scss';
 
 .detail-container-outer {
-  font-size: 24px;
+  font-size: 21px;
   height: 100%;
   width: 100%;
   border-radius: 10px;
-  background: rgba(237, 240, 248, .85); // == $offWhite transparent
+  background: $offWhite; // == $offWhite transparent
   overflow: hidden;
   position: relative;
   .detail-container-inner {

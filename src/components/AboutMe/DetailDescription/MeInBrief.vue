@@ -2,15 +2,17 @@
   <div class="me-container">
     <h1>Welcome Visitor!</h1>
     <!-- <div class="image"></div> -->
-    <p class="me-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-      Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-      Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
-    <p class="me-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-      Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-      Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
-    <p class="me-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-      Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-      Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+    <p class="me-description">
+      I'm Albert Lucianto.<br><br>
+      I'm currently a third year student in Nanyang Technological University, majoring Computer Science
+      with minor In Business.<br><br>
+      I love working on Software or Design related projects.
+    </p>
+    <p class="label">Check out my projects</p>
+    <div class="link-container">
+      <router-link to="/project" class="link software">Software Projects</router-link>
+      <a href="https://behance.net/albertlucianto" class="link design">Design Projects</a>
+    </div>
   </div>
 </template>
 
@@ -25,6 +27,32 @@ export default {};
   padding: 25px;
   .me-description {
     padding: 15px;
+  }
+  .label {
+    font-size: 18px;
+    font-weight: 500;
+    color: $purple;
+  }
+  .link-container {
+    display: flex;
+    justify-content: center;
+    .link {
+      padding: 5px 10px;
+      border-radius: 5px;
+      color: $white;
+      font-weight: 500;
+      margin: 0 5px;
+      text-decoration: none;
+      &:hover {
+        cursor: pointer;
+      }
+      &.software {
+        background: $purple;
+      }
+      &.design {
+        background: $warmRed;
+      }
+    }
   }
 }
 </style>
