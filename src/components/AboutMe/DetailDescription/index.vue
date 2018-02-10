@@ -1,20 +1,22 @@
 <template>
   <div class="detail-container-outer">
-    <div class="detail-container-inner" ref="detailContainer">
-      <transition name="info">
-        <component :is="mapDescription[active]" :key="active"></component>
-      </transition>
-    </div>
-    <div class="gradient-bottom"></div>
+    <transition name="info">
+      <component :is="mapDescription[active]" :key="active"></component>
+    </transition>
+    <!-- <div class="gradient-bottom"></div> -->
   </div>
 </template>
 
 <script>
 import MeInBrief from './MeInBrief';
+import Achievements from './Achievements';
+import Portfolios from './Portfolios';
 
 export default {
   components: {
     MeInBrief,
+    Achievements,
+    Portfolios,
   },
   props: {
     active: String,
@@ -23,13 +25,10 @@ export default {
     return {
       mapDescription: {
         Me: 'MeInBrief',
-        Achievement: 'MeInBrief',
+        Achievement: 'Achievements',
+        Portfolio: 'Portfolios',
       },
     };
-  },
-  mounted() {
-    // console.log(this.$refs.detailContainer);
-    // this.$refs.detailContainer.addEventListener('scroll', (e) => { console.log(e); });
   },
 };
 </script>
@@ -43,14 +42,8 @@ export default {
   width: 100%;
   border-radius: 10px;
   background: $offWhite; // == $offWhite transparent
-  overflow: hidden;
   position: relative;
-  .detail-container-inner {
-    height: 100%;
-    width: 100%;
-    overflow: auto;
-    padding-right: 20px;
-  }
+  overflow: hidden;
   .gradient-bottom {
     position: absolute;
     bottom: 0;

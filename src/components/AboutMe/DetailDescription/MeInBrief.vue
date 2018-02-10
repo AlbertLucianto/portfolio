@@ -43,14 +43,16 @@ export default {};
       font-weight: 500;
       margin: 0 5px;
       text-decoration: none;
-      &:hover {
-        cursor: pointer;
-      }
+      transition: background-color .1s ease;
       &.software {
         background: $purple;
       }
       &.design {
         background: $warmRed;
+      }
+      &:hover {
+        cursor: pointer;
+        background: $aqua;
       }
     }
   }
