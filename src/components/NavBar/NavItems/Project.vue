@@ -31,7 +31,7 @@
       <rect class="tools-helper" width="110" height="110"
       @mouseover="animateIn" @mouseout="animateOut"></rect>
     </svg>
-    <div class="text">Tech Stack</div>
+    <div class="text">Projects</div>
   </router-link>
 </template>
 

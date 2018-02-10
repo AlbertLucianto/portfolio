@@ -3,7 +3,7 @@ import Router from 'vue-router';
 import LandingPage from '@/components/LandingPage';
 import AboutMe from '@/components/AboutMe';
 import ExperiencePage from '@/components/ExperiencePage';
-import ToolsPage from '@/components/ToolsPage';
+import ProjectPage from '@/components/ProjectPage';
 
 Vue.use(Router);
 
@@ -26,8 +26,8 @@ export default new Router({
     },
     {
       path: '/tools',
-      name: 'TechStack',
-      component: ToolsPage,
+      name: 'Project',
+      component: ProjectPage,
     },
   ],
 });

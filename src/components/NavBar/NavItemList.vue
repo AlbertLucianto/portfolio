@@ -12,17 +12,17 @@
 <script>
 import Landing from './NavItems/Landing';
 import Profile from './NavItems/Profile';
-import TechStack from './NavItems/TechStack';
+import Project from './NavItems/Project';
 import Experience from './NavItems/Experience';
 
-const items = ['Landing', 'Profile', 'TechStack', 'Experience'];
+const items = ['Landing', 'Profile', 'Project', 'Experience'];
 const navWidth = 250;
 const offsetConstant = -50;
 
 export default {
   components: {
     Profile,
-    TechStack,
+    Project,
     Landing,
     Experience,
   },

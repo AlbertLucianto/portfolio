@@ -42,10 +42,6 @@ export default {
           colorIn: '#EF548F',
         },
         {
-          name: 'Projects',
-          colorIn: '#27CED6',
-        },
-        {
           name: 'Organisations',
           colorIn: '#FFC127',
         },
