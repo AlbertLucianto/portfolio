@@ -67,7 +67,7 @@ export default {
         Portfolio: {
           color: {
             main: colors.yellow,
-            sec: colors.white,
+            sec: colors.black,
           },
           displayTitle: 'Portfolios',
         },

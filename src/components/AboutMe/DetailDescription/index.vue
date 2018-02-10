@@ -11,12 +11,16 @@
 import MeInBrief from './MeInBrief';
 import Achievements from './Achievements';
 import Portfolios from './Portfolios';
+import ContactMe from './ContactMe';
+import GithubProfile from './GithubProfile';
 
 export default {
   components: {
     MeInBrief,
     Achievements,
     Portfolios,
+    ContactMe,
+    GithubProfile,
   },
   props: {
     active: String,
@@ -27,6 +31,8 @@ export default {
         Me: 'MeInBrief',
         Achievement: 'Achievements',
         Portfolio: 'Portfolios',
+        Contact: 'ContactMe',
+        Github: 'GithubProfile',
       },
     };
   },

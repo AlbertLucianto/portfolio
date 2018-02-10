@@ -77,8 +77,9 @@ export default {
     padding: 25px 40px;
     padding-top: 20px;
     border-radius: 10px;
-    box-shadow: -10px 10px 50px -15px rgb(0, 122, 255);
+    box-shadow: -10px 10px 55px -15px rgb(0, 122, 255);
     background: $white;
+    transition: box-shadow .2s ease, background-color .1s ease;
     .username {
       font-weight: 600;
       font-size: 32px;
@@ -103,6 +104,12 @@ export default {
       .value {
         opacity: .8;
       }
+    }
+    &:hover {
+      box-shadow: -2px 2px 15px -5px rgb(0, 122, 255);
+    }
+    &:active {
+      background: $grey;
     }
   }
 }
