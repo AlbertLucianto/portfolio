@@ -37,14 +37,9 @@ export default {
   width: 60px;
   height: 60px;
   top: calc(50vh - 30px);
-  transition: .25s opacity ease;
   border-radius: 50%;
   box-shadow: 0 5px 15px rgba(0,0,0,.2);
-  opacity: .8;
   cursor: pointer;
-  &:hover {
-    opacity: 1;
-  }
   .circle {
     fill: $purple;
   }
