@@ -1,6 +1,6 @@
 <template>
   <div class="projectPage__container">
-    <div class="title">Software Projects</div>
+    <div class="title">Projects</div>
     <div class="background__hollow">Software Projects</div>
     <div class="horizontalList__container" ref="scrollView">
       <div class="horizontalList__wrapper">
@@ -100,7 +100,7 @@ export default {
   .horizontalList__wrapper {
     box-sizing: border-box;
     padding: 50px;
-    height: 60vh;
+    height: 720px;
     display: flex;
     align-items: center;
     flex-wrap: nowrap;
