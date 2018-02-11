@@ -1,6 +1,6 @@
 <template>
   <div class="me-container">
-    <h1>Welcome Visitor!</h1>
+    <h1>Welcome Stranger!</h1>
     <!-- <div class="image"></div> -->
     <p class="me-description">
       I'm Albert Lucianto.<br><br>

@@ -102,7 +102,7 @@ export default {
         font-size: 14px;
       }
       .value {
-        opacity: .8;
+        opacity: .5;
       }
     }
     &:hover {

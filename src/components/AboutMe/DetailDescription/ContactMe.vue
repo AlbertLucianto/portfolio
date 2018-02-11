@@ -3,6 +3,7 @@
     <div class="contact__item" v-for="(contact, idx) in contacts" :key="idx">
       <div class="label">{{ contact.label }}</div>
       <div class="value">{{ contact.value }}</div>
+      <div class="separator"/>
     </div>
   </div>
 </template>
@@ -22,7 +23,7 @@ export default {
         },
         {
           label: 'Address',
-          value: 'NTU Hall 21, #21A-4-216',
+          value: 'NTU Hall 21, Block 21A-4-216',
         },
       ],
     };
@@ -50,6 +51,16 @@ export default {
     }
     .value {
       font-size: 28px;
+      margin-top: 5px;
+    }
+    .separator {
+      height: 8px;
+      width: 25px;
+      margin: auto;
+      margin-top: 20px;
+      background: $grey;
+      border-radius: 10px;
+      opacity: .7;
     }
   }
 }

@@ -62,9 +62,9 @@ export default {
 
 .achievements-container {
   box-sizing: border-box;
-  margin-top: 105px;
+  margin-top: 95px;
   padding: 25px 45px;
-  height: calc(100% - 90px);
+  height: calc(100% - 80px);
   background: $white;
   overflow: scroll;
   &::-webkit-scrollbar {
@@ -85,7 +85,7 @@ export default {
     z-index: 10;
     box-shadow: 0 -5px 45px -15px $grey;
     h1 {
-      font-size: 32px;
+      font-size: 30px;
     }
   }
   .achievement {

@@ -1,9 +1,9 @@
 <template>
-  <router-link to="/tools" class="link">
+  <router-link to="/project" class="link">
     <div class="app" :class="{ over }">
       <div class="inner-app"></div>
     </div>
-    <svg class="tools" :class="{ over }">
+    <svg class="projects" :class="{ over }">
       <line
         :x1="lines.topLeft.start.x" :y1="lines.topLeft.start.y"
         :x2="lines.topLeft.end.x" :y2="lines.topLeft.end.y"
@@ -28,7 +28,7 @@
         <circle cx="12.5" cy="0" :r="rAbs.yellow" class="yellow"></circle>
         <circle cx="25" cy="0" :r="rAbs.green" class="green"></circle>
       </g>
-      <rect class="tools-helper" width="110" height="110"
+      <rect class="projects-helper" width="110" height="110"
       @mouseover="animateIn" @mouseout="animateOut"></rect>
     </svg>
     <div class="text">Projects</div>
@@ -227,7 +227,7 @@ export default {
 <style lang="scss" scoped>
 @import '../../styles/colors.scss';
 
-.tools {
+.projects {
   width: 110px;
   height: 110px;
   margin: 20px;

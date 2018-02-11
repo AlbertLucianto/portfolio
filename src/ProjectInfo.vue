@@ -1,17 +1,16 @@
 <template>
   <div class="project-info" @mouseleave="endOver">
-      <div class="project-info-icon" @mouseenter="startOver" :class="{ over }">i</div>
-      <transition name="slide-fade">
-        <div class="project-info-description" v-if="over">
-          This project is mainly focus on experimental animations and user interactions,
-          so I tried to limit the libraries used, which are
-          <a href="https://vuejs.org/">Vue.js</a>, <a href="https://router.vuejs.org/en/">Vue Router</a>, and <a href="http://dynamicsjs.com/">dynamics.js</a>.<br>
-          In other words, all assets, animations, and interactions you see here are custom made,
-          including all reusable components you may encounter during the Tour.<br>
-          <i>Sadly, it's not very responsive and best opened in Chrome, but I hope you enjoy it!</i>
-        </div>
-      </transition>
-    </div>
+    <div class="project-info-icon" @mouseenter="startOver" :class="{ over }">i</div>
+    <transition name="slide-fade">
+      <div class="project-info-description" v-if="over">
+        This project is mainly focus on experimental animations and user interactions,
+        so I tried to limit the libraries used, which are
+        <a href="https://vuejs.org/">Vue.js</a>, <a href="https://router.vuejs.org/en/">Vue Router</a>, and <a href="http://dynamicsjs.com/">dynamics.js</a>.<br>
+        In other words, all assets, animations, and interactions you see here are custom made,
+        including all reusable components you may encounter during the Tour.<br>
+        <i>Sadly, it's not very responsive and best opened in Chrome, but I hope you enjoy it!</i>
+      </div>
+    </transition>
   </div>
 </template>
 
@@ -70,9 +69,9 @@ export default {
     }
   }
   .project-info-icon {
-    width: 32px;
-    height: 32px;
-    font-size: 24px;
+    width: 20px;
+    height: 20px;
+    font-size: 16px;
     font-weight: 900;
     color: $white;
     border-radius: 50%;

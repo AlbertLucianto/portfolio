@@ -20,17 +20,18 @@ export default {};
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  background: $black;
   .githubLogo {
-    width: 200px;
+    width: 250px;
   }
   .github__link {
     font-size: 56px;
-    color: $black;
+    color: $white;
     text-decoration: none;
     margin: 20px;
     transition: color .1s ease;
     &:hover {
-      color: $grey;
+      color: $lightGrey;
     }
   }
 }
