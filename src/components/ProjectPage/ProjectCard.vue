@@ -5,13 +5,20 @@
       <div class="image__wrapper">
         <img :src="imageUrl" class="project__image" :class="imgSize || ''"/>
       </div>
+      <div class="stacks__container">
+        <a class="stack" v-for="(stack, idx) in listStacks" :key="idx"
+          :href="stack.url" :class="{ show: showDetail }" :style="idx | stackStyle">
+          <img :src="stack.imgUrl" class="stack__image"/>
+          <div class="stack__name">{{ stack.name }}</div>
+        </a>
+      </div>
       <div class="title">{{ title }}</div>
       <div class="description">{{ description }}</div>
       <div class="hoveredDescription__wrapper">
         <transition name="slide">
           <div class="hoveredDescription" v-if="show">
-            <div class="text" :class="{ show: showText }">{{ detail }}</div>
-            <div class="links__container" :class="{ show: showText }">
+            <div class="text" :class="{ show: showDetail }">{{ detail }}</div>
+            <div class="links__container" :class="{ show: showDetail }">
               <a class="link" v-for="(link, idx) in links" :href="link.url"
                 :key="idx" :style="linkStyle">{{ link.name }}</a>
             </div>
@@ -37,6 +44,7 @@ export default {
     backgroundColor: String,
     imgSize: String,
     links: Array,
+    stacks: Array,
   },
   computed: {
     cardStyle() {
@@ -53,25 +61,35 @@ export default {
         'box-shadow': `0 4px 15px -5px ${this.backgroundColor || colors.white}`,
       };
     },
+    listStacks() {
+      return this.stacks || [];
+    },
+  },
+  filters: {
+    stackStyle(idx) {
+      return {
+        'transition-delay': `${idx / 30}s`,
+      };
+    },
   },
   data() {
     return {
       show: false,
       timeoutId: undefined,
-      showText: false,
+      showDetail: false,
     };
   },
   methods: {
     showDescription() {
       this.show = true;
       this.timeoutId = setTimeout(() => {
-        this.showText = true;
+        this.showDetail = true;
       }, SHOW_TEXT_DELAY);
     },
     hideDescription() {
       this.show = false;
       clearTimeout(this.timeoutId);
-      this.showText = false;
+      this.showDetail = false;
     },
   },
 };
@@ -90,6 +108,52 @@ export default {
   border-radius: 8px;
   box-shadow: -5px 10px 45px -15px black;
   transition: transform .3s ease;
+  .stacks__container {
+    position: absolute;
+    left: 10px;
+    bottom: calc(100% - 20px);
+    display: flex;
+    z-index: 5;
+    .stack {
+      width: 30px;
+      height: 30px;
+      margin: 5px 2px;
+      background: $white;
+      box-shadow: -2px 8px 15px -2px rgba(0,0,0,.3);
+      border-radius: 5px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      transition: all .3s ease;
+      .stack__image {
+        max-width: 80%;
+        max-height: 80%;
+      }
+      .stack__name {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        bottom: 120%;
+        text-align: center;
+        padding: 2px 5px;
+        opacity: 0;
+        font-size: 14px;
+        border-radius: 5px;
+        font-weight: 500;
+        background-color: $purple;
+        color: $white;
+        transition: opacity .06s ease;
+      }
+      &:hover .stack__name {
+        opacity: 1;
+      }
+      &:not(.show) {
+        opacity: 0;
+        transform: translateY(5px);
+      }
+    }
+  }
   .image__wrapper {
     position: absolute;
     right: 0;
@@ -148,7 +212,7 @@ export default {
     width: 100%;
     height: 100%;
     background: #444444;
-    padding: 30px 40px;
+    padding: 35px 40px;
     padding-right: 40%;
     font-size: 13px;
     .text {

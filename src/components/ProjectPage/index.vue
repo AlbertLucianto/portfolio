@@ -4,14 +4,14 @@
     <div class="background__hollow">Software Projects</div>
     <div class="horizontalList__container" ref="scrollView">
       <div class="horizontalList__wrapper">
-        <project-card v-for="(project, idx) in projects" :style="idx | getCardStyle"
+        <project-card v-for="(project, idx) in projects" :style="idx | getCardStyle" :stacks="project.stacks"
           :key="idx" :title="project.title" :description="project.description" :links="project.links"
           :detail="project.detail" :imageUrl="project.imageUrl" :imgSize="project.imgSize"
           :imageHoverUrl="project.imageHoverUrl" :backgroundColor="project.backgroundColor"/>
       </div>
     </div>
   </div>
-</template> 
+</template>
 
 <script>
 import ProjectCard from './ProjectCard';
