@@ -1,9 +1,10 @@
 <template>
   <div class="canvas">
     <svg class="h-container">
-      <circle cx="100" :cy="hCurveStart" r="90" class="line h-curve"></circle>
-      <line x1="190" :y1="hLineRightStart" x2="190" :y2="hLineRightEnd" class="line h-right"></line>
+      <!-- <circle cx="100" :cy="hCurveStart" r="90" class="line h-curve"></circle> -->
+      <!-- <line x1="190" :y1="hLineRightStart" x2="190" :y2="hLineRightEnd" class="line h-right"></line> -->
       <line x1="10"  :y1="hLineLeftStart" x2="10" y2="0" class="line h-left"></line>
+      <path :d="hLineNCurve" class="line h-line-n-curve"></path>
     </svg>
     <svg class="i-container">
       <circle cx="40" :cy="iDotY" :r="iDotRadius" class="line i-dot"></circle>
@@ -84,6 +85,13 @@ export default {
     },
     hLineLeftStart() {
       return (this.window.height / 2) + 125;
+    },
+    hLineNCurve() {
+      return `
+      M 10 ${this.hCurveStart}
+      A 90 90 0 0 1 190 ${this.hCurveStart}
+      V ${this.hLineRightEnd}
+      `;
     },
     iLineStart() {
       return (this.window.height / 2) - 100;
@@ -346,6 +354,7 @@ export default {
     stroke: $white;
     stroke-linecap: round;
     transform-origin: 50% 50%;
+    /*
     &.h-curve {
       animation: h-curve 1s forwards ease;
       animation-delay: 0.60s;
@@ -355,6 +364,10 @@ export default {
     }
     &.h-right {
       animation: h-right 0.7s forwards ease;
+    }
+    */
+    &.h-line-n-curve {
+      animation: h-line-n-curve 1.7s forwards ease;
     }
     &.h-left {
       animation: h-left 1s forwards ease-out;
@@ -418,6 +431,7 @@ export default {
   }
 }
 
+/*
 @keyframes h-curve {
   0% {
     opacity: 1;
@@ -435,6 +449,17 @@ export default {
   }
   100% {
     stroke-dasharray: 150, 1000;
+    stroke-dashoffset: 0;
+  }
+}
+*/
+@keyframes h-line-n-curve {
+  0% {
+    stroke-dasharray: 500, 1000;
+    stroke-dashoffset: -1000;
+  }
+  100% {
+    stroke-dasharray: 435, 1000;
     stroke-dashoffset: 0;
   }
 }
