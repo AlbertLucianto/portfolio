@@ -6,7 +6,7 @@
       I'm Albert Lucianto.<br><br>
       I'm currently a third year student in Nanyang Technological University, majoring Computer Science
       with minor In Business.<br><br>
-      I love working on Software or Design related projects.
+      I love working on Software and Design related projects.
     </p>
     <p class="label">Check out my projects</p>
     <div class="link-container">

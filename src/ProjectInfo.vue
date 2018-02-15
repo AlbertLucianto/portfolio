@@ -1,14 +1,14 @@
 <template>
   <div class="project-info" @mouseleave="endOver">
-    <div class="project-info-icon" @mouseenter="startOver" :class="{ over }">i</div>
+    <div class="project-info-icon" @mouseenter="startOver" @click="firstClose"
+      :class="{ over, 'cursor-pointer': first }">i</div>
     <transition name="slide-fade">
       <div class="project-info-description" v-if="over">
-        This project is mainly focus on experimental animations and user interactions,
-        so I tried to limit the libraries used, which are
+        This project is for pacticing on animations and user interactions, which are built using 
         <a href="https://vuejs.org/">Vue.js</a>, <a href="https://router.vuejs.org/en/">Vue Router</a>, and <a href="http://dynamicsjs.com/">dynamics.js</a>.<br>
-        In other words, all assets, animations, and interactions you see here are custom made,
+        All assets, animations, and interactions here are custom made,
         including all reusable components you may encounter during the Tour.<br>
-        <i>Sadly, it's not very responsive and best opened in Chrome, but I hope you enjoy it!</i>
+        <!-- <i>Sadly it's not very responsive, but I hope you enjoy it!</i> -->
       </div>
     </transition>
   </div>
@@ -18,7 +18,8 @@
 export default {
   data() {
     return {
-      over: false,
+      over: true,
+      first: true,
     };
   },
   methods: {
@@ -27,6 +28,12 @@ export default {
     },
     endOver() {
       this.over = false;
+    },
+    firstClose() {
+      if (this.first) {
+        this.over = false;
+        this.first = false;
+      }
     },
   },
 };
@@ -48,7 +55,7 @@ export default {
     font-size: 15px;
     width: 300px;
     padding: 15px;
-    padding-bottom: 25px;
+    padding-bottom: 20px;
     margin: 0 20px;
     background: $white;
     top: 0;
@@ -84,6 +91,9 @@ export default {
       border: 2px solid rgba(247, 249, 255, 0);
       background: $white;
       color: $purple;
+    }
+    &.cursor-pointer {
+      cursor: pointer;
     }
   }
 }

@@ -53,7 +53,7 @@ export default [
   {
     title: 'ICN Musical: Lakonna',
     description: 'Built main website for theatre drama by Indonesian Cultural Production.',
-    detail: 'This project consists of two websites, one is the main website and the other is demographic. I\'m responsible of the Web Design and Frontend development of the main website, created using Vue.js',
+    detail: 'This project consists of two websites, one is the main website and the other is a demographic. I\'m responsible of the Web Design and Frontend development of the main website, created using Vue.js',
     backgroundColor: '#77210b',
     imageUrl: 'static/lakonna-web.gif',
     imgSize: 'large',
@@ -81,7 +81,7 @@ export default [
   },
   {
     title: 'Hot Potato',
-    description: 'Hot potato is a simple game inpsired (or cloned to be exact) by Google internal tool. Players simply can create and pass potato to anyone for a limited time, otherwise they will drop it.',
+    description: 'Hot potato is a simple game inpsired by Google internal tool. Players simply can create and pass potato to anyone for a limited time, otherwise they drop it.',
     detail: 'This project is built on a serverless GraphQL with Graphcool and Vue.js',
     imageUrl: 'static/hot-potato.gif',
     backgroundColor: colors.orange,

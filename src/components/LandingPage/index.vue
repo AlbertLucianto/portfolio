@@ -42,9 +42,6 @@ import dynamics from 'dynamics.js';
 
 
 export default {
-  components: {
-
-  },
   data() {
     return {
       window: {
@@ -205,27 +202,26 @@ export default {
         });
         this.dragging = false;
         if (this.willReleaseTurnOn) {
-          this.willReleaseTurnOn = false;
           this.lightCentre.isOn = true;
           this.lightCentre.x = e.pageX;
           this.lightCentre.y = e.pageY;
           setTimeout(() => {
-            const numOfRipple = 3;
+            const NUM_OF_RIPPLE = 2;
             this.curRipples.push(this.curRipples.length);
             const itv = setInterval(() => {
-              if (this.curRipples.length < numOfRipple - 1) {
+              if (this.curRipples.length < NUM_OF_RIPPLE - 1) {
                 this.curRipples.push(this.curRipples.length);
-              } else if (this.curRipples.length === numOfRipple - 1) {
+              } else if (this.curRipples.length === NUM_OF_RIPPLE - 1) {
                 clearInterval(itv);
                 setTimeout(() => {
                   this.curRipples.push(this.curRipples.length);
                 }, 300);
               }
-            }, 750);
+            }, 500);
           }, 150);
           setTimeout(() => {
             this.$router.push('/me');
-          }, 6000);
+          }, 3500);
         }
       }
     },
@@ -279,7 +275,7 @@ export default {
     opacity: 1;
   }
   .ripple {
-    animation: ripple 3.5s forwards ease-out;
+    animation: ripple 2.5s forwards ease-out;
     fill: $black;
     opacity: 1;
     transform-origin: 50% 50%;

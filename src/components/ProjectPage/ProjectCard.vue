@@ -234,6 +234,10 @@ export default {
         border-radius: 20px;
         text-decoration: none;
         margin-right: 5px;
+        transition: transform .2s ease;
+        &:hover {
+          transform: scale(1.05) translateY(-1px);
+        }
       }
       &:not(.show) {
         opacity: 0;

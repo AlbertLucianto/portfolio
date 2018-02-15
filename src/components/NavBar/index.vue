@@ -5,7 +5,7 @@
     </svg>
     <nav-item-list :open="open" :curvePos="curvePos" :curveHeight="curveHeight.value"></nav-item-list>
     <div class="hamburger-button" :style="hamburgerPos" @mousedown="startDrag" @touchstart="startDrag">
-      <hamburger-icon :open="open" :dragging="dragging"></hamburger-icon>
+      <hamburger-icon :open="open" :dragging="!!dragging"></hamburger-icon>
     </div>
     <transition name="fade">
       <div class="overlay" :style="overlayBgStyle" v-if="open" @mousedown="closeNavbar" @touchstart="closeNavbar"/>
@@ -29,6 +29,8 @@ const closeTresholdDistance = 100;
 const dampX = 1;
 const curveDampX = 1.5;
 const curveDampOpened = 1.25;
+const timeoutBackToStartPos = 2500;
+const draggingTreshold = 5;
 
 export default {
   components: {
@@ -41,11 +43,12 @@ export default {
       curveSpanWidth: curveInitWidth,
       startDragPos: { x: 0, y: 0 }, // unset
       lastDragPos: { ...startCurvePos },
-      dragging: false,
+      dragging: 0,
       click: false,
       open: false,
       width: { value: 0 },
       curveHeight: { value: 0 },
+      backToStartTimeoutId: undefined,
     };
   },
   computed: {
@@ -105,6 +108,7 @@ export default {
       this.click = true;
       this.startDragPos.x = evt.pageX;
       this.startDragPos.y = evt.pageY;
+      clearTimeout(this.backToStartTimeoutId);
       window.addEventListener('mousemove', this.onDrag);
       window.addEventListener('mouseup', this.stopDrag);
       window.addEventListener('touchmove', this.onDrag);
@@ -116,7 +120,7 @@ export default {
         dynamics.stop(this.curvePos);
         dynamics.stop(this.curveHeight);
         this.click = false;
-        this.dragging = true;
+        this.dragging += Math.abs(evt.pageX);
         this.curvePos.y = Math.min(
           Math.max(
             this.lastDragPos.y + (evt.pageY - this.startDragPos.y),
@@ -142,7 +146,7 @@ export default {
       window.removeEventListener('touchmove', this.onDrag);
       window.removeEventListener('touchend', this.stopDrag);
       this.click = false;
-      if (this.dragging) {
+      if (this.dragging > draggingTreshold) {
         this.dragging = false;
         this.lastDragPos.y = this.curvePos.y;
         dynamics.animate(this.curveHeight, {
@@ -188,6 +192,17 @@ export default {
           friction: 350,
         });
       }
+      this.backToStartTimeoutId = setTimeout(() => {
+        dynamics.stop(this.curvePos);
+        dynamics.animate(this.curvePos, {
+          y: startCurvePos.y,
+        }, {
+          type: dynamics.easeInOut,
+          duration: 650,
+          friction: 100,
+        });
+        this.lastDragPos.y = startCurvePos.y;
+      }, timeoutBackToStartPos);
     },
     closeNavbar() {
       this.open = false;

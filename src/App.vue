@@ -39,7 +39,7 @@ body {
   }
 }
 .slide-fade-enter-active {
-  transition: all .3s ease;
+  transition: all .5s ease;
 }
 .slide-fade-enter, .slide-fade-leave-to {
   transform: translateX(10px);
