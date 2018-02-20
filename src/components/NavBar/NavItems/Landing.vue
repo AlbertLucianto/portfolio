@@ -84,7 +84,7 @@ export default {
       transition: .2s transform ease;
       &.over {
         &.left {
-          transform: scaleX(0.8) translateX(5px);
+          transform: translateX(2.5px);
           transform-origin: 50% 50%;
         }
         &.right {
@@ -110,7 +110,7 @@ export default {
       stroke-width: 3px;
       transition: .2s transform ease;
       &.over {
-        transform: scaleX(0.8) translateX(-5px);
+        transform: scaleX(0.8) translateX(-12.5px);
         transform-origin: 50% 50%;
       }
     }

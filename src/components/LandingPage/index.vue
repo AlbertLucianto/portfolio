@@ -26,6 +26,11 @@
       </div>
       <div class="author-wrapper">
         <h3 class="author">By Albert Lucianto</h3>
+        <div class="profile">
+          <a href="https://github.com/albertlucianto"><img src="../../assets/github-icon.svg" class="github icon" :style="1 | profileIcon"/></a>
+          <a href="https://behance.net/albertlucianto"><img src="../../assets/behance-icon.svg" class="behance icon" :style="2 | profileIcon"/></a>
+          <a href="https://linkedin.com/in/albertlucianto/"><img src="../../assets/linkedin-icon.svg" class="linkedin icon" :style="3 | profileIcon"/></a>
+        </div>
       </div>
     </div>
     <div class="guide" :style="guideStylePosition" :class="{ disappear: lightCentre.isOn }">
@@ -34,13 +39,11 @@
       </div>
     </div>
     <div class="diagonal-bg"/>
-
   </div>
 </template>
 
 <script>
 import dynamics from 'dynamics.js';
-
 
 export default {
   data() {
@@ -148,6 +151,13 @@ export default {
       this.draggable = true;
     }, 4500);
   },
+  filters: {
+    profileIcon(idx) {
+      return {
+        'animation-delay': `${3500 + (idx * 200)}ms`,
+      };
+    },
+  },
   methods: {
     switchOn(e) {
       if (this.draggable) {
@@ -184,7 +194,7 @@ export default {
         }
       }
     },
-    release(e) {
+    release() {
       window.removeEventListener('mousemove', this.onDrag);
       window.removeEventListener('mouseup', this.release);
       window.removeEventListener('touchmove', this.onDrag);
@@ -210,26 +220,26 @@ export default {
         });
         this.dragging = false;
         if (this.willReleaseTurnOn) {
-          this.lightCentre.isOn = true;
-          this.lightCentre.x = e.pageX;
-          this.lightCentre.y = e.pageY;
-          setTimeout(() => {
-            const NUM_OF_RIPPLE = 2;
-            this.curRipples.push(this.curRipples.length);
-            const itv = setInterval(() => {
-              if (this.curRipples.length < NUM_OF_RIPPLE - 1) {
-                this.curRipples.push(this.curRipples.length);
-              } else if (this.curRipples.length === NUM_OF_RIPPLE - 1) {
-                clearInterval(itv);
-                setTimeout(() => {
-                  this.curRipples.push(this.curRipples.length);
-                }, 300);
-              }
-            }, 500);
-          }, 150);
+          // this.lightCentre.isOn = true;
+          // this.lightCentre.x = e.pageX;
+          // this.lightCentre.y = e.pageY;
+          // setTimeout(() => {
+          //   const NUM_OF_RIPPLE = 2;
+          //   this.curRipples.push(this.curRipples.length);
+          //   const itv = setInterval(() => {
+          //     if (this.curRipples.length < NUM_OF_RIPPLE - 1) {
+          //       this.curRipples.push(this.curRipples.length);
+          //     } else if (this.curRipples.length === NUM_OF_RIPPLE - 1) {
+          //       clearInterval(itv);
+          //       setTimeout(() => {
+          //         this.curRipples.push(this.curRipples.length);
+          //       }, 300);
+          //     }
+          //   }, 500);
+          // }, 150);
           setTimeout(() => {
             this.$router.push('/me');
-          }, 3500);
+          }, 500);
         }
       }
     },
@@ -293,7 +303,7 @@ export default {
     display: inline-block;
     user-select: none;
     right: 50px;
-    top: calc(50vh + 150px);
+    top: calc(50vh + 180px);
     margin: 50px;
     color: $white;
     width: 450px;
@@ -323,6 +333,26 @@ export default {
         animation-delay: 1s;
         white-space: nowrap;
         text-align: right;
+      }
+      .profile {
+        animation: author-title-text 8s alternate infinite ease-in-out;
+        display: inline-flex;
+        align-items: center;
+        justify-content: flex-end;
+        margin-top: 5px;
+        border-top: 1px solid rgba(255,255,255,.5);
+        float: right;
+        .icon {
+          width: 30px;
+          margin: 12px;
+          filter: invert(100%);
+          animation: profile-icon 1.5s forwards ease;
+          opacity: 0;
+          &.behance {
+            margin-right: 8px;
+            width: 32.5px;
+          }
+        }
       }
     }
   }
@@ -567,6 +597,16 @@ export default {
   }
   100% {
     width: 100%;
+    opacity: 1;
+  }
+}
+
+@keyframes profile-icon {
+  55% {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  100% {
     opacity: 1;
   }
 }

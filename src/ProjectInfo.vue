@@ -1,7 +1,7 @@
 <template>
   <div class="project-info" @mouseleave="endOver">
-    <div class="project-info-icon" @mouseenter="startOver" @click="firstClose"
-      :class="{ over, 'cursor-pointer': first }">i</div>
+    <div class="project-info-icon" @mouseenter="startOver" @click="toggle"
+      :class="{ over }">i</div>
     <transition name="slide-fade">
       <div class="project-info-description" v-if="over">
         This project is for pacticing on animations and user interactions, which are built using 
@@ -19,7 +19,6 @@ export default {
   data() {
     return {
       over: true,
-      first: true,
     };
   },
   methods: {
@@ -29,11 +28,8 @@ export default {
     endOver() {
       this.over = false;
     },
-    firstClose() {
-      if (this.first) {
-        this.over = false;
-        this.first = false;
-      }
+    toggle() {
+      this.over = !this.over;
     },
   },
 };
@@ -87,13 +83,11 @@ export default {
     background: $purple;
     border: 2px solid $white;
     transition: all .2s ease;
+    cursor: pointer;
     &.over {
       border: 2px solid rgba(247, 249, 255, 0);
       background: $white;
       color: $purple;
-    }
-    &.cursor-pointer {
-      cursor: pointer;
     }
   }
 }

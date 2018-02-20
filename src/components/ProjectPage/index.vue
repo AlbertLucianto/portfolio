@@ -87,6 +87,7 @@ export default {
     border-bottom: 2px solid $purple;
     &::-webkit-scrollbar {
       height: 10px;
+      width: 0;
     }
     &::-webkit-scrollbar-thumb {
       background: $purple;
