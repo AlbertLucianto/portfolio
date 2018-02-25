@@ -193,6 +193,7 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
+  will-change: perspective-origin;
   .current-title {
     position: fixed;
     width: 500px;
@@ -228,10 +229,12 @@ export default {
     width: 200px;
     height: 250px;
     margin-top: 50px;
+    will-change: transform;
     .icon {
       position: absolute;
       transform-style: preserve-3d;
       transition: all .5s ease;
+      will-change: transform;
     }
     .shadow-container {
       left: 45px;
@@ -255,6 +258,7 @@ export default {
       box-shadow: 0 25px 60px -30px $black;
       opacity: .5;
       border-radius: 50%;
+      will-change: transform;
     }
   }
   .arrows {

@@ -164,6 +164,7 @@ export default {
     width: 100%;
     height: 100%;
     border-radius: 7.5px;
+    will-change: box-shadow, transform;
   }
 }
 </style>

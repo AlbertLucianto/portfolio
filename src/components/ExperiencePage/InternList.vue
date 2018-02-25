@@ -146,6 +146,7 @@ export default {
   align-items: center;
   margin: auto;
   transition: .25s opacity ease;
+  will-change: transform;
   &.fade {
     opacity: 0;
   }
@@ -166,6 +167,7 @@ export default {
       background-repeat: no-repeat;
       background-size: contain;
       pointer-events: none;
+      will-change: transform;
     }
     .position {
       pointer-events: none;
@@ -179,6 +181,7 @@ export default {
       text-align: center;
       color: $black;
       border-radius: 5px;
+      will-change: transform;
     }
     .year {
       position: absolute;
@@ -190,6 +193,7 @@ export default {
       text-align: left;
       color: $black;
       pointer-events: none;
+      will-change: transform;
     }
     .period {
       position: absolute;
@@ -200,6 +204,7 @@ export default {
       text-align: left;
       color: $grey;
       pointer-events: none;
+      will-change: transform;
     }
   }
 }

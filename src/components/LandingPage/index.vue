@@ -366,6 +366,7 @@ export default {
     animation: guide 0.5s forwards ease;
     animation-delay: 5s;
     transition: 500ms opacity ease;
+    will-change: left, top;
     .instruction {
       width: 0;
       overflow: hidden;
