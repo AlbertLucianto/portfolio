@@ -44,7 +44,7 @@ export default [
     backgroundColor: colors.orange,
     links: [{ name: 'Repo', url: 'https://github.com/albertlucianto/interactive-digital-book' }],
     stacks: [
-      { name: 'Unity3D', imgUrl: 'https://codomo.com.sg/wp-content/uploads/2016/09/unity-logo-100571261-large-180x180.png', url: 'https://unity3d.com/' },
+      { name: 'Unity3D', imgUrl: 'https://www.gfxmag.com/wp-content/uploads/2016/07/unity-icon-vector-logo.png', url: 'https://unity3d.com/' },
       { name: 'AWS', imgUrl: 'static/aws-logo.png', url: 'aws.amazon.com/‎' },
       { name: 'Leap Motion', imgUrl: 'https://static1.squarespace.com/static/4f35ab56cb1284395213ff6f/t/518ede9ee4b0dde685f6a1ff/1368317599400/LeapRefreshLogo.png', url: 'https://www.leapmotion.com/' },
       { name: 'Autodesk Maya', imgUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRtAWLfTfFXxoLxUAleMXkciD3cug7x0gz3VK4WnznTEQL29Bnl', url: 'https://www.autodesk.com.sg/products/maya/overview' },

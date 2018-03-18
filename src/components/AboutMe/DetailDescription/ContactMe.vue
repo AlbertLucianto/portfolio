@@ -23,7 +23,7 @@ export default {
         },
         {
           label: 'Address',
-          value: 'NTU Hall 21, Block 21A-4-216',
+          value: 'NTU Hall of Residence 21, #21A-4-216, 66 Nanyang Crescent, 636960 Singapore',
         },
       ],
     };
@@ -42,7 +42,7 @@ export default {
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  padding: 20px;
+  padding: 60px;
   .contact__item {
     padding: 20px;
     .label {
@@ -50,7 +50,7 @@ export default {
       color: $purple;
     }
     .value {
-      font-size: 28px;
+      font-size: 24px;
       margin-top: 5px;
     }
     .separator {
