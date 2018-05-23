@@ -18,7 +18,7 @@
 export default {
   data() {
     return {
-      over: true,
+      over: false,
     };
   },
   methods: {
@@ -31,6 +31,12 @@ export default {
     toggle() {
       this.over = !this.over;
     },
+  },
+  mounted() {
+    if (!localStorage.getItem('projectInfoShown')) {
+      localStorage.setItem('projectInfoShown', 1);
+      this.over = true;
+    }
   },
 };
 </script>
