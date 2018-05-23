@@ -4,7 +4,7 @@ export default [
   {
     title: 'Pintu Web App',
     description: 'Migrating the organisation\'s biggest source of fund for 8 years in goal to improve administration, security, performance, and usability.',
-    detail: 'This project is also serves as Indonesian student\'s data management in Nanyang Technological University. My role is as UI/UX and Frontend Developer, and improving some of the application server. Tools used include React, Redux, Flask, MySQL, NGINX.',
+    detail: 'This project also serves as Indonesian student\'s data management in Nanyang Technological University. My role is as UI/UX and Frontend Developer, and improving some of the application server. Tools used include React, Redux, Flask, MySQL, NGINX.',
     backgroundColor: 'rgb(255,45,85)', // Apple Guideline pink
     imageUrl: 'static/pintu-shop.png',
     links: [{ name: 'Website', url: 'https://pintusingapura.org/app' }],

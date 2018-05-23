@@ -22,17 +22,22 @@
     <div class="modal-container" v-if="transitioning >= 0 || opened >= 0">
       <intern-list :transitioning="transitioning === 0" :opened="opened === 0"></intern-list>
     </div>
+    <div class="modal-container" v-if="transitioning >= 0 || opened >= 0">
+      <organisation-list :transitioning="transitioning === 1" :opened="opened === 1"></organisation-list>
+    </div>
   </div>
 </template>
 
 <script>
 import CardTemplate from '../reusable/CardTemplate';
 import InternList from './InternList';
+import OrganisationList from './OrganisationList';
 
 export default {
   components: {
     CardTemplate,
     InternList,
+    OrganisationList,
   },
   data() {
     return {

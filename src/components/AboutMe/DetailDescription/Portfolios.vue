@@ -39,10 +39,10 @@ export default {
          * to be fetched from server to avoid CORS
          * */
         username: 'albertlucianto',
-        projectViews: 13245,
-        appreciation: 1622,
-        followers: 550,
-        following: 138,
+        projectViews: 13759,
+        appreciation: 1686,
+        followers: 564,
+        following: 135,
       },
     };
   },
